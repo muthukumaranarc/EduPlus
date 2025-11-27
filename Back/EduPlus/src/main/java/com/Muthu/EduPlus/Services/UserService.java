@@ -5,10 +5,11 @@ import com.Muthu.EduPlus.Repositories.UserRepo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,18 +45,25 @@ public class UserService {
         this.authenticationManager = authenticationManager;
     }
 
-    public String login(String username, String password, HttpServletResponse response) {
-        if(data.findByUsername(username) != null) {
-            if(encoder.matches(password, data.findByUsername(username).getPassword())) {
+    public ResponseEntity<String> login(String username, String password, HttpServletResponse response) {
+        if (data.findByUsername(username) != null) {
+            if (encoder.matches(password, data.findByUsername(username).getPassword())) {
                 String token = jwtService.generateToken(username);
                 ResponseCookie cookie = giveCookie(token, response);
-                response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-                return "Login successful!";
+                return ResponseEntity
+                        .ok()
+                        .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                        .body("Login successful!");
             }
-            else return "Login failed. Wrong password!";
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Login failed. Wrong password!");
         }
-        else return "Login failed. User not exist!";
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Login failed. User not exist!");
     }
+
 
     public boolean logout(HttpServletResponse response) {
         return deleteCookie(response);

@@ -6,6 +6,7 @@ import com.Muthu.EduPlus.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> data, HttpServletResponse response) {
+    public ResponseEntity<String> login(@RequestBody Map<String, String> data, HttpServletResponse response) {
         return service.login(data.get("username"), data.get("password"), response);
     }
 

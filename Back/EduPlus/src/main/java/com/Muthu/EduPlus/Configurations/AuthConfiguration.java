@@ -41,7 +41,7 @@ public class AuthConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                 "/user/create", "user/login"
+                                 "/user/create", "/user/login", "/user/get-username"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
