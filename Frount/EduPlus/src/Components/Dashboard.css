@@ -1,0 +1,122 @@
+.wel {
+    height: 180px;
+    margin: 0 auto;
+    margin-top: 90px;
+    background-color: rgba(255, 227, 227, 0.78);
+    border-radius: 20px;
+    width: 98%;
+    z-index: -2;
+}
+
+.wel > img {
+    height: 240px;
+    position: absolute;
+    right: 35px;
+    top: 40px;
+}
+
+.wel > h2 {
+    position: relative;
+    top: 48px;
+    left: 50px;
+    max-width: 500px;
+    color: rgba(227, 80, 80, 0.89);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.wel > p {
+    position: relative;
+    top: 42px;
+    left: 50px;
+    max-width: 500px;
+    color: rgba(61, 61, 61, 0.856);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.pro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -8px;
+}
+
+.pro > p {
+    width: 45px;
+    text-align: right;
+}
+
+.pro > .bar {
+    border: 1px solid rgba(21, 135, 25, 1);
+    height: 16px;
+    width: 320px;
+    margin-right: 5px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.pro > .bar > .state {
+    height: 16px;
+    background-color: rgba(21, 135, 25, 1);
+    border-radius: 30px;
+    transition: all 0.5s ease;
+}
+
+.today-track {
+    width: 400px;
+    padding: 20px;
+    box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.25);
+    border: rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    margin-left: 20px;
+}
+
+.today-track > div:first-child {
+    display: flex;
+    align-items: center;
+    margin-top: -5px;
+}
+
+.today-track > div:first-child > h2 {
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.today-track > div:first-child > img {
+    height: 30px;
+    margin-left: 240px;
+}
+
+.today-track > div:nth-child(n + 3) {
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.today-track > div:nth-child(n + 3) > p {
+    width: 250px;
+}
+
+.today-track > div:nth-child(n + 3) > button {
+    height: 30px;
+    width: 110px;
+    background-color: white;
+    border-radius: 40px;
+    /* font-weight: bold; */
+    font-size: 15px;
+}
+
+.done {
+    color: rgba(21, 135, 25, 1);
+    border: 2px solid rgba(21, 135, 25, 1);
+}
+
+.comp {
+    border: 2px solid rgba(142, 142, 142, 0.822);
+    color: rgb(142, 142, 142);
+}

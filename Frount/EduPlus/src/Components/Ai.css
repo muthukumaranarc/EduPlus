@@ -1,0 +1,90 @@
+.ai-chat {
+    display: grid;
+    justify-items: center;
+}
+
+.ai-chat > h2 {
+    margin-top: 150px;
+    font-size: 25px;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.ai-chat > p {
+    margin-top: -10px;
+    width: 500px;
+    text-align: center;
+    font-size: 18px;
+    color: rgba(87, 87, 87, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.query {
+    height: 60px;
+    width: 650px;
+    border: 2px solid rgba(38, 97, 178, 1);
+    border-radius: 15px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    box-shadow: 0px 0px 10px rgba(38, 97, 178, 0.66);
+    margin-top: 25px;
+}
+
+.query > input {
+    width: 470px;
+    border: transparent;
+    font-size: 20px;
+}
+
+.query > input:focus {
+    outline: none;
+}
+
+.query > button {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(38, 97, 178, 1);
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.query > button > img {
+    height: 25px;
+    margin-right: 10px;
+}
+
+.quick-pic {
+    width: 570px;
+    padding-left: 0px;
+    padding-top: 20px;
+}
+
+.quick-pic > div {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    height: 40px;
+    color: rgb(83, 83, 83);
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+}
+
+.quick-pic > div > img {
+    height: 20px;
+    padding: 10px;
+}
