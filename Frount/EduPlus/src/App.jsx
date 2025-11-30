@@ -1,5 +1,4 @@
 import { useEffect, useContext } from 'react';
-import './App.css'
 import { UserContext } from './context/UserContext';
 import { Link } from 'react-router-dom';
 

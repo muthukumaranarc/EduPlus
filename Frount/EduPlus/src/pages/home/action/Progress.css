@@ -1,0 +1,30 @@
+.progress {
+    margin-top: 120px;
+    /* border: 1px solid red; */
+}
+
+.progress > h2 {
+    margin-left: 60px;
+    margin-bottom: 50px;
+}
+
+.progress > button {
+    height: 40px;
+    width: 200px;
+    position: absolute;
+    top: 115px;
+    right: 110px;
+    background-color: rgba(21, 135, 25, 1);
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 15px;
+}
+
+.tracks {
+    width: 95%;
+    display: grid;
+    grid-template-columns: repeat(2, 500px);
+    gap: 30px;
+    justify-content: center;
+}

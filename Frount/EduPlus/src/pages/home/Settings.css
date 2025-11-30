@@ -1,0 +1,197 @@
+.settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 70px;
+}
+
+.settings > .main-prof {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(217, 217, 217, 1);
+    box-shadow: 0 0 10px rgba(217, 217, 217, 1);
+}
+
+.settings > .main-prof > img {
+    height: 130px;
+    width: 130px;
+}
+
+.settings > p {
+    font-size: 20px;
+}
+
+.account-set {
+    width: 70%;
+    border: 1px solid rgba(186, 186, 186, 1);
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.account-set > h4  {
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+.account-set > p {
+    margin-left: 25px;
+    margin-top: -15px;
+    color: rgba(98, 98, 98, 1);
+    font-size: 15px;
+}
+
+.account-set > div {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: -12px;
+    margin-bottom: 10px;
+}
+
+.account-set > div > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.account-set > div > div > p:first-child {
+    width: 110px;
+    /* border: 1px solid red; */
+}
+
+.account-set > div > div:not(:first-child){
+    /* border: 1px solid red; */
+    padding-right: 14px;
+}
+
+.account-set > div > div > p:not(:first-child) {
+    /* border: 1px solid red; */
+    width: 400px;
+    color: rgba(98, 98, 98, 1);
+    font-size: 15px;
+}
+
+.account-set > div > div:not(:first-child) {
+    border-top: 1px solid rgba(186, 186, 186, 1);
+}
+
+.account-set > div > div:first-child > div{
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(217, 217, 217, 1);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(217, 217, 217, 1);
+    margin-left: -20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.account-set > div > div:first-child > div > img{
+    height: 50px;
+}
+
+.account-set > div > div > img {
+    height: 25px;
+}
+
+
+/* app settings */
+
+.app-set {
+    width: 70%;
+    border: 1px solid rgba(186, 186, 186, 1);
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.app-set > h4  {
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+.app-set > p {
+    margin-left: 25px;
+    margin-top: -15px;
+    color: rgba(98, 98, 98, 1);
+    font-size: 15px;
+}
+
+.app-set > div {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: -12px;
+    margin-bottom: 10px;
+}
+
+.app-set > div > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 14px;
+    cursor: pointer;
+}
+
+.app-set > div > div:first-child {
+    margin-top: 25px;
+}
+
+.app-set > div > div > p:first-child {
+    width: 110px;
+    /* border: 1px solid red; */
+}
+
+.app-set > div > div > p:not(:first-child) {
+    /* border: 1px solid red; */
+    width: 400px;
+    color: rgba(98, 98, 98, 1);
+    font-size: 15px;
+}
+
+.app-set > div > div:not(:first-child) {
+    border-top: 1px solid rgba(186, 186, 186, 1);
+}
+
+.app-set > div > div > img {
+    height: 25px;
+}
+
+.acc {
+    /* border: 1px solid red; */
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.log-out {
+    width: 49%;
+    height: 45px;
+    background-color: rgba(138, 138, 138, 0.308);
+    border: none;
+    border-radius: 10px;
+    color: rgba(0, 0, 0, 0.637);
+    font-size: 19px;
+    /* font-weight: bold; */
+}
+
+.delete-acc {
+    width: 49%;
+    height: 45px;
+    background-color: rgba(255, 50, 50, 1);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 19px;
+    /* font-weight: bold; */
+}

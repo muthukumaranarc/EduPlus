@@ -5,12 +5,13 @@ import "@fontsource/inter";
 
 import './index.css'
 import App from './App.jsx'
-import Login from './Components/Login.jsx';
+import Login from './pages/Login.jsx';
 
-import { NotFound } from './Components/NotFound.jsx';
+import { NotFound } from './pages/NotFound.jsx';
 import { UserProvider } from './context/UserContext.jsx';
-import Home from './Components/Home.jsx';
-import Navigater from './Components/Navigater.jsx';
+import Home from './pages/home/Home.jsx';
+import Navigater from './navigater/Navigater.jsx';
+import ActionNav from './navigater/ActionNav.jsx';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         path: '/home/:nav',
         element: <Navigater />
       },
+      {
+        path: '/home/action/:nav',
+        element: <ActionNav />
+      }
     ],
   }
 ]);
