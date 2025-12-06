@@ -2,7 +2,6 @@ import "./Home.css";
 
 import logo from "../../assets/EduPlus_logo.png";
 import name from "../../assets/EduPlus_name.png";
-import trophyImg from "../../assets/trophy.png";
 
 import dashboard from "../../assets/dashboard.png";
 import actions from "../../assets/action.png";
@@ -20,14 +19,18 @@ import settings_g from "../../assets/settings_g.png";
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Outlet } from "react-router-dom";
+import Trophy from "../../components/Trophy";
 
 function Home() {
     const navigate = useNavigate();
 
-    let trophy = 100;
     
     const parms = useParams();
     let [navState, setNavState] = useState(parms.nav);
+
+    // useEffect(() => {
+    //     console.log(navState);
+    // },[navState])
 
     useEffect(() => {
         if(parms.nav == undefined) {
@@ -38,12 +41,11 @@ function Home() {
         }
     }, [navigate, parms.nav])
 
+    let trophy = 100;
+
     return (
         <div className="home">
-        <div className="trop">
-                <img src={trophyImg} alt="trophy" />
-                <p>Trophies: {trophy}</p>
-        </div>
+            <Trophy trophy={trophy}/>
         <div className="Dashboard">
             <div className="nav">
                 <div className="logo-box">
@@ -51,44 +53,85 @@ function Home() {
                     <img src={name} alt="Eduplus name" className="name"/>
                 </div>
 
-                <div onClick={() => {navigate("/home/dashboard")}} className={`${navState === "dashboard" ? "active" : ""} dashboard`}>
+                <div 
+                onClick={() => {navigate("/home/dashboard")}} 
+                className={`${navState === "dashboard" ? "active" : ""} dashboard`}
+                >
                     {
-                        (navState == "dashboard") ? <img src={dashboard} alt="dashboard" /> : <img src={dashboard_g} alt="dashboard" />
+                        (navState == "dashboard") ? 
+                        <img src={dashboard} alt="dashboard" /> : 
+                        <img src={dashboard_g} alt="dashboard" />
                     }
                     <p>Dashboard</p>
                 </div>
 
-                <div onClick={() => {navigate("/home/action")}} className={`${navState === "action" ? "active" : ""} action`} >
+                <div onClick={() => {navigate("/home/action")}} 
+                    className={
+                        `${
+                            (navState === "action" || 
+                            navState === "plan" || 
+                            navState === "communication" || 
+                            navState === "progress" || 
+                            navState === "fitness") 
+                            ? "active" : ""
+                        } action`} 
+                    >
                     {
-                        (navState == "action") ? <img src={actions} alt="action" /> : <img src={actions_g} alt="action" />
+                        (navState === "action" || 
+                        navState === "plan" || 
+                        navState === "communication" || 
+                        navState === "progress" || 
+                        navState === "fitness") ? 
+                        <img src={actions} alt="action" /> : 
+                        <img src={actions_g} alt="action" />
                     }
                     <p>Actions</p>
                 </div>
 
-                <div onClick={() => {navigate("/home/ai")}} className={`${navState === "ai" ? "active" : ""} ai`}>
+                <div 
+                onClick={() => {navigate("/home/ai")}} 
+                className={`${navState === "ai" ? "active" : ""} ai`}
+                >
                     {
-                        (navState == "ai") ? <img src={ai} alt="ai chat" /> : <img src={ai_g} alt="ai chat" />
+                        (navState == "ai") ? 
+                        <img src={ai} alt="ai chat" /> : 
+                        <img src={ai_g} alt="ai chat" />
                     }
                     <p>AI Chat</p>
                 </div>
 
-                <div onClick={() => {navigate("/home/test")}} className={`${navState === "test" ? "active" : ""} test`}>
+                <div 
+                onClick={() => {navigate("/home/test")}} 
+                className={`${navState === "test" ? "active" : ""} test`}
+                >
                     {
-                        (navState == "test") ? <img src={tests} alt="test" /> : <img src={tests_g} alt="test" />
+                        (navState == "test") ? 
+                        <img src={tests} alt="test" /> : 
+                        <img src={tests_g} alt="test" />
                     }
                     <p>Tests</p>
                 </div>
 
-                <div onClick={() => {navigate("/home/friend")}} className={`${navState === "friend" ? "active" : ""} friend`}>
+                <div 
+                onClick={() => {navigate("/home/friend")}} 
+                className={`${navState === "friend" ? "active" : ""} friend`}
+                >
                     {
-                        (navState == "friend") ? <img src={friends} alt="friend" /> : <img src={friends_g} alt="friend" />
+                        (navState == "friend") ? 
+                        <img src={friends} alt="friend" /> : 
+                        <img src={friends_g} alt="friend" />
                     }
                     <p>Friends</p>
                 </div>
 
-                <div onClick={() => {navigate("/home/setting")}} className={`${navState === "setting" ? "active" : ""} setting`}>
+                <div 
+                onClick={() => {navigate("/home/setting")}} 
+                className={`${navState === "setting" ? "active" : ""} setting`}
+                >
                     {
-                        (navState == "setting") ? <img src={settings} alt="setting" /> : <img src={settings_g} alt="setting" />
+                        (navState == "setting") ? 
+                        <img src={settings} alt="setting" /> : 
+                        <img src={settings_g} alt="setting" />
                     }
                     <p>Settings</p>
                 </div>

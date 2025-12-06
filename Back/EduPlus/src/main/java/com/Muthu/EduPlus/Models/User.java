@@ -13,60 +13,20 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private LocalDate dob;
+    private String gender;
     private String mobileNumber;
     private String mailId;
-    private LocalDate dob;
+    private String linkedIn;
 
     public User(){}
 
-    public User(String username, String password, String firstName, String lastName, String mobileNumber, String mailId, LocalDate dob) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.mobileNumber = mobileNumber;
-        this.mailId = mailId;
-        this.dob = dob;
+    public String getLinkedIn() {
+        return linkedIn;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setLinkedIn(String linkedIn) {
+        this.linkedIn = linkedIn;
     }
 
     public String getMailId() {
@@ -77,12 +37,60 @@ public class User {
         this.mailId = mailId;
     }
 
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public LocalDate getDob() {
         return dob;
     }
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -92,9 +100,11 @@ public class User {
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", dob=" + dob +
+                ", gender=" + gender +
                 ", mobileNumber='" + mobileNumber + '\'' +
                 ", mailId='" + mailId + '\'' +
-                ", dob=" + dob +
+                ", linkedIn='" + linkedIn + '\'' +
                 '}';
     }
 }

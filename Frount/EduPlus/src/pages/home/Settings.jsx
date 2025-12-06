@@ -5,9 +5,12 @@ import arrow from '../../assets/arrow.png';
 
 function Settings() {
 
-    let fullName = 'Muthu Kumaran'
+    let username = 'muthukumaranarc00'
+    let firstName = 'Muthu'
+    let lastName = 'Kumaran'
     let dob = 'July 12 2008';
     let gender = 'Male';
+    let mobile = "+91 1234567890"
     let email = 'muthukumaranarc00@gmail.com';
     let linkedIn = 'muthukumaranarc';
 
@@ -23,7 +26,7 @@ function Settings() {
             <div className="main-prof">
                 <img src={profile} alt="profile" />
             </div>
-            <p>Welcome, {fullName}</p>
+            <p>Welcome, {firstName + ' ' + lastName}</p>
             <div className="account-set">
                 <h4>Account Settings</h4>
                 <p>Customize your account detatils</p>
@@ -34,8 +37,23 @@ function Settings() {
                         <div><img src={profile} alt="profile" /></div>
                     </div>
                     <div>
-                        <p>Name</p>
-                        <p>{fullName}</p>
+                        <p>User ID</p>
+                        <p>{username}</p>
+                        <img src={arrow} />
+                    </div>
+                    <div>
+                        <p>Password</p>
+                        <p>* * * * * * * *</p>
+                        <img src={arrow} />
+                    </div>
+                    <div>
+                        <p>First Name</p>
+                        <p>{firstName}</p>
+                        <img src={arrow} />
+                    </div>
+                    <div>
+                        <p>Lset Name</p>
+                        <p>{lastName}</p>
                         <img src={arrow} />
                     </div>
                     <div>
@@ -46,6 +64,11 @@ function Settings() {
                     <div>
                         <p>Gender</p>
                         <p>{gender}</p>
+                        <img src={arrow} />
+                    </div>
+                    <div>
+                        <p>Mobile</p>
+                        <p>{mobile}</p>
                         <img src={arrow} />
                     </div>
                     <div>
@@ -65,7 +88,7 @@ function Settings() {
                 <p>Customize this application</p>
                 <div>
                     <div>
-                        <p>theme</p>
+                        <p>Theme</p>
                         <p>{theme}</p>
                         <img src={arrow} />
                     </div>

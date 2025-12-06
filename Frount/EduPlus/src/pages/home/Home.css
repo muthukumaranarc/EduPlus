@@ -55,6 +55,10 @@
     width: 180px;
 }
 
+.nav > .dashboard:hover, .nav > .action:hover, .nav > .ai:hover, .nav > .test:hover, .nav > .friend:hover, .nav > .setting:hover {
+    background-color: rgba(128, 128, 128, 0.048);
+}
+
 .active > p{
     color: black;
 }
@@ -66,41 +70,23 @@
 }
 
 .outlet {
-    width: calc(82vw);
+    width: 84vw;
     position: absolute;
     top: 10px;
     right: 15px;
+    /* border:1px solid red; */
 }
 
 h3 {
     position: absolute;
     top: 5px;
-    left: 15px;
+    left: 40px;
     text-align: left;
 }
 
 
 .home > .trop {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    width: 150px;
-    border: 2p solid rgba(0, 0, 0, 0.25);
-    border-radius: 12px;
     position: absolute;
     right: 35px;
     top: 30px;
-    box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.25);
-}
-
-.home > .trop > img {
-    height: 18px;
-    width: 18px;
-    margin-right: 10px;
-    margin-left: 5px;
-}
-
-.home > .trop > p {
-    font-size: 14px;
 }

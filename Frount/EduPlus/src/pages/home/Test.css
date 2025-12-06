@@ -1,0 +1,53 @@
+.tests {
+    /* border:1px solid red; */
+    margin-top: 100px;
+}
+
+.test-group {
+    /* border: 1px solid red; */
+    margin-left: 45px;
+    margin-bottom: 40px;
+}
+
+.test-group > p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.test-group > div {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 10px;
+    width: 90%;
+}
+
+.test-group > div > div {
+    transition: all 0.1s ease;
+}
+
+.test-group > div > div:hover {
+    transform: scale(1.01);
+}
+
+.test-block {
+    min-width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.25);
+}
+
+
+.test-group > div:first-child {
+    margin-left: 0;
+}
+
+.test-block > img {
+    height: 30px;
+    width: 30px;
+}
+

@@ -1,0 +1,187 @@
+.my-profile {
+    height: 110px;
+    width: 1000px;
+    /* margin: 0 auto; */
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    margin-top: 120px;
+    margin-left: 50px;
+    display: grid;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    /* justify-content: space-be; */
+}
+
+.my-profile > div:first-child > img {
+    height: 90px;
+}
+
+.my-profile > div:first-child {
+    height: 120px;
+    width: 120px;
+    background-color: white;
+    z-index: 1;
+    border-radius: 50%;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    bottom: 30px;
+    left: 30px;
+}
+
+.my-profile > div:not(:first-child) {
+    display: flex;
+    gap: 9vw;
+    margin-left: 8%;
+    font-size: 17px;
+    line-height: 40px;
+}
+
+.my-name {
+    font-size: 22px;
+    margin-right: 8vw;
+    /* border: 1px solid red; */
+}
+
+.your-friend {
+    font-size: 17px;
+    margin: 30px;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.friend-profile {
+    height: 110px;
+    width: 820px;
+    /* margin: 0 auto; */
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-left: 50px;
+    display: grid;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    /* justify-content: space-be; */
+    cursor: pointer;
+}
+
+.friend-profile > div:first-child > img {
+    height: 70px;
+}
+
+.friend-profile > div:first-child {
+    height: 90px;
+    width: 90px;
+    background-color: white;
+    z-index: 1;
+    border-radius: 50%;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* bottom: 30px; */
+    left: 30px;
+}
+
+.friend-profile > div:not(:first-child) {
+    display: flex;
+    gap: 9vw;
+    margin-left: 8%;
+    font-size: 17px;
+    line-height: 40px;
+}
+
+.friend-name {
+    font-size: 22px;
+    margin-right: 8vw;
+    /* border: 1px solid red; */
+}
+
+
+/* View frinds */
+
+.view-friend {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.19);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-friend > div {
+    background-color: white;
+    height: 280px;
+    width: 600px;
+    border-radius: 20px;
+}
+
+.view-friend > div > div:first-child {
+    display: flex;
+    align-items: center;
+    margin: 30px;
+    margin-bottom: 10px;
+}
+
+.view-friend > div > div:first-child > div:first-child {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+}
+
+.view-friend > div > div:first-child > div:first-child > img {
+    height: 80px;
+    width: 80px;
+}
+
+.view-friend > div > div:first-child > p {
+    width: 240px;
+    margin-left: 30px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.view-friend > div > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+}
+
+.view-friend > div > div:nth-child(2) > div:first-child{
+    /* border: 1px solid red; */
+    margin-left: 50px;
+    width: 100px;
+    font-weight: bold;
+}
+
+.view-friend > div > div:nth-child(2) > div:nth-child(2){
+    /* border: 1px solid red; */
+    margin-left: 20px;
+    width: 440px;
+}
+
+.view-friend > div > button {
+    height: 40px;
+    width: 130px;
+    position: relative;
+    bottom: 45px;
+    left: 440px;
+    background-color: rgba(138, 138, 138, 0.308);
+    border: none;
+    border-radius: 20px;
+    color: black;
+    font-size: 15px
+}

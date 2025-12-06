@@ -3,6 +3,7 @@ import Communication from "../pages/home/action/Communication";
 import Ai from "../pages/home/Ai";
 import Plan from "../pages/home/action/Plan";
 import Progress from "../pages/home/action/Progress";
+import Fitness from "../pages/home/action/Fitness";
 
 function ActionNav() {
 
@@ -27,6 +28,9 @@ function renderPage(nav) {
 
     case "progress":
       return <Progress />;
+
+    case "fitness":
+      return <Fitness />
     
     case "ai":
       return <Ai />;

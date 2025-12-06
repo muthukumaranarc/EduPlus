@@ -1,5 +1,6 @@
 package com.Muthu.EduPlus.Services;
 
+import com.Muthu.EduPlus.Models.Gender;
 import com.Muthu.EduPlus.Models.User;
 import com.Muthu.EduPlus.Repositories.UserRepo;
 import jakarta.servlet.http.HttpServletRequest;
@@ -290,4 +291,23 @@ public class UserService {
         else return "Wrong Password!";
     }
 
+    public String updateGender(String password, String gender) {
+        if(isCorrectPassword(password)) {
+            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            user.setGender(gender);
+            data.save(user);
+            return "Gender Changed!";
+        }
+        else return "Wrong Password!";
+    }
+
+    public String updateLinkedIn(String password, String linkedIn) {
+        if(isCorrectPassword(password)) {
+            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            user.setLinkedIn(linkedIn);
+            data.save(user);
+            return "LinkedIn Changed!";
+        }
+        else return "Wrong Password!";
+    }
 }

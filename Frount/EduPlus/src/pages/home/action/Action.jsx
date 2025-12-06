@@ -1,7 +1,7 @@
 import "./Action.css";
 
-import arrow from '../../../assets/arrow_w.png';
 import { useNavigate } from "react-router-dom";
+
 
 function Action() {
 
@@ -13,26 +13,51 @@ function Action() {
 
         <div className="action-com">
 
-            <div onClick={() => {navigate('/home/action/plan')}} className="button">
+            <div 
+            onClick={() => {navigate('/home/action/plan')}} 
+            className="button" 
+            style={{backgroundImage:`url(/action/study_plan.webp)`}}
+            >
                 <p>Study plan with test</p>
-                <img src={arrow} alt="arrow" />
+                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
             </div>
 
-            <div onClick={() => {navigate('/home/action/communication')}} className="button">
-                <p>Communication improver</p>
+            <div 
+            onClick={() => {navigate('/home/action/communication')}} 
+            className="button" 
+            style={{backgroundImage:`url(/action/communication_improver.webp)`}}
+            >
+                <p>Grammar improver</p>
                 <p className="sub">(English)</p>
-                <img src={arrow} alt="arrow" />
+                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
             </div>
 
-            <div onClick={() => {navigate('/home/action/progress')}} className="button">
+            <div 
+            onClick={() => {navigate('/home/action/progress')}} 
+            className="button" 
+            style={{backgroundImage:`url(/action/study_progress.webp)`}}
+            >
                 <p>Study progress tracker</p>
-                <img src={arrow} alt="arrow" />
+                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
             </div>
 
-            <div onClick={() => {navigate('/home/action/ai')}} className="button">
+            <div 
+            onClick={() => {navigate('/home/action/fitness')}} 
+            className="button" 
+            style={{backgroundImage:`url(/action/fitness_tracker.webp)`}}
+            >
+                <p>Fitness tracter</p>
+                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
+            </div>
+
+            <div 
+            onClick={() => {navigate('/home/action/ai')}} 
+            className="button" 
+            style={{backgroundImage:`url(/action/personal_assistant.webp)`}}
+            >
                 <p>Personal assistant</p>
                 <p className="sub">(AI Chat)</p>
-                <img src={arrow} alt="arrow" />
+                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
             </div>
             
         </div>

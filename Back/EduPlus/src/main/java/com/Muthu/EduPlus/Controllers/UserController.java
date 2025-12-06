@@ -124,6 +124,14 @@ public class UserController {
         );
     }
 
+    @PostMapping("/update-gender")
+    public String updateGender(@RequestBody Map<String, String> data) {
+        return service.updateGender(
+                data.get("password"),
+                data.get("gender")
+        );
+    }
+
     @GetMapping("/get-username")
     public String getUsername(){
         return service.getUsernames();
