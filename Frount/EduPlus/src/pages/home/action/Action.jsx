@@ -1,9 +1,15 @@
 import "./Action.css";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { useEffect } from "react";
 
 
 function Action() {
+
+    const { setNavState } = useOutletContext();
+    useEffect(() => {
+        setNavState("action");
+    }, [setNavState]);
 
     let navigate = useNavigate();
 

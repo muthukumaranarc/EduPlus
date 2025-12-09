@@ -86,3 +86,24 @@
     border: 2px solid rgba(142, 142, 142, 0.822);
     color: rgb(142, 142, 142);
 }
+
+@media (max-width: 768px) {
+    .today-track {
+        width: 90%;
+    }
+
+    .pro > .bar {
+        width: 260px;
+    }
+
+    .today-track > div:nth-child(n + 3) > p {
+        width: 215px;
+        font-size: 18px;
+    }
+
+    .today-track > div:nth-child(n + 3) > button {
+        height: 25px;
+        width: 90px;
+        font-size: 13px;
+    }
+}

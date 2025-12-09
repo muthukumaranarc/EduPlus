@@ -1,10 +1,8 @@
 .tests {
-    /* border:1px solid red; */
-    margin-top: 100px;
+    margin-top: 90px;
 }
 
 .test-group {
-    /* border: 1px solid red; */
     margin-left: 45px;
     margin-bottom: 40px;
 }
@@ -24,10 +22,7 @@
 
 .test-group > div > div {
     transition: all 0.1s ease;
-}
-
-.test-group > div > div:hover {
-    transform: scale(1.01);
+    cursor: pointer;
 }
 
 .test-block {

@@ -1,10 +1,16 @@
 import "./Friend.css";
-import profile from '../../assets/profile.png';
-import Trophy from "../../components/Trophy";
-import { useState } from "react";
+import profile from '../../../assets/profile.png';
+import Trophy from "../../../components/Trophy";
+import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
 function Friend() {
 
+    const { setNavState } = useOutletContext();
+    useEffect(() => {
+        setNavState("friend");
+    }, [setNavState]);
+    
     let [FriendView, setFriendView] = useState(false);
 
     let user = {
@@ -27,8 +33,8 @@ function Friend() {
             </div>
             <div>
                 <p><b className="my-name">{user.name}</b> <br /> {'#' + user.rank}</p>
-                <p><center>Friends <br /> {user.friend}</center></p>
-                <p><center>Trophies <br /> {user.trophies}</center></p>
+                <center><p>Friends <br /> {user.friend}</p></center>
+               <center><p>Trophies <br /> {user.trophies}</p></center>
             </div>
         </div>
         <p className="your-friend">Your friends</p>
@@ -38,8 +44,8 @@ function Friend() {
             </div>
             <div>
                 <p><b className="frined-name">{user.name}</b> <br /> {'#' + user.rank}</p>
-                <p><center>Friends <br /> {user.friend}</center></p>
-                <p><center>Trophies <br /> {user.trophies}</center></p>
+                <center><p>Friends <br /> {user.friend}</p></center>
+                <center><p>Trophies <br /> {user.trophies}</p></center>
             </div>
         </div>
         <div className="friend-profile">
@@ -48,8 +54,8 @@ function Friend() {
             </div>
             <div>
                 <p><b className="frined-name">{user.name}</b> <br /> {'#' + user.rank}</p>
-                <p><center>Friends <br /> {user.friend}</center></p>
-                <p><center>Trophies <br /> {user.trophies}</center></p>
+                <center><p>Friends <br /> {user.friend}</p></center>
+                <center><p>Trophies <br /> {user.trophies}</p></center>
             </div>
         </div>
         <div className="friend-profile">
@@ -58,8 +64,8 @@ function Friend() {
             </div>
             <div>
                 <p><b className="frined-name">{user.name}</b> <br /> {'#' + user.rank}</p>
-                <p><center>Friends <br /> {user.friend}</center></p>
-                <p><center>Trophies <br /> {user.trophies}</center></p>
+                <center><p>Friends <br /> {user.friend}</p></center>
+                <center><p>Trophies <br /> {user.trophies}</p></center>
             </div>
         </div>
         <div className="friend-profile">
@@ -68,8 +74,8 @@ function Friend() {
             </div>
             <div>
                 <p><b className="frined-name">{user.name}</b> <br /> {'#' + user.rank}</p>
-                <p><center>Friends <br /> {user.friend}</center></p>
-                <p><center>Trophies <br /> {user.trophies}</center></p>
+                <center><p>Friends <br /> {user.friend}</p></center>
+                <center><p>Trophies <br /> {user.trophies}</p></center>
             </div>
         </div>
         </>

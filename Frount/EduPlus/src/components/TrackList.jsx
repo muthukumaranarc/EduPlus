@@ -1,13 +1,23 @@
 import "./TrackList.css";
 import arrow from "../assets/arrow.png";
 
+import { useEffect, useState } from "react";
+
 function TrackList({name, progres, }) {
 
-    // let classes = [
-    //     {
+    progres = 80;
 
-    //     }
-    // ];
+    let [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+            const handleResize = () => {
+                setDeviceWidth(window.innerWidth);
+            };
+            window.addEventListener('resize', handleResize);
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            };
+        }, []);
 
     return (
         <div className="today-track">
@@ -17,7 +27,12 @@ function TrackList({name, progres, }) {
             </div>
             <div className="pro">
                 <div className="bar">
-                    <div className="state" style={{ width: `calc( ( 350px / 100 ) * ${progres} )`}}></div>
+                    <div 
+                    className="state" 
+                    style={{ 
+                        width: `calc( ( ${(deviceWidth > 768) ? '350px' : '260px'} / 100 ) * ${progres} )`
+                    }}>
+                    </div>
                 </div>
                 <p>{progres}%</p>
             </div>

@@ -1,10 +1,16 @@
 import "./Ai.css";
 
-import generate from "../../assets/generate.png";
-import aiSearch from "../../assets/aiSearch.png";
-import { useState } from "react";
+import generate from "../../../assets/generate.png";
+import aiSearch from "../../../assets/aiSearch.png";
+import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
 function Ai() {
+
+    const { setNavState } = useOutletContext();
+    useEffect(() => {
+        setNavState("ai");
+    }, [setNavState]);
 
     let quichPic = ['How to start EduPlus for learning?', 'Motivate Me', 'What is weather today?'];
 

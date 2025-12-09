@@ -1,146 +1,162 @@
 import "./Home.css";
 
-import logo from "../../assets/EduPlus_logo.png";
-import name from "../../assets/EduPlus_name.png";
-
-import dashboard from "../../assets/dashboard.png";
-import actions from "../../assets/action.png";
-import ai from "../../assets/ai_chat.png";
-import tests from "../../assets/test.png";
-import friends from "../../assets/friends.png";
-import settings from "../../assets/settings.png";
-
-import dashboard_g from "../../assets/dashboard_g.png";
-import actions_g from "../../assets/action_g.png";
-import ai_g from "../../assets/ai_chat_g.png";
-import tests_g from "../../assets/test_g.png";
-import friends_g from "../../assets/friends_g.png";
-import settings_g from "../../assets/settings_g.png";
-
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Outlet } from "react-router-dom";
 import Trophy from "../../components/Trophy";
 
 function Home() {
+    let [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
     const navigate = useNavigate();
-
-    
     const parms = useParams();
     let [navState, setNavState] = useState(parms.nav);
 
-    // useEffect(() => {
-    //     console.log(navState);
-    // },[navState])
+    useEffect(() => {
+        const handleResize = () => {
+            setDeviceWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
-        if(parms.nav == undefined) {
-            navigate("/home/dashboard")
+        if (parms.nav === undefined) {
+            navigate("/home/dashboard");
         }
-        if(parms.nav) {
-            setNavState(parms.nav)
+        if (parms.nav) {
+            setNavState(parms.nav);
         }
-    }, [navigate, parms.nav])
+    }, [navigate, parms.nav]);
 
     let trophy = 100;
 
     return (
-        <div className="home">
-            <Trophy trophy={trophy}/>
-        <div className="Dashboard">
-            <div className="nav">
-                <div className="logo-box">
-                    <img src={logo}  alt="Eduplus logo" className="logo"/>
-                    <img src={name} alt="Eduplus name" className="name"/>
-                </div>
+        <>
+            {
+                (deviceWidth < 768) ?
+                <>
+                    <div className="head">
+                        <div>
+                            <div className="mobile-menu">
+                                <img src="/src/assets/menu.jpg" alt="menu" /> 
+                            </div>
+                            <div className="mobile-logo">
+                                <img src="/src/assets/eduplus_logo.png"  alt="Eduplus logo" className="logo"/>
+                                <img src="/src/assets/eduplus_name.png" alt="Eduplus name" />
+                            </div>
+                        </div>
+                        <div className="page-name">
+                            <h2>Dashboard</h2>
+                            <img src="/src/assets/dashboard.png" alt="dashboard" />
+                        </div>
+                    </div>
+                </>
+                :
+                <>
+                <div className="home">
+                    <Trophy trophy={trophy}/>
+                    
+                    <div className="Dashboard"></div>
 
-                <div 
-                onClick={() => {navigate("/home/dashboard")}} 
-                className={`${navState === "dashboard" ? "active" : ""} dashboard`}
-                >
-                    {
-                        (navState == "dashboard") ? 
-                        <img src={dashboard} alt="dashboard" /> : 
-                        <img src={dashboard_g} alt="dashboard" />
-                    }
-                    <p>Dashboard</p>
-                </div>
+                    <div className="nav">
 
-                <div onClick={() => {navigate("/home/action")}} 
-                    className={
-                        `${
-                            (navState === "action" || 
-                            navState === "plan" || 
-                            navState === "communication" || 
-                            navState === "progress" || 
-                            navState === "fitness") 
-                            ? "active" : ""
-                        } action`} 
-                    >
-                    {
-                        (navState === "action" || 
-                        navState === "plan" || 
-                        navState === "communication" || 
-                        navState === "progress" || 
-                        navState === "fitness") ? 
-                        <img src={actions} alt="action" /> : 
-                        <img src={actions_g} alt="action" />
-                    }
-                    <p>Actions</p>
-                </div>
+                        <div className="logo-box">
+                            <img src="/src/assets/EduPlus_logo.png"  alt="Eduplus logo" className="logo"/>
+                            <img src="/src/assets/EduPlus_name.png" alt="Eduplus name" className="name"/>
+                        </div>
 
-                <div 
-                onClick={() => {navigate("/home/ai")}} 
-                className={`${navState === "ai" ? "active" : ""} ai`}
-                >
-                    {
-                        (navState == "ai") ? 
-                        <img src={ai} alt="ai chat" /> : 
-                        <img src={ai_g} alt="ai chat" />
-                    }
-                    <p>AI Chat</p>
-                </div>
+                        <div 
+                            onClick={() => {navigate("/home/dashboard")}} 
+                            className={`${navState === "dashboard" ? "active" : ""} dashboard`}
+                        >
+                            {
+                                navState === "dashboard" ? 
+                                <img src="/src/assets/dashboard.png" alt="dashboard" /> :
+                                <img src="/src/assets/dashboard_g.png" alt="dashboard" />
+                            }
+                            <p>Dashboard</p>
+                        </div>
 
-                <div 
-                onClick={() => {navigate("/home/test")}} 
-                className={`${navState === "test" ? "active" : ""} test`}
-                >
-                    {
-                        (navState == "test") ? 
-                        <img src={tests} alt="test" /> : 
-                        <img src={tests_g} alt="test" />
-                    }
-                    <p>Tests</p>
-                </div>
+                        <div 
+                            onClick={() => {navigate("/home/action")}} 
+                            className={`${
+                                (navState === "action" || 
+                                navState === "plan" || 
+                                navState === "communication" || 
+                                navState === "progress" || 
+                                navState === "fitness") 
+                                ? "active" : ""} action`}
+                        >
+                            {
+                                (navState === "action" || 
+                                navState === "plan" || 
+                                navState === "communication" || 
+                                navState === "progress" || 
+                                navState === "fitness") ?
+                                <img src="/src/assets/action.png" alt="action" /> :
+                                <img src="/src/assets/action_g.png" alt="action" />
+                            }
+                            <p>Actions</p>
+                        </div>
 
-                <div 
-                onClick={() => {navigate("/home/friend")}} 
-                className={`${navState === "friend" ? "active" : ""} friend`}
-                >
-                    {
-                        (navState == "friend") ? 
-                        <img src={friends} alt="friend" /> : 
-                        <img src={friends_g} alt="friend" />
-                    }
-                    <p>Friends</p>
-                </div>
+                        <div 
+                            onClick={() => {navigate("/home/ai")}} 
+                            className={`${navState === "ai" ? "active" : ""} ai`}
+                        >
+                            {
+                                navState === "ai" ? 
+                                <img src="/src/assets/ai_chat.png" alt="ai chat" /> :
+                                <img src="/src/assets/ai_chat_g.png" alt="ai chat" />
+                            }
+                            <p>AI Chat</p>
+                        </div>
 
-                <div 
-                onClick={() => {navigate("/home/setting")}} 
-                className={`${navState === "setting" ? "active" : ""} setting`}
-                >
-                    {
-                        (navState == "setting") ? 
-                        <img src={settings} alt="setting" /> : 
-                        <img src={settings_g} alt="setting" />
-                    }
-                    <p>Settings</p>
+                        <div 
+                            onClick={() => {navigate("/home/test")}} 
+                            className={`${navState === "test" ? "active" : ""} test`}
+                        >
+                            {
+                                navState === "test" ? 
+                                <img src="/src/assets/test.png" alt="test" /> :
+                                <img src="/src/assets/test_g.png" alt="test" />
+                            }
+                            <p>Tests</p>
+                        </div>
+
+                        <div 
+                            onClick={() => {navigate("/home/friend")}} 
+                            className={`${navState === "friend" ? "active" : ""} friend`}
+                        >
+                            {
+                                navState === "friend" ? 
+                                <img src="/src/assets/friends.png" alt="friends" /> :
+                                <img src="/src/assets/friends_g.png" alt="friends" />
+                            }
+                            <p>Friends</p>
+                        </div>
+
+                        <div 
+                            onClick={() => {navigate("/home/setting")}} 
+                            className={`${navState === "setting" ? "active" : ""} setting`}
+                        >
+                            {
+                                navState === "setting" ? 
+                                <img src="/src/assets/settings.png" alt="settings" /> :
+                                <img src="/src/assets/settings_g.png" alt="settings" />
+                            }
+                            <p>Settings</p>
+                        </div>
+
+                    </div>
                 </div>
+                </>
+            }
+
+            <div className="outlet">
+                <Outlet context={{ setNavState }}/>
             </div>
-        </div>
-        <div className="outlet">
-            <Outlet/>
-        </div>
-        </div>
+        </>
     )
 }
 

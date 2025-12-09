@@ -90,3 +90,96 @@ h3 {
     right: 35px;
     top: 30px;
 }
+
+@media (max-width: 768px) {
+    .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 10px;
+        padding-left: 10px;
+        margin-top: 20px;
+    }
+
+    .head > div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .mobile-menu {
+        position: relative;
+        height: 40px;
+        width: 40px;
+        z-index: 3;
+        cursor: pointer;
+        border: 1.5px solid black;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-menu img {
+        height: 50%;
+        width: 60%;
+        border-radius: 50%;
+    }  
+
+    .mobile-logo {
+        position: relative;
+        margin-left: 0px;
+        height: 40px;
+        width: 150px;
+        z-index: 3;
+        border: 1.5px solid black;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mobile-logo > img:first-child {
+        height: 35px;
+        width: 30px;
+        margin-right: 5px;
+    } 
+
+    .mobile-logo > img:not(:first-child) {
+        height: 25px
+    }  
+
+    .outlet {
+        width: 96vw;
+        position: relative;
+        top: 10px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        /* border:1px solid red; */
+        overflow-x: auto;
+    }  
+
+    .page-name {
+        position: relative;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* border: 1px solid red; */
+    }
+
+    .page-name > h2 {
+        font-size: 20px;
+    }
+
+    .page-name > img {
+        height: 25px;
+        width: 25px;
+        margin-left: 10px;
+    }
+
+    h3 {
+        display: none;
+    }
+}

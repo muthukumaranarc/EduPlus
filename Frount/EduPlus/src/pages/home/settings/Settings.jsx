@@ -1,9 +1,17 @@
 import "./Settings.css";
 
-import profile from '../../assets/profile.png';
-import arrow from '../../assets/arrow.png';
+import profile from '../../../assets/profile.png';
+import arrow from '../../../assets/arrow.png';
+import { useOutletContext } from "react-router-dom";
+import { useEffect } from "react";
 
 function Settings() {
+
+    let { setNavState } = useOutletContext();
+
+    useEffect(() => {
+        setNavState("setting");
+    }, [setNavState]);
 
     let username = 'muthukumaranarc00'
     let firstName = 'Muthu'
