@@ -18,40 +18,76 @@
     cursor: pointer;
 }
 
-.ac-head > img{ 
+.ac-head>img {
     height: 30px;
     margin-left: 5px;
-    transform: rotate( 180deg );
+    transform: rotate(180deg);
 }
 
-.comm > p {
+.comm>p {
     width: 600px;
     text-align: center;
     margin-top: -10px;
 }
 
-.comm > div {
+.comm>div {
     display: flex;
     gap: 30px;
     margin-top: 20px;
 }
 
-.comm > div > div {
+.comm>div>div {
     height: 130px;
     width: 350px;
     border: 2px solid rgba(38, 97, 178, 1);
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(38, 97, 178, 0.66);
+    display: flex;
+    flex-direction: column;
 }
 
-.comm > div > div > h4 {
+.comm>div>div>h4 {
     font-size: 18px;
     margin-left: 25px;
     margin-top: 28px;
 }
 
-.comm > div > div > p {
+.comm>div>div>p {
     width: 250px;
     margin-left: 25px;
     margin-top: -15px;
+}
+
+@media (max-width: 768px) {
+    .comm {
+        margin-top: 5vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ac-head>img {
+        height: 30px;
+        margin-left: 5px;
+        transform: rotate(180deg);
+    }
+    
+    .comm>h2 {
+        font-size: 24px;
+    }
+    
+    .comm>p {
+        width: 90%;
+        font-size: 15.5px;
+        text-align: center;
+        margin-top: -10px;
+    }
+
+    .comm>div {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin-top: 20px;
+    }
+
 }

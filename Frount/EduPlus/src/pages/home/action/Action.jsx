@@ -1,72 +1,100 @@
 import "./Action.css";
 
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { useEffect } from "react";
-
+import { useEffect, useContext, useState } from "react";
+import { ImageContext } from "../../../context/ImageContext.js";
 
 function Action() {
 
+    const images = useContext(ImageContext);
     const { setNavState } = useOutletContext();
+    const navigate = useNavigate();
+
     useEffect(() => {
         setNavState("action");
     }, [setNavState]);
 
-    let navigate = useNavigate();
+    if (!images.plan) {
+        return <p>Loading...</p>;
+    }
+
+    const ActionCard = ({ img, title, sub, path }) => {
+        const [loaded, setLoaded] = useState(false);
+
+        useEffect(() => {
+            const image = new Image();
+            image.src = img;
+
+            if (image.complete) {
+                // Image already cached → no loader
+                setLoaded(true);
+            } else {
+                image.onload = () => setLoaded(true);
+            }
+        }, [img]);
+
+        return (
+            <div onClick={() => navigate(path)} className="button">
+
+                {!loaded && <div className="img-loader"></div>}
+
+                <img
+                    src={img}
+                    className={`bg-img ${loaded ? "show" : "hide"}`}
+                    alt=""
+                />
+
+                <div className="text">
+                    <div style={{ marginTop: sub ? "30px" : "0px" }}>
+                        <p>{title}</p>
+                        {sub && <p className="sub">{sub}</p>}
+                    </div>
+                    <img src="/src/assets/arrow_w.png" className="arrow" alt="arrow" />
+                </div>
+            </div>
+        );
+    };
+
 
     return (
         <>
-        <h3>Actions</h3>
+            <h3>Actions</h3>
 
-        <div className="action-com">
+            <div className="action-com">
 
-            <div 
-            onClick={() => {navigate('/home/action/plan')}} 
-            className="button" 
-            style={{backgroundImage:`url(/action/study_plan.webp)`}}
-            >
-                <p>Study plan with test</p>
-                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
+                <ActionCard
+                    img={images.plan}
+                    title="Study plan with test"
+                    path="/home/action/plan"
+                />
+
+                <ActionCard
+                    img={images.communication}
+                    title="Grammar improver"
+                    sub="(English)"
+                    path="/home/action/communication"
+                />
+
+                <ActionCard
+                    img={images.progress}
+                    title="Study progress tracker"
+                    path="/home/action/progress"
+                />
+
+                <ActionCard
+                    img={images.fitness}
+                    title="Fitness tracker"
+                    path="/home/action/fitness"
+                />
+
+                <ActionCard
+                    img={images.assistant}
+                    title="Personal assistant"
+                    sub="(AI Chat)"
+                    path="/home/action/ai"
+                />
+
             </div>
-
-            <div 
-            onClick={() => {navigate('/home/action/communication')}} 
-            className="button" 
-            style={{backgroundImage:`url(/action/communication_improver.webp)`}}
-            >
-                <p>Grammar improver</p>
-                <p className="sub">(English)</p>
-                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
-            </div>
-
-            <div 
-            onClick={() => {navigate('/home/action/progress')}} 
-            className="button" 
-            style={{backgroundImage:`url(/action/study_progress.webp)`}}
-            >
-                <p>Study progress tracker</p>
-                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
-            </div>
-
-            <div 
-            onClick={() => {navigate('/home/action/fitness')}} 
-            className="button" 
-            style={{backgroundImage:`url(/action/fitness_tracker.webp)`}}
-            >
-                <p>Fitness tracter</p>
-                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
-            </div>
-
-            <div 
-            onClick={() => {navigate('/home/action/ai')}} 
-            className="button" 
-            style={{backgroundImage:`url(/action/personal_assistant.webp)`}}
-            >
-                <p>Personal assistant</p>
-                <p className="sub">(AI Chat)</p>
-                <img src="/src/assets/arrow_w.png" loading="lazy" alt="arrow" />
-            </div>
-            
-        </div>
         </>
     );
 }

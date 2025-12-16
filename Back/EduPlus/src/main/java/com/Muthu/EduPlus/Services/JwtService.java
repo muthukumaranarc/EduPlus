@@ -11,55 +11,39 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 @Service
 public class JwtService {
 
-    private final String securityKey = "Muthu/Create/A/Secure/Platform+=";
+    // 32+ chars (256-bit key for HS256)
+    private static final String SECURITY_KEY =
+            "MuthuEduPlusSuperSecureJwtSigningKey2025@#123";
 
-    public String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<String, Object>();
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 *24 * 365))
-                .signWith(getKey())
-                .compact();
-    }
+    // Centralized expiry (30 days)
+    private static final long JWT_EXPIRATION_MS =
+            1000L * 60 * 60 * 24 * 30;
 
     private SecretKey getKey() {
-        return Keys.hmacShaKeyFor(securityKey.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(SECURITY_KEY.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String generateToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_MS))
+                .signWith(getKey())
+                .compact();
     }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token) {
-        try {
-            return Jwts.parser()
-                    .setSigningKey(getKey())
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Failed to parse/validate JWT token: " + e.getMessage(), e);
-        }
-    }
-
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String userName = extractUsername(token);
-        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
@@ -70,18 +54,35 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    private <T> T extractClaim(String token, Function<Claims, T> resolver) {
+        Claims claims = extractAllClaims(token);
+        return claims != null ? resolver.apply(claims) : null;
+    }
+
+    private Claims extractAllClaims(String token) {
+        try {
+            return Jwts.parser()
+                    .verifyWith(getKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (Exception e) {
+            return null; // fail safely
+        }
+    }
+
     public String getTokenFromRequest(HttpServletRequest request) {
-        // 1) Authorization header
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+
+        // Authorization header (optional)
+        String bearer = request.getHeader("Authorization");
+        if (bearer != null && bearer.startsWith("Bearer ")) {
+            return bearer.substring(7);
         }
 
-        // 2) HttpOnly Cookie
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie c : cookies) {
-                if ("jwt".equals(c.getName()) || "jwtToken".equals(c.getName())) {
+        // HttpOnly cookie (MAIN)
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if ("auth".equals(c.getName())) {
                     return c.getValue();
                 }
             }
@@ -92,9 +93,6 @@ public class JwtService {
 
     public String getCurrentUsername(HttpServletRequest request) {
         String token = getTokenFromRequest(request);
-        if (token != null) {
-            return extractUsername(token);
-        }
-        return null;
+        return token != null ? extractUsername(token) : null;
     }
 }

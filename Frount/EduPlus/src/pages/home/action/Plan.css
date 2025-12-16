@@ -3,7 +3,7 @@
     justify-items: center;
 }
 
-.plan > h2 {
+.plan>h2 {
     margin-top: 180px;
     font-size: 25px;
     user-select: none;
@@ -11,7 +11,7 @@
     -ms-user-select: none;
 }
 
-.plan > p {
+.plan>p {
     margin-top: -10px;
     width: 500px;
     text-align: center;
@@ -35,17 +35,17 @@
     margin-top: 25px;
 }
 
-.query > input {
+.query>input {
     width: 480px;
     border: transparent;
     font-size: 20px;
 }
 
-.query > input:focus {
+.query>input:focus {
     outline: none;
 }
 
-.query > button {
+.query>button {
     height: 50px;
     display: flex;
     justify-content: center;
@@ -61,7 +61,7 @@
     margin-right: 5px;
 }
 
-.query > button > img {
+.query>button>img {
     height: 25px;
     margin-right: 10px;
 }
@@ -72,7 +72,7 @@
     padding-top: 20px;
 }
 
-.quick-pic > div {
+.quick-pic>div {
     display: flex;
     align-items: center;
     justify-content: left;
@@ -84,7 +84,70 @@
     cursor: pointer;
 }
 
-.quick-pic > div > img {
+.quick-pic>div>img {
     height: 20px;
     padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .plan {
+        justify-items: center;
+        width: 95vw;
+        margin: 0 auto;
+        margin-top: 20vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* border: 2px solid red; */
+    }
+    
+    .plan>h2 {
+        margin-top: 0px;
+        font-size: 22px;
+    }
+
+    .plan>p {
+        width: 90%;
+        font-size: 16px;
+    }
+
+    .query {
+        height: 60px;
+        width: 90vw;
+        margin: 0 auto;
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        box-shadow: 0px 0px 10px rgba(38, 97, 178, 0.66);
+        margin-top: 25px;
+        position: fixed;
+        bottom: 40px;
+    }
+
+    .query>input {
+        width: 70%;
+        border: transparent;
+        font-size: 18px;
+    }
+
+    .query>input::placeholder {
+        font-size: 16px;
+    }
+
+    .query>input:focus {
+        outline: none;
+    }
+
+    .query>button {
+        width: 120px;
+        font-size: 18px;
+        margin-left: 10px;
+        margin-right: 5px;
+    }
+
+    .query>button>img {
+        height: 22px;
+        margin-right: 10px;
+    }
 }

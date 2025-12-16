@@ -21,6 +21,7 @@ import Plan from './pages/home/action/Plan.jsx';
 import Communication from './pages/home/action/Communication.jsx';
 import Progress from './pages/home/action/Progress.jsx';
 import Fitness from './pages/home/action/Fitness.jsx';
+import { ImageProvider } from './context/ImageProvider.jsx';
 
 const router = createBrowserRouter([
   {
@@ -97,7 +98,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <UserProvider>
-      <RouterProvider router={router} />
+      <ImageProvider>
+        <RouterProvider router={router} />
+      </ImageProvider>
     </UserProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);

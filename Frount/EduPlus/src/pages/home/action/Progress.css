@@ -3,12 +3,12 @@
     /* border: 1px solid red; */
 }
 
-.progress > h2 {
+.progress>h2 {
     margin-left: 60px;
     margin-bottom: 50px;
 }
 
-.progress > button {
+.progress>button {
     height: 40px;
     width: 200px;
     position: absolute;
@@ -27,4 +27,44 @@
     grid-template-columns: repeat(2, 500px);
     gap: 30px;
     justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .progress {
+        width: 95%;
+        margin: 0 auto;
+        margin-top: 20px;
+        /* border: 1px solid red; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .progress>h2 {
+        margin-left: 60px;
+        margin-bottom: 50px;
+    }
+
+    .progress>button {
+        height: 60px;
+        width: 60px;
+        position:fixed;
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        font-size: 40px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .tracks {
+        width: 95%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }

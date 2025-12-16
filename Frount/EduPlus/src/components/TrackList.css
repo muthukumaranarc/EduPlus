@@ -90,6 +90,7 @@
 @media (max-width: 768px) {
     .today-track {
         width: 90%;
+        /* border: 2px solid red; */
     }
 
     .pro > .bar {

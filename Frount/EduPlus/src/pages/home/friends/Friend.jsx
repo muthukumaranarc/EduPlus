@@ -24,7 +24,7 @@ function Friend() {
     }
 
     return (
-        <>
+        <div className="friend-page">
         { FriendView ? viewFriend( user, setFriendView) : <></>}
         <h3>Friends</h3>
         <div className="my-profile">
@@ -78,7 +78,7 @@ function Friend() {
                 <center><p>Trophies <br /> {user.trophies}</p></center>
             </div>
         </div>
-        </>
+        </div>
     );
 }
 

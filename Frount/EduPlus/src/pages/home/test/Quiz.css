@@ -1,0 +1,41 @@
+.quiz-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 22px;
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.quiz-header > img {
+    width: 30px;
+    height: 30px;
+}
+
+.quiz {
+    margin-top: 0px;
+    margin-left: 50px;
+}
+
+.question-card {
+    margin-top: 20px;
+}
+
+.question-card button {
+    padding: 5px 10px;
+    margin-left: 15px;
+    background-color: white;
+    box-shadow: 0px 0px 5px gray;
+    border: none;
+    border-radius: 8px;
+}
+
+.correct {
+    background-color: rgba(10, 202, 16, 1);
+    color: white;
+}
+
+.wrong {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+}

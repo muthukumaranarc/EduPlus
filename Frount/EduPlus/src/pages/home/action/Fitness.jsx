@@ -5,9 +5,9 @@ function Fitness() {
     return (
         <>
         <div className='ac-head' onClick={() => window.history.back()}>
-                    <p>Fitness tracker</p>
-                    <img src={arrow} alt="arrow"/>
-                </div>
+            <img src={arrow} alt="arrow"/>
+            <p>Actions</p>
+        </div>
         </>
     );
 }

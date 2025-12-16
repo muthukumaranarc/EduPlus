@@ -1,5 +1,11 @@
+.friend-page {
+    /* border: 1px solid red; */
+    padding: 10px;
+}
+ 
 .my-profile {
     height: 110px;
+    /* border: 1px solid red; */
     width: 1000px;
     /* margin: 0 auto; */
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
@@ -54,12 +60,14 @@
 }
 
 .friend-profile {
+    /* border: 1px solid red; */
     height: 110px;
     width: 820px;
     /* margin: 0 auto; */
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     margin-top: 20px;
+    margin-bottom: 10px;
     margin-left: 50px;
     display: grid;
     display: flex;
@@ -106,16 +114,15 @@
 /* View frinds */
 
 .view-friend {
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.19);
     position: fixed;
-    top: 0px;
-    left: 0px;
+    inset: 0;                 /* ✅ best practice */
+    background-color: rgba(0, 0, 0, 0.19);
     z-index: 10;
+
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 20px;
 }
 
 .view-friend > div {

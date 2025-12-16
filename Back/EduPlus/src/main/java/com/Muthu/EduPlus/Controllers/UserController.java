@@ -32,6 +32,11 @@ public class UserController {
         return service.getAllUsers();
     }
 
+    @GetMapping("/get-user")
+    public User getCurrentUserName() {
+        return service.getCurrentUserData();
+    }
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> data, HttpServletResponse response) {
         return service.login(data.get("username"), data.get("password"), response);

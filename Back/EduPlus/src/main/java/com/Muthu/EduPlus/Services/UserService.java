@@ -50,7 +50,7 @@ public class UserService {
         if (data.findByUsername(username) != null) {
             if (encoder.matches(password, data.findByUsername(username).getPassword())) {
                 String token = jwtService.generateToken(username);
-                ResponseCookie cookie = giveCookie(token, response);
+                ResponseCookie cookie = giveCookie(token);
                 return ResponseEntity
                         .ok()
                         .header(HttpHeaders.SET_COOKIE, cookie.toString())
@@ -70,31 +70,28 @@ public class UserService {
         return deleteCookie(response);
     }
 
-    private ResponseCookie giveCookie(String token, HttpServletResponse response) {
-        return ResponseCookie.from("jwt", token)
+    private ResponseCookie giveCookie(String token) {
+        return ResponseCookie.from("auth", token)
                 .httpOnly(true)
-                .secure(true) //https
+                .secure(false)
                 .path("/")
-                .maxAge(Duration.ofDays(365))
-                .sameSite("None")  //This line important for (security(true))
+                .maxAge(Duration.ofDays(30))
+                .sameSite("Lax")
                 .build();
     }
 
+
     private boolean deleteCookie(HttpServletResponse response) {
-        try {
-            ResponseCookie cookie = ResponseCookie.from("jwt", "")
-                    .httpOnly(true)
-                    .secure(true)
-                    .path("/")
-                    .maxAge(0)
-                    .sameSite("None")
-                    .build();
-            response.addHeader("Set-Cookie", cookie.toString());
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
+        ResponseCookie cookie = ResponseCookie.from("auth", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("Lax")
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return true;
     }
 
     // TODO: Solve the problem in this Function (Profile picture)
@@ -117,8 +114,13 @@ public class UserService {
         return data.findAll();
     }
 
+    public User getCurrentUserData(){
+        return data.findByUsername(getUsernames());
+    }
+
     public String deleteAllUsers() {
         String currentUser = jwtService.getCurrentUsername(request);
+        System.out.println(currentUser);
         if(currentUser.equals("admin")) {
             for(User user : data.findAll()){
                 if(user.getUsername().equals(currentUser)) continue;
@@ -142,7 +144,7 @@ public class UserService {
             aboutUserService.createUserData(user.getUsername(), user.getFirstName());
 
             // Send back the auth cookie
-            ResponseCookie cookie = giveCookie(token, response);
+            ResponseCookie cookie = giveCookie(token);
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
             return "New user created!";
@@ -233,7 +235,7 @@ public class UserService {
                 SecurityContextHolder.getContext().getAuthentication().getName()
         );
         if(isCorrectPassword(currentPassword)) {
-            currentUser.setPassword(newPassword);
+            currentUser.setPassword(encoder.encode(newPassword));
             data.save(currentUser);
             return "Password Changed!";
         }
