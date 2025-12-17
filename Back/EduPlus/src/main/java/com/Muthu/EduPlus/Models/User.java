@@ -18,8 +18,17 @@ public class User {
     private String mobileNumber;
     private String mailId;
     private String linkedIn;
+    private Integer trophy;
 
     public User(){}
+
+    public void setTrophy(Integer trophy) {
+        this.trophy = trophy;
+    }
+
+    public Integer getTrophy() {
+        return this.trophy;
+    }
 
     public String getLinkedIn() {
         return linkedIn;

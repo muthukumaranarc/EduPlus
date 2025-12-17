@@ -8,7 +8,6 @@ import App from './App.jsx'
 import Login from './pages/Login.jsx';
 
 import { NotFound } from './pages/NotFound.jsx';
-import { UserProvider } from './context/UserContext.jsx';
 import Home from './pages/home/Home.jsx';
 import Quiz from './pages/home/test/Quiz.jsx';
 import Dashboard from './pages/home/dashboard/Dashboard.jsx';
@@ -22,6 +21,7 @@ import Communication from './pages/home/action/Communication.jsx';
 import Progress from './pages/home/action/Progress.jsx';
 import Fitness from './pages/home/action/Fitness.jsx';
 import { ImageProvider } from './context/ImageProvider.jsx';
+import { UserProvider } from './context/UserProvider.jsx';
 
 const router = createBrowserRouter([
   {

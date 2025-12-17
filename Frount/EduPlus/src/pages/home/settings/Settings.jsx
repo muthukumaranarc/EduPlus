@@ -3,42 +3,23 @@ import "./Settings.css";
 import profile from '../../../assets/profile.png';
 import arrow from '../../../assets/arrow.png';
 import { useOutletContext } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContext";
 
 function Settings() {
 
     let { setNavState } = useOutletContext();
-    const [user, setUser] = useState([]);
+
+    let { user } = useContext(UserContext);
 
     useEffect(() => {
         setNavState("setting");
     }, [setNavState]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/user/get-user", {
-            withCredentials: true,
-        })
-            .then(res => {
-                setUser(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }, []);
-
-    useEffect(() => {
         console.log(user);
-    },[user])
-
-    // let username = 'muthukumaranarc00';
-    // let firstName = 'Muthu';
-    // let lastName = 'Kumaran';
-    // let dob = 'July 12 2008';
-    // let gender = 'Male';
-    // let mobile = "+91 1234567890";
-    // let email = 'muthukumaranarc00@gmail.com';
-    // let linkedIn = 'muthukumaranarc';
+    }, [user])
 
     let theme = 'Light theme';
     let Language = 'English';
@@ -62,8 +43,10 @@ function Settings() {
                     <p>Customize your account detatils</p>
                     <div>
                         <div>
-                            <p>Profile picture</p>
-                            <p>A profile picture helps personalize your account</p>
+                            <div>
+                                <p>Profile picture</p>
+                                <p>A profile picture helps personalize your account</p>
+                            </div>
                             <div><img src={profile} alt="profile" /></div>
                         </div>
                         <div>
@@ -86,7 +69,7 @@ function Settings() {
                             <img src={arrow} />
                         </div>
                         <div>
-                            <p>Lset Name</p>
+                            <p>Last Name</p>
                             <p>
                                 {
                                     (user.lastName != null) ? user.lastName : 'Not set'
@@ -125,7 +108,7 @@ function Settings() {
                             <p>Email</p>
                             <p>
                                 {
-                                    (user.email != null) ? user.email : 'Not set'
+                                    (user.mailId != null) ? user.mailId : 'Not set'
                                 }
                             </p>
                             <img src={arrow} />

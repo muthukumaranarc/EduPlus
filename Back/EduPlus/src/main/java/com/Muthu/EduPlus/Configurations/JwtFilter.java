@@ -45,10 +45,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String token = null;
 
-        // ✅ Read JWT from cookie (SINGLE SOURCE OF TRUTH)
+        // Read JWT from cookie (SINGLE SOURCE OF TRUTH)
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
-                if ("auth".equals(cookie.getName())) {   // 🔥 USE SAME NAME EVERYWHERE
+                if ("auth".equals(cookie.getName())) {
                     token = cookie.getValue();
                     break;
                 }

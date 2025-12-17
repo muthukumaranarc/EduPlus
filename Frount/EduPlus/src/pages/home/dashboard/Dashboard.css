@@ -8,14 +8,14 @@
     z-index: -2;
 }
 
-.wel > img {
+.wel>img {
     height: 240px;
     position: absolute;
     right: 35px;
     top: 40px;
 }
 
-.wel > h2 {
+.wel>h2 {
     position: relative;
     top: 48px;
     left: 50px;
@@ -25,7 +25,7 @@
     font-size: 20px;
 }
 
-.wel > p {
+.wel>p {
     position: relative;
     top: 42px;
     left: 50px;
@@ -53,19 +53,19 @@
     border-radius: 20px;
 }
 
-.action-required > h2 {
+.action-required>h2 {
     font-size: 20px;
     margin-left: 10px;
 }
 
-.action-required > div > div:first-child {
+.action-required>div>div:first-child {
     height: 50px;
     width: 60px;
     background-color: rgba(223, 223, 223, 1);
     border-radius: 5px;
 }
 
-.action-required > div{
+.action-required>div {
     display: flex;
     align-items: center;
     height: 50px;
@@ -78,27 +78,74 @@
     transition: transform 0.1s ease;
 }
 
-.action-required > div:hover {
+.action-required>div:hover {
     transform: scale(1.01);
 }
 
-.action-required > div:active {
+.action-required>div:active {
     transform: scale(1);
 }
 
-.action-required > div > div > p {
+.action-required>div>div>p {
     width: 260px;
     margin-left: 15px;
     margin-right: 10px;
 }
 
-.action-required > div > img{
+.action-required>div>img {
     height: 30px;
 }
 
-
-.action-required > div > div > p:not(:first-child) {
+.action-required>div>div>p:not(:first-child) {
     margin-top: -10px;
+}
+
+.aboutSec {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.aboutAction {
+    /* border: 2px solid red; */
+    display: flex;
+    margin: 30px;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    
+}
+
+.aboutAction>img {
+    height: 250px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(77, 77, 77, 0.774);
+}
+
+.aboutAction>div>p {
+    width: 90%;
+}
+
+.aboutAction>div>div {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 120px;
+    height: 30px;
+    font-size: 18px;
+    color: rgba(34, 82, 146, 1);
+    cursor: pointer;
+}
+
+.aboutAction>div>div>img {
+    height: 20px;
+    transform: rotate(45deg);
+    margin-left: 5px;
 }
 
 @Media (max-width: 768px) {
@@ -110,11 +157,12 @@
         justify-content: center;
     }
 
-    .wel > img {
-        display: none;;
+    .wel>img {
+        display: none;
+        ;
     }
 
-    .wel > h2 {
+    .wel>h2 {
         display: relative;
         top: 0;
         left: 0;
@@ -126,7 +174,7 @@
         margin-bottom: 10px;
     }
 
-    .wel > p {
+    .wel>p {
         position: relative;
         top: 0;
         left: 0;
@@ -150,7 +198,7 @@
         margin-bottom: 50px;
         /* border: 1px solid red; */
     }
-    
+
     .action-required {
         width: 95%;
         padding: 20px;
@@ -159,20 +207,20 @@
         border: rgba(0, 0, 0, 0.25);
         border-radius: 20px;
     }
-    
-    .action-required > h2 {
+
+    .action-required>h2 {
         font-size: 20px;
         margin-left: 10px;
     }
 
-    .action-required > div > div:first-child {
+    .action-required>div>div:first-child {
         height: 50px;
         width: 60px;
         background-color: rgba(223, 223, 223, 1);
         border-radius: 5px;
     }
-    
-    .action-required > div{
+
+    .action-required>div {
         display: flex;
         align-items: center;
         height: 50px;
@@ -184,28 +232,28 @@
         width: 95%;
         transition: transform 0.1s ease;
     }
-    
-    .action-required > div:hover {
+
+    .action-required>div:hover {
         transform: scale(1.01);
     }
 
-    .action-required > div:active {
+    .action-required>div:active {
         transform: scale(1);
     }
-    
-    .action-required > div > div > p {
+
+    .action-required>div>div>p {
         /* border: 1px solid red; */
         width: 200px;
         margin-left: 15px;
         margin-right: 10px;
     }
-    
-    .action-required > div > img{
+
+    .action-required>div>img {
         height: 30px;
     }
 
 
-    .action-required > div > div > p:not(:first-child) {
+    .action-required>div>div>p:not(:first-child) {
         margin-top: -10px;
     }
 

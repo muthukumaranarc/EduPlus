@@ -1,11 +1,16 @@
 package com.Muthu.EduPlus.Configurations;
 
+import com.Muthu.EduPlus.Models.AboutUser;
+import com.Muthu.EduPlus.Models.Friends;
 import com.Muthu.EduPlus.Models.User;
 import com.Muthu.EduPlus.Repositories.UserRepo;
+import com.Muthu.EduPlus.Services.AboutUserService;
+import com.Muthu.EduPlus.Services.FriendsService;
 import com.Muthu.EduPlus.Services.JwtService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
@@ -22,6 +27,12 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtService jwtService;
     private final UserRepo users;
+
+    @Autowired
+    private AboutUserService aboutUserService;
+
+    @Autowired
+    private FriendsService friendsService;
 
     public OAuth2SuccessHandler(JwtService jwtService, UserRepo users) {
         this.jwtService = jwtService;
@@ -45,11 +56,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         // Create user if not exists
         User user = users.findByUsername(username);
         if (user == null) {
+
+            // Create user
             user = new User();
             user.setUsername(username);
             user.setFirstName(username.split("@")[0]);
             user.setMailId(email);
             users.save(user);
+
         }
 
         // Generate JWT

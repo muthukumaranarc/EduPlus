@@ -4,17 +4,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Document(collection = "friends")
 public class Friends {
 
     @Id
     private String username;
-    private String[] friends;
+    private List<String> friends;
 
     public Friends() {}
 
-    public Friends(String username, String[] friends) {
+    public Friends(String username, List<String> friends) {
         this.username = username;
         this.friends = friends;
     }
@@ -27,11 +28,11 @@ public class Friends {
         this.username = username;
     }
 
-    public String[] getFriends() {
+    public List<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(String[] friends) {
+    public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
@@ -39,7 +40,7 @@ public class Friends {
     public String toString() {
         return "Friends{" +
                 "username='" + username + '\'' +
-                ", friends=" + Arrays.toString(friends) +
+                ", friends=" + friends +
                 '}';
     }
 }

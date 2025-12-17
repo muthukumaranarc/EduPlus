@@ -28,9 +28,14 @@ public class AboutUserService {
     }
 
     public void createUserData(String username, String name){
-        List<String> info = new ArrayList<String>();
-        info.add("Name: " + name);
-        aboutUserRepo.save(new AboutUser(username, info));
+        try {
+            List<String> info = new ArrayList<String>();
+            info.add("Name: " + name);
+            aboutUserRepo.save(new AboutUser(username, info));
+            System.out.println("User data is created");
+        } catch (Exception e) {
+            System.out.println("Error from About: " + e.getMessage());
+        }
     }
 
     public List<String> getUserdata() {

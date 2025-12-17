@@ -312,4 +312,15 @@ public class UserService {
         }
         else return "Wrong Password!";
     }
+
+    public String addTrophiesToCurrentUser(Integer trophy, String password){
+        if(isCorrectPassword(password)) {
+            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            Integer trophies = user.getTrophy() + trophy;
+            user.setTrophy(trophies);
+            data.save(user);
+            return "Trophy is updated";
+        }
+        else return "Wrong Password!";
+    }
 }

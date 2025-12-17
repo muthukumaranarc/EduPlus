@@ -3,6 +3,7 @@ import "./Home.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Outlet } from "react-router-dom";
 import Trophy from "../../components/Trophy";
+import ScrollToTop from "./ScrollToTop";
 
 function Home() {
     let [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
@@ -32,8 +33,17 @@ function Home() {
 
     let trophy = 100;
 
+    useEffect(() => {
+    const outlet = document.querySelector(".outlet");
+    if (outlet) {
+        outlet.scrollTop = 0;
+    }
+}, [navState]);
+
+
     return (
         <div className="home-page">
+            <ScrollToTop />
             <div className="home">
                 {
                     (deviceWidth >= 786) ? <Trophy trophy={trophy} /> : null

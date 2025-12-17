@@ -1,34 +1,22 @@
-import { useEffect, useState } from "react";
-import { ImageContext } from "./ImageContext";
+import { useEffect } from "react";
+import ImageContext from "./ImageContext";
 
 export function ImageProvider({ children }) {
-  const [images, setImages] = useState({});
+
+  const images = {
+    plan: "/action/study_plan.webp",
+    communication: "/action/communication_improver.webp",
+    progress: "/action/study_progress.webp",
+    fitness: "/action/fitness_tracker.webp",
+    assistant: "/action/personal_assistant.webp",
+  };
 
   useEffect(() => {
-    const imageList = {
-      plan: "/action/study_plan.webp",
-      communication: "/action/communication_improver.webp",
-      progress: "/action/study_progress.webp",
-      fitness: "/action/fitness_tracker.webp",
-      assistant: "/action/personal_assistant.webp",
-    };
-
-    const loadedImages = {};
-    let loadedCount = 0;
-    const total = Object.keys(imageList).length;
-
-    Object.entries(imageList).forEach(([key, path]) => {
+    Object.values(images).forEach(src => {
       const img = new Image();
-      img.src = path;
-      img.onload = () => {
-        loadedImages[key] = img.src;
-        loadedCount++;
-
-        if (loadedCount === total) {
-          setImages(loadedImages);
-        }
-      };
+      img.src = src;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
