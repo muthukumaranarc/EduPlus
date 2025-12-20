@@ -1,0 +1,47 @@
+.request {
+    max-width: 80%;
+    background: linear-gradient(
+        135deg,
+        rgba(38, 97, 178, 0.9),
+        rgba(13, 105, 253, 0.85)
+    );
+    align-self: flex-end;
+    margin: 10px 6px;
+    padding: 5px 16px;
+    border-radius: 16px 16px 0px 16px;
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.5;
+    box-shadow: 0 8px 20px rgba(38, 97, 178, 0.35);
+    animation: messageIn 0.25s ease;
+    word-wrap: break-word;
+}
+
+/* AI Response */
+.response {
+    max-width: 65%;
+    align-self: flex-start;
+    background: rgba(103, 129, 164, 0.22);
+    margin: 5px 6px;
+    padding: 10px 16px;
+    border-radius: 16px 16px 16px 4px;
+    color: #111;
+    font-size: 15px;
+    line-height: 1.5;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    animation: messageIn 0.25s ease;
+    word-wrap: break-word;
+}
+
+/* Smooth entry animation */
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

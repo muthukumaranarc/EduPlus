@@ -43,12 +43,6 @@ function Dashboard() {
             root: "/home/action/progress"
         },
         {
-            head: "Fitness Tracker",
-            cont: "Balance learning with wellness. Follow guided workouts and mindfulness routines to keep your body and mind healthy.",
-            image: images.fitness,
-            root: "/home/action/fitness"
-        },
-        {
             head: "Personal Assistant (AI Chat)",
             cont: "Your always-available AI assistant. Ask questions, clear doubts, get explanations, and stay focused on your learning goals.",
             image: images.assistant,

@@ -44,7 +44,8 @@ public class AuthConfiguration {
                                 "/user/create",
                                 "/user/login",
                                 "/oauth2/**",
-                                "/login/**"
+                                "/login/**",
+                                "/user/is-user-exist"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -1,0 +1,67 @@
+.card {
+    width: 720px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 8px 20px #0000001f;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border:1px solid rgba(38, 96, 178, 0.329);
+}
+
+.card-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 6px;
+    background: #245bbb;
+    width: 100%;
+    transition: all 0.6s ease;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+
+h2 {
+    margin-bottom: 24px;
+    color: #0b2a5b;
+}
+
+
+/* Footer */
+.footer {
+    display: flex;
+    margin-top: 0px;
+    padding: 0px 10px 0px 10px;
+}
+
+.next {
+    height: 40px;
+    padding: 0px 20px 0px 20px;
+    background: #245bbb;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: -5px;
+    margin-right: -5px;
+}
+
+.previous {
+    height: 40px;
+    padding: 0px 20px 0px 20px;
+    background: #245bbb;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: -5px;
+    margin-right: -5px;
+}
+
+button:hover {
+    background: #1c4aa3;
+}

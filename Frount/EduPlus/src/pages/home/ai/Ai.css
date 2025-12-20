@@ -1,6 +1,7 @@
 .ai-chat {
     display: grid;
     justify-items: center;
+    transition: all 0.3s ease-in-out;
 }
 
 .ai-chat>h2 {
@@ -92,6 +93,38 @@
 .quick-pic>div>img {
     height: 20px;
     padding: 10px;
+}
+
+.history-sec {
+    max-height: 80vh;
+    width: 65%;
+    /* border: 1px solid red; */
+    /* border-radius: 20px; */
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    position: fixed;
+    bottom: 120px;
+}
+
+.history-sec::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+.query-with-history {
+    position: fixed;
+    top: auto;
+    bottom: 40px;
 }
 
 @media (max-width: 768px) {

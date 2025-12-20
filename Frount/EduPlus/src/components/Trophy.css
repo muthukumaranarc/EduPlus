@@ -7,6 +7,8 @@
     border: 2p solid rgba(0, 0, 0, 0.25);
     border-radius: 12px;
     box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.25);
+    background-color: rgb(255, 255, 255);
+    z-index: 10;
 }
 
 .trop > img {

@@ -1,29 +1,22 @@
-import { useEffect, useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { UserContext } from "./context/UserContext";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
-  const { username, setUsername } = useContext(UserContext);
+  const { user, loading } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8080/user/get-username", {
-      method: "GET",
-      credentials: "include"
-    })
-    .then(response => response.text())
-    .then(result => setUsername(result))
-    .catch(error => console.log(error));
-  }, [setUsername]);
-
-  
-
-  return (
-    <>
-      {
-        (username === "anonymousUser") ? <div>Click Login: <Link to={"/login"}>Login</Link></div> : <p>Username: {username}</p>
+    if (loading == false) {
+      if (user?.username) {
+        navigate('/home', { replace: true });
+      } else {
+        navigate('/login', { replace: true });
       }
-    </>
-  )
+    }
+  }, [user, navigate, loading]);
+
+  return null; // or a loader
 }
 
-export default App
+export default App;

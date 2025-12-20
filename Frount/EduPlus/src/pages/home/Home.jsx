@@ -1,9 +1,10 @@
 import "./Home.css";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams, Outlet } from "react-router-dom";
 import Trophy from "../../components/Trophy";
 import ScrollToTop from "./ScrollToTop";
+import { UserContext } from '../../context/UserContext';
 
 function Home() {
     let [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
@@ -11,6 +12,8 @@ function Home() {
     const parms = useParams();
     let [navState, setNavState] = useState(parms.nav);
     let [isNavActive, setIsNavActive] = useState(false);
+    let {user } = useContext(UserContext);
+    let [chatHistory, setChatHistory] = useState([]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -31,6 +34,7 @@ function Home() {
         }
     }, [navigate, parms.nav]);
 
+
     let trophy = 100;
 
     useEffect(() => {
@@ -46,7 +50,7 @@ function Home() {
             <ScrollToTop />
             <div className="home">
                 {
-                    (deviceWidth >= 786) ? <Trophy trophy={trophy} /> : null
+                    (deviceWidth >= 786) ? <Trophy trophy={(user !== null) ? user.trophy : 0} /> : null
                 }
 
                 <div className={`nav ${isNavActive ? "active-nav" : ""}`} >
@@ -160,7 +164,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="outlet" onClick={() => { (isNavActive == true) ? setIsNavActive(false) : null }}>
-                    <Outlet context={{ setNavState, deviceWidth }} />
+                    <Outlet context={{ setNavState, deviceWidth, chatHistory, setChatHistory }} />
                     <div className={`dark`} style={{ display: ` ${isNavActive ? 'block' : 'none'}` }}></div>
                 </div>
             </div>

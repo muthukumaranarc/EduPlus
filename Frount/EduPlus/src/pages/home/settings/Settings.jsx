@@ -8,18 +8,12 @@ import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 
 function Settings() {
-
     let { setNavState } = useOutletContext();
-
     let { user } = useContext(UserContext);
 
     useEffect(() => {
         setNavState("setting");
     }, [setNavState]);
-
-    useEffect(() => {
-        console.log(user);
-    }, [user])
 
     let theme = 'Light theme';
     let Language = 'English';

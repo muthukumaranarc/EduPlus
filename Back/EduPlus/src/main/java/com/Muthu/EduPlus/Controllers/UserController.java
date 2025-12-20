@@ -76,8 +76,8 @@ public class UserController {
         );
     }
 
-    @PostMapping("/is-user-exist/{username}")
-    public boolean isUserExist(@PathVariable("username") String username) {
+    @PostMapping("/is-user-exist")
+    public boolean isUserExist(@RequestBody String username) {
         return service.isUserExist(username);
     }
 

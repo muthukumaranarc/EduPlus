@@ -5,7 +5,7 @@ import "@fontsource/inter";
 
 import './index.css'
 import App from './App.jsx'
-import Login from './pages/Login.jsx';
+import Login from './pages/login/Login.jsx';
 
 import { NotFound } from './pages/NotFound.jsx';
 import Home from './pages/home/Home.jsx';
@@ -19,20 +19,23 @@ import Settings from './pages/home/settings/Settings.jsx';
 import Plan from './pages/home/action/Plan.jsx';
 import Communication from './pages/home/action/Communication.jsx';
 import Progress from './pages/home/action/Progress.jsx';
-import Fitness from './pages/home/action/Fitness.jsx';
 import { ImageProvider } from './context/ImageProvider.jsx';
 import { UserProvider } from './context/UserProvider.jsx';
+import CollectInfo from './pages/login/collectInfo.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    // element: <App />,
-    element: <Home />,
+    element: <App />,
     errorElement: <NotFound />
   },
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/info',
+    element: <CollectInfo />
   },
   {
     path: '/home',
@@ -76,10 +79,6 @@ const router = createBrowserRouter([
       {
         path: '/home/action/progress',
         element: <Progress />
-      },
-      {
-        path: '/home/action/fitness',
-        element: <Fitness />
       },
       {
         path: '/home/action/ai',

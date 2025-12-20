@@ -14,7 +14,7 @@ function Action() {
     }, [setNavState]);
 
     const ActionCard = ({ img, title, sub, path }) => (
-        <div className="button" onClick={() => navigate(path)}>
+        <div className="button card-button" onClick={() => navigate(path)}>
             <img
                 src={img}
                 className="bg-img"
@@ -41,7 +41,6 @@ function Action() {
                 <ActionCard img={images.plan} title="Study plan with test" path="/home/action/plan" />
                 <ActionCard img={images.communication} title="Grammar improver" sub="(English)" path="/home/action/communication" />
                 <ActionCard img={images.progress} title="Study progress tracker" path="/home/action/progress" />
-                <ActionCard img={images.fitness} title="Fitness tracker" path="/home/action/fitness" />
                 <ActionCard img={images.assistant} title="Personal assistant" sub="(AI Chat)" path="/home/action/ai" />
             </div>
         </>

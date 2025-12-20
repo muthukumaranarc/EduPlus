@@ -39,6 +39,10 @@
     -ms-user-select: none;
 }
 
+.auth-sec > h4 {
+    color: rgb(236, 46, 46);
+}
+
 .auth-sec > h2 {
     font-size: 35px;
     margin-bottom: -7px;
@@ -54,10 +58,12 @@
     width: 363px;
     border-radius: 25px;
     border: 2px solid rgba(181, 181, 181, 1);
-    margin-bottom: -5px;
+    /* margin-bottom: -5px; */
     font-size: 17px;
     padding-left: 20px;
     padding-right: 20px;
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
 }
 
 input::placeholder {
@@ -72,9 +78,8 @@ input::placeholder {
     color: white;
     font-size: 18px;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
-
-
 
 .auth-sec > .google-but {
     height: 50px;
