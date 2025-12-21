@@ -43,6 +43,7 @@ public class AuthConfiguration {
                         .requestMatchers(
                                 "/user/create",
                                 "/user/login",
+                                "/user/get-user",
                                 "/oauth2/**",
                                 "/login/**",
                                 "/user/is-user-exist"

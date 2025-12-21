@@ -1,6 +1,17 @@
 import './FirstField.css';
 
-function FirstField({ setFirstname, setLastname, setUsername, setPassword, username, password, firstname, lastname, isUsernameValid, isPasswordStrong }) {
+function FirstField({
+    setFirstname,
+    setLastname,
+    setUsername,
+    setPassword,
+    username,
+    password,
+    firstname,
+    lastname,
+    isUsernameValid,
+    isPasswordStrong
+}) {
     return (
         <>
             <div className="field">

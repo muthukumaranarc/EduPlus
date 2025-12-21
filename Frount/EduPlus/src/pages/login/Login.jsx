@@ -6,51 +6,22 @@ import google from "../../assets/Google.png";
 import phone from "../../assets/Call.png";
 
 import axios, { Axios } from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
     const baseURL = import.meta.env.VITE_API_URL;
-    // const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [isUserExist, setIsUserExist] = useState(null);
     const [wrongPass, setWrongPass] = useState(false);
-
-    useEffect(() => {
-        if (!username || username.trim().length < 3) {
-            setIsUserExist(null);
-            return;
-        }
-
-        const delay = setTimeout(() => {
-            axios.post(
-                `${baseURL}/user/is-user-exist`,
-                username,
-                {
-                    headers: {
-                        "Content-Type": "text/plain",
-                    },
-                }
-            )
-                .then(res => {
-                    setIsUserExist(res.data);
-                })
-                .catch(() => {
-                    setIsUserExist(null);
-                });
-        }, 500);
-
-        return () => clearTimeout(delay);
-
-    }, [baseURL, username]);
 
     const loginUser = async () => {
         try {
-            const res = await axios.post(
+            await axios.post(
                 `${baseURL}/user/login`,
                 {
-                    username: username,
-                    password: password,
+                    username,
+                    password,
                 },
                 {
                     withCredentials: true,
@@ -61,50 +32,10 @@ function Login() {
             );
 
             setWrongPass(false);
-            console.log("Login success:", res.data);
-            window.location.replace("/home")
+            window.location.replace("/home");
+        // eslint-disable-next-line no-unused-vars
         } catch (err) {
-            console.error("Login failed:", err);
             setWrongPass(true);
-        }
-    };
-
-
-    const createUser = async () => {
-        try {
-            const res = await axios.post(
-                `${baseURL}/user/create`,
-                {
-                    username: username,
-                    password: password,
-                    // add other User fields if required
-                    // email: "",
-                    // role: "USER"
-                },
-                {
-                    withCredentials: true,
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            setWrongPass(false);
-            console.log("User created:", res.data);
-            window.location.replace("/home")
-        } catch (err) {
-            console.error("User creation failed:", err);
-            setWrongPass(true);
-        }
-    };
-
-
-    const handleContinue = (e) => {
-        e.preventDefault();
-
-        if (isUserExist === true) {
-            loginUser();
-        } else if (isUserExist === false) {
-            createUser();
         }
     };
 
@@ -128,21 +59,21 @@ function Login() {
                     type="text"
                     placeholder="Username"
                     value={username}
-                    onChange={(e) => {setUsername(e.target.value); setWrongPass(false)}}
+                    onChange={(e) => { setUsername(e.target.value); setWrongPass(false) }}
                 />
 
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => {setPassword(e.target.value); setWrongPass(false)}}
+                    onChange={(e) => { setPassword(e.target.value); setWrongPass(false) }}
                 />
 
                 {
                     (wrongPass == true) ? <h4>Wrong password or username!</h4> : null
                 }
 
-                <button className="continue" onClick={handleContinue}>
+                <button className="continue" onClick={loginUser}>
                     Continue
                 </button>
 
@@ -159,6 +90,7 @@ function Login() {
                     <img src={phone} alt="phone" />
                     <p>Connect with Phone</p>
                 </button>
+                <Link to='/create-new-account' className="create-new-account">Create a new account</Link>
             </div>
         </>
     );

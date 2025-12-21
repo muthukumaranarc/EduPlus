@@ -13,7 +13,8 @@ function Settings() {
 
     useEffect(() => {
         setNavState("setting");
-    }, [setNavState]);
+        console.log(user);
+    }, [setNavState, user]);
 
     let theme = 'Light theme';
     let Language = 'English';
@@ -93,7 +94,7 @@ function Settings() {
                             <p>Mobile</p>
                             <p>
                                 {
-                                    (user.mobile != null) ? user.mobile : 'Not set'
+                                    (user.mobileNumber != null) ? user.mobileNumber : 'Not set'
                                 }
                             </p>
                             <img src={arrow} />

@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -114,8 +115,14 @@ public class UserService {
         return data.findAll();
     }
 
-    public User getCurrentUserData(){
-        return data.findByUsername(getUsernames());
+    public User getCurrentUserData() {
+        String username = getUsernames();
+
+        if (username == null) {
+            return null;
+        }
+
+        return data.findByUsername(username);
     }
 
     public String deleteAllUsers() {
@@ -188,8 +195,16 @@ public class UserService {
         return "Access deaned!";
     }
 
-    public String getUsernames(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    public String getUsernames() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null ||
+                !auth.isAuthenticated() ||
+                auth instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+
+        return auth.getName();
     }
 
 

@@ -12,11 +12,18 @@ function SecondField({
   linkedIn,
   setLinkedIn
 }) {
+
+  const handleMobileChange = (e) => {
+    let value = e.target.value;
+    value = value.replace(/[^0-9]/g, "");
+    if (value.length <= 10) {
+      setMobile(value);
+    }
+  };
+
   return (
     <>
-      {/* Row 1 */}
       <div className="row">
-        {/* Date of birth */}
         <div className="field dob">
           <label>Date of birth</label>
           <input
@@ -26,7 +33,6 @@ function SecondField({
           />
         </div>
 
-        {/* Gender */}
         <div className="field gender">
           <label>Gender</label>
           <select
@@ -40,20 +46,19 @@ function SecondField({
           </select>
         </div>
 
-        {/* Mobile number */}
         <div className="field mobile">
           <label>Mobile number</label>
           <input
             type="tel"
+            inputMode="numeric"
+            pattern="[0-9]*"
             value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
+            onChange={handleMobileChange}
           />
         </div>
       </div>
 
-      {/* Row 2 */}
       <div className="row">
-        {/* Email */}
         <div className="field email">
           <label>Email address</label>
           <input
@@ -63,7 +68,6 @@ function SecondField({
           />
         </div>
 
-        {/* LinkedIn */}
         <div className="field linkedin">
           <label>LinkedIn</label>
           <input

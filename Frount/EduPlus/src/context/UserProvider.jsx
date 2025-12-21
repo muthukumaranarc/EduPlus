@@ -8,21 +8,22 @@ export function UserProvider({ children }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`${baseURL}/user/get-user`, {
-            withCredentials: true,
-        })
+        axios
+            .get(`${baseURL}/user/get-user`, {
+                withCredentials: true,
+            })
             .then(res => {
                 setUser(res.data);
             })
             .catch(err => {
-                console.error("Failed to fetch user:", err);
+                if (err.response?.status === 401) {
+                    setUser(null);
+                }
             })
             .finally(() => {
                 setLoading(false);
             });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
+    }, [baseURL]);
 
     return (
         <UserContext.Provider value={{ user, setUser, loading }}>
@@ -30,12 +31,3 @@ export function UserProvider({ children }) {
         </UserContext.Provider>
     );
 }
-
-//         username: 'muthukumaranarc00',
-//         firstName: 'Muthu',
-//         lastName: 'Kumaran',
-//         dob: 'July 12 2008',
-//         gender: 'Male',
-//         mobile: "+91 1234567890",
-//         email: 'muthukumaranarc00@gmail.com',
-//         linkedIn: 'muthukumaranarc'

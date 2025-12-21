@@ -11,7 +11,7 @@ function App() {
       if (user?.username) {
         navigate('/home', { replace: true });
       } else {
-        navigate('/login', { replace: true });
+        navigate('/account-login', { replace: true });
       }
     }
   }, [user, navigate, loading]);

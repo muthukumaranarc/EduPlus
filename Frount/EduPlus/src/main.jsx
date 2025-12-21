@@ -4,6 +4,7 @@ import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import "@fontsource/inter";
 
 import './index.css'
+
 import App from './App.jsx'
 import Login from './pages/login/Login.jsx';
 
@@ -23,6 +24,7 @@ import { ImageProvider } from './context/ImageProvider.jsx';
 import { UserProvider } from './context/UserProvider.jsx';
 import CollectInfo from './pages/login/collectInfo.jsx';
 
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -30,11 +32,11 @@ const router = createBrowserRouter([
     errorElement: <NotFound />
   },
   {
-    path: '/login',
+    path: '/account-login',
     element: <Login />
   },
   {
-    path: '/info',
+    path: '/create-new-account',
     element: <CollectInfo />
   },
   {
