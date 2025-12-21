@@ -30,6 +30,13 @@ public class ProgressTrackerService {
         return tracksRepo.save(newTrack);
     }
 
+    public Tracks createTrack(String username, String name){
+        for(Tracks track : getAllTrack()) if(track.getTrackName().equals(name)) return null;
+        Tracks newTrack = new Tracks();
+        newTrack.setUsername(username);
+        return tracksRepo.save(newTrack);
+    }
+
     public boolean deleteTrack(String trackName){
         for(Tracks track : getAllTrack())
             if(track.getTrackName().equals(trackName)){

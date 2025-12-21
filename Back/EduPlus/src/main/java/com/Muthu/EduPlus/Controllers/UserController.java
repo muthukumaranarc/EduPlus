@@ -27,6 +27,11 @@ public class UserController {
         return service.createUser(user, response);
     }
 
+    @PostMapping("/update-oauth")
+    public boolean updateUserOAuth(@RequestBody User user) {
+        return service.updateUserOAuth(user);
+    }
+
     @GetMapping("/get-all")
     public List<User> getAllUsers(){
         return service.getAllUsers();
@@ -67,6 +72,11 @@ public class UserController {
         return jwtService.getTokenFromRequest(request);
     }
 
+    @PostMapping("/is-user-exist")
+    public boolean isUserExist(@RequestBody String username) {
+        return service.isUserExist(username);
+    }
+
     @PostMapping("/update-username")
     public String updateUsername(@RequestBody Map<String, String> data, HttpServletResponse response) {
         return service.updateUsername(
@@ -74,11 +84,6 @@ public class UserController {
                 data.get("password"),
                 response
         );
-    }
-
-    @PostMapping("/is-user-exist")
-    public boolean isUserExist(@RequestBody String username) {
-        return service.isUserExist(username);
     }
 
     @PostMapping("/update-password")
@@ -134,6 +139,14 @@ public class UserController {
         return service.updateGender(
                 data.get("password"),
                 data.get("gender")
+        );
+    }
+
+    @PostMapping("/update-linkedin")
+    public String updateLinkedIn(@RequestBody Map<String, String> data){
+        return service.updateLinkedIn(
+                data.get("password"),
+                data.get("linkedin")
         );
     }
 

@@ -23,6 +23,7 @@ import Progress from './pages/home/action/Progress.jsx';
 import { ImageProvider } from './context/ImageProvider.jsx';
 import { UserProvider } from './context/UserProvider.jsx';
 import CollectInfo from './pages/login/collectInfo.jsx';
+import CollectInfoOAuth from './pages/login/CollectInfoOAuth';
 
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: '/create-new-account',
     element: <CollectInfo />
+  },
+  {
+    path: '/get-info-oauth',
+    element: <CollectInfoOAuth />
   },
   {
     path: '/home',

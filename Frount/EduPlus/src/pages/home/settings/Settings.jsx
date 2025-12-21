@@ -2,23 +2,125 @@ import "./Settings.css";
 
 import profile from '../../../assets/profile.png';
 import arrow from '../../../assets/arrow.png';
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
+import axios from "axios";
+
 
 function Settings() {
+    const baseURL = import.meta.env.VITE_API_URL;
     let { setNavState } = useOutletContext();
     let { user } = useContext(UserContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setNavState("setting");
-        console.log(user);
-    }, [setNavState, user]);
+    }, [setNavState]);
 
     let theme = 'Light theme';
     let Language = 'English';
     let Notification = 'ON';
+
+
+    const api = axios.create({
+        baseURL: `${baseURL}/user`,
+        withCredentials: true,
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+
+    const updateUsername = async (usernameToChange, password) => {
+        return api.post("/update-username", {
+            usernameToChange,
+            password,
+        });
+    };
+
+    const updatePassword = async (currentPassword, newPassword) => {
+        return api.post("/update-password", {
+            currentPassword,
+            newPassword,
+        });
+    };
+
+    const updateFirstname = async (password, firstname) => {
+        return api.post("/update-firstname", {
+            password,
+            firstname,
+        });
+    };
+
+    const updateLastname = async (password, lastname) => {
+        return api.post("/update-lastname", {
+            password,
+            lastname,
+        });
+    };
+
+    const updateMobileNumber = async (password, mobilenumber) => {
+        return api.post("/update-mobile-number", {
+            password,
+            mobilenumber,
+        });
+    };
+
+    const updateMailId = async (password, mailid) => {
+        return api.post("/update-mail-id", {
+            password,
+            mailid,
+        });
+    };
+
+    const updateDOB = async (password, dob) => {
+        return api.post("/update-dob", {
+            password,
+            dob, // "2004-07-12"
+        });
+    };
+
+    const updateGender = async (password, gender) => {
+        return api.post("/update-gender", {
+            password,
+            gender, // "Male" | "Female" | "Other"
+        });
+    };
+
+    const updateLinkedIn = async (password, linkedin) => {
+        return api.post("/update-linkedin", {
+            password,
+            linkedin,
+        });
+    };
+
+    const logoutUser = async () => {
+        return api.get("/logout");
+    };
+
+    const deleteUser = async () => {
+        return api.delete("/delete");
+    };
+
+    const handleLogout = async () => {
+        try {
+            await logoutUser();
+            navigate("/account-login");
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const handleDelete = async () => {
+        try {
+            await deleteUser();
+            navigate("/account-login");
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
 
     return (
@@ -141,8 +243,8 @@ function Settings() {
                     </div>
                 </div>
                 <div className="acc">
-                    <button className="log-out">Log out account</button>
-                    <button className="delete-acc">Delete account</button>
+                    <button className="log-out" onClick={() => { handleLogout() }}>Log out account</button>
+                    <button className="delete-acc" onClick={() => { handleDelete() }}>Delete account</button>
                 </div>
             </div>
         </>

@@ -211,7 +211,7 @@
     margin-bottom: 30px;
 }
 
-.log-out {
+.acc > .log-out {
     width: 49%;
     height: 45px;
     background-color: rgba(138, 138, 138, 0.308);
@@ -222,7 +222,7 @@
     /* font-weight: bold; */
 }
 
-.delete-acc {
+.acc > .delete-acc {
     width: 49%;
     height: 45px;
     background-color: rgba(255, 50, 50, 1);

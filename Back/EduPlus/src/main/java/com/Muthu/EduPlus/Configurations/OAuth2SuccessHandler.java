@@ -52,18 +52,18 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         String username = (email != null)
                 ? email
                 : oAuth2User.getAttribute("login"); // GitHub
+        boolean needToGetUserInformation = false;
 
         // Create user if not exists
         User user = users.findByUsername(username);
         if (user == null) {
-
             // Create user
             user = new User();
             user.setUsername(username);
             user.setFirstName(username.split("@")[0]);
             user.setMailId(email);
             users.save(user);
-
+            needToGetUserInformation = true;
         }
 
         // Generate JWT
@@ -81,6 +81,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         // Redirect to React app
-        response.sendRedirect("http://localhost:5173/home");
+        if(needToGetUserInformation)
+            response.sendRedirect("http://localhost:5173/get-info-oauth");
+        else
+            response.sendRedirect("http://localhost:5173/home");
+
     }
 }

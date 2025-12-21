@@ -2,6 +2,8 @@ package com.Muthu.EduPlus.Services;
 
 import com.Muthu.EduPlus.Models.Gender;
 import com.Muthu.EduPlus.Models.User;
+import com.Muthu.EduPlus.Repositories.FriendsRepo;
+import com.Muthu.EduPlus.Repositories.TracksRepo;
 import com.Muthu.EduPlus.Repositories.UserRepo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,12 +42,13 @@ public class UserService {
     @Autowired
     private AboutUserService aboutUserService;
 
-    private final AuthenticationManager authenticationManager;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    @Autowired
+    private FriendsService friendsService;
 
-    public UserService(@Lazy AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+    @Autowired
+    private ProgressTrackerService progressTrackerService;
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     public ResponseEntity<String> login(String username, String password, HttpServletResponse response) {
         if (data.findByUsername(username) != null) {
@@ -147,8 +150,10 @@ public class UserService {
             user.setPassword(encoder.encode(user.getPassword()));
             data.save(user);
 
-            // Create the about user
+            // Create requirements
             aboutUserService.createUserData(user.getUsername(), user.getFirstName());
+            friendsService.createUser(user.getUsername());
+            progressTrackerService.createTrack(user.getFirstName(), "Today task");
 
             // Send back the auth cookie
             ResponseCookie cookie = giveCookie(token);
@@ -157,6 +162,28 @@ public class UserService {
             return "New user created!";
         }
         return "Failed. User already exist!";
+    }
+
+    public boolean updateUserOAuth(User user){
+        try {
+            User userData = data.findByUsername(user.getUsername());
+
+            userData.setFirstName(user.getFirstName());
+            userData.setLastName(user.getLastName());
+            userData.setTrophy(user.getTrophy());
+            userData.setDob(user.getDob());
+            userData.setMailId(user.getMailId());
+            userData.setLinkedIn(user.getLinkedIn());
+            userData.setMobileNumber(user.getMobileNumber());
+            userData.setGender(user.getGender());
+
+            data.save(userData);
+
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean deleteUser(HttpServletResponse response) {
