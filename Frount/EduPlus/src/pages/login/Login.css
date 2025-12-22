@@ -1,9 +1,9 @@
-.login-alart > h2 {
+.login-alart>h2 {
     font-size: 18px;
     color: rgb(37, 37, 37);
 }
 
-.login-alart > button {
+.login-alart>button {
     background-color: black;
     color: white;
 }
@@ -15,20 +15,21 @@
     padding-left: 30px;
 }
 
-.logo-sec > .logo {
+.logo-sec>.logo {
     height: 50px;
     width: 50px;
     margin: 10px;
 }
 
-.logo-sec > .name {
+.logo-sec>.name {
     height: 32px;
 }
 
 .auth-sec {
     /* border: 1px solid red; */
+    margin-top: 15px;
     padding-top: 10px;
-    display:grid;
+    display: grid;
     text-align: center;
     justify-content: center;
 
@@ -39,22 +40,22 @@
     -ms-user-select: none;
 }
 
-.auth-sec > h4 {
+.auth-sec>h4 {
     color: rgb(236, 46, 46);
 }
 
-.auth-sec > h2 {
+.auth-sec>h2 {
     font-size: 35px;
     margin-top: 0px;
     margin-bottom: -7px;
 }
 
-.auth-sec > p {
+.auth-sec>p {
     color: rgba(146, 146, 146, 1);
     margin-bottom: 35px;
 }
 
-.auth-sec > input {
+.auth-sec>input {
     height: 45px;
     width: 363px;
     border-radius: 25px;
@@ -71,7 +72,7 @@ input::placeholder {
     font-size: 17px;
 }
 
-.auth-sec > .continue {
+.auth-sec>.continue {
     height: 50px;
     width: 409px;
     border-radius: 25px;
@@ -82,7 +83,7 @@ input::placeholder {
     margin-top: 10px;
 }
 
-.auth-sec > .google-but {
+.auth-sec>.google-but {
     height: 50px;
     width: 409px;
     border-radius: 25px;
@@ -96,13 +97,13 @@ input::placeholder {
     margin-bottom: -5px;
 }
 
-.auth-sec > .google-but > img {
+.auth-sec>.google-but>img {
     width: 30px;
     height: 30px;
     margin: 15px;
 }
-
-.auth-sec > .phone-but {
+/* 
+.auth-sec>.phone-but {
     height: 50px;
     width: 409px;
     border-radius: 25px;
@@ -114,23 +115,26 @@ input::placeholder {
     color: rgba(146, 146, 146, 1);
 }
 
-.auth-sec > .phone-but > img {
+.auth-sec>.phone-but>img {
     width: 35px;
     height: 35px;
     margin: 15px;
+} */
+
+button,
+.button {
+    transition: transform 0.1s ease;
+    cursor: pointer;
 }
 
-button , .button {
-  transition: transform 0.1s ease;
-  cursor: pointer;
-}
-
-button:hover, .button:hover {
+button:hover,
+.button:hover {
     transform: scale(1.01);
 }
 
-button:active, .button:active {
-  transform: scale(1);
+button:active,
+.button:active {
+    transform: scale(1);
 }
 
 .create-new-account {

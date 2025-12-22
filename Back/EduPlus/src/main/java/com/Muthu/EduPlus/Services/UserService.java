@@ -285,8 +285,9 @@ public class UserService {
     }
 
     public String updateFirstname(String password, String username){
-        if(isCorrectPassword(password)){
-            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        String correctUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(isCorrectPassword(password) || correctUser.contains("@")){
+            User user = data.findByUsername(correctUser);
             user.setFirstName(username);
             data.save(user);
             return "Username Changed!";
@@ -295,8 +296,9 @@ public class UserService {
     }
 
     public String updateLastname(String password, String username){
-        if(isCorrectPassword(password)){
-            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        String correctUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(isCorrectPassword(password) || correctUser.contains("@")){
+            User user = data.findByUsername(correctUser);
             user.setLastName(username);
             data.save(user);
             return "Username Changed!";
@@ -305,8 +307,9 @@ public class UserService {
     }
 
     public String updateMobileNumber(String password, String mobileNumber) {
-        if(isCorrectPassword(password)) {
-            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        String correctUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(isCorrectPassword(password) || correctUser.contains("@")) {
+            User user = data.findByUsername(correctUser);
             user.setMobileNumber(mobileNumber);
             data.save(user);
             return "Mobile number Changed!";
@@ -315,8 +318,9 @@ public class UserService {
     }
 
     public String UpdateMailId(String password, String mailId) {
-        if(isCorrectPassword(password)) {
-            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        String correctUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(isCorrectPassword(password) || correctUser.contains("@")) {
+            User user = data.findByUsername(correctUser);
             user.setMailId(mailId);
             data.save(user);
             return "Mail ID Changed!";
@@ -325,9 +329,10 @@ public class UserService {
     }
 
     public String UpdateDOB(String password, String date) {
+        String correctUser = SecurityContextHolder.getContext().getAuthentication().getName();
         LocalDate cvtDate = LocalDate.parse(date); //yyyy-mm-dd formate only
-        if(isCorrectPassword(password)) {
-            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(isCorrectPassword(password) || correctUser.contains("@")) {
+            User user = data.findByUsername(correctUser);
             user.setDob(cvtDate);
             data.save(user);
             return "DOB Changed!";
@@ -336,8 +341,9 @@ public class UserService {
     }
 
     public String updateGender(String password, String gender) {
-        if(isCorrectPassword(password)) {
-            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        String correctUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(isCorrectPassword(password) || correctUser.contains("@")) {
+            User user = data.findByUsername(correctUser);
             user.setGender(gender);
             data.save(user);
             return "Gender Changed!";
@@ -346,8 +352,9 @@ public class UserService {
     }
 
     public String updateLinkedIn(String password, String linkedIn) {
-        if(isCorrectPassword(password)) {
-            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        String correctUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(isCorrectPassword(password) || correctUser.contains("@")) {
+            User user = data.findByUsername(correctUser);
             user.setLinkedIn(linkedIn);
             data.save(user);
             return "LinkedIn Changed!";
@@ -355,14 +362,12 @@ public class UserService {
         else return "Wrong Password!";
     }
 
-    public String addTrophiesToCurrentUser(Integer trophy, String password){
-        if(isCorrectPassword(password)) {
-            User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-            Integer trophies = user.getTrophy() + trophy;
-            user.setTrophy(trophies);
-            data.save(user);
-            return "Trophy is updated";
-        }
-        else return "Wrong Password!";
+    public void sumTrophiesToCurrentUser(boolean toAdd, Integer trophyToSum){
+        User user = data.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Integer currentTrophies = user.getTrophy();
+        if (toAdd) currentTrophies = currentTrophies + trophyToSum;
+        else currentTrophies = currentTrophies - trophyToSum;
+        user.setTrophy(currentTrophies);
+        data.save(user);
     }
 }

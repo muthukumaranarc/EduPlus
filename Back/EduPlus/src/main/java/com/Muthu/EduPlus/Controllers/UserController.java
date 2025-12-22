@@ -154,4 +154,15 @@ public class UserController {
     public String getUsername(){
         return service.getUsernames();
     }
+
+    @PostMapping("/trophies-add")
+    public void addTrophies(@RequestBody Integer trophies) {
+        service.sumTrophiesToCurrentUser(true, trophies);
+    }
+
+    @PostMapping("/trophies-sub")
+    public void subTrophies(@RequestBody Integer trophies) {
+        service.sumTrophiesToCurrentUser(false, trophies);
+    }
+
 }

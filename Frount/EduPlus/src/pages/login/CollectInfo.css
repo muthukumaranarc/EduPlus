@@ -11,6 +11,12 @@
     border:1px solid rgba(38, 96, 178, 0.329);
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
 .card-bar {
     position: absolute;
     top: 0;

@@ -1,0 +1,56 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    /* Safari support */
+}
+
+.alert-box {
+    background: #fff;
+    padding: 20px;
+    width: 320px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.actions>button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+
+.confirm {
+    background: #ef4444;
+    color: white;
+    margin-right: 10px;
+}
+
+.cancel {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.confirm:hover {
+    background: #ef4444;
+}
+
+.cancel:hover {
+    background: #e5e7eb;
+}

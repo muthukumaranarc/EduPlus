@@ -16,12 +16,14 @@ export default function CollectInfo({whoCalled}) {
     const [mobile, setMobile] = useState();
     const [email, setEmail] = useState("");
     const [linkedIn, setLinkedIn] = useState("");
+    
+    let [isUsernameValid, setIsUsernameValid] = useState(false);
+    // let [isPasswordValid, setIsPasswordValid] = useState(false);
 
     const isPasswordStrong =
         password.length >= 8 && /[0-9]/.test(password);
 
 
-    let [isUsernameValid, setIsUsernameValid] = useState(false);
 
     useEffect(() => {
         if (!username) return;
@@ -36,7 +38,8 @@ export default function CollectInfo({whoCalled}) {
                 }
             )
                 .then(res => {
-                    setIsUsernameValid((username.length >= 8) ? !res.data : false);
+                    setIsUsernameValid((username.length >= 8 && !username.includes("@")) ? !res.data : false);
+                    if(username.includes("@")) alert("The character '@' is not allowed in the username.")
                 })
                 .catch(() => {
                     setIsUsernameValid(false);
@@ -135,6 +138,7 @@ export default function CollectInfo({whoCalled}) {
                                 setField(2) :
                                 createUser();
                         }}
+                        disabled={!isUsernameValid}
                     >
                         {
                             (field === 1) ? 'Next' : 'Get start'

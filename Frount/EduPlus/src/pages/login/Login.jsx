@@ -3,7 +3,7 @@ import "./Login.css";
 import logo from "../../assets/EduPlus_logo.png";
 import nameImg from "../../assets/EduPlus_name.png";
 import google from "../../assets/Google.png";
-import phone from "../../assets/Call.png";
+// import phone from "../../assets/Call.png";
 
 import axios, { Axios } from "axios";
 import { useState } from "react";
@@ -86,10 +86,10 @@ function Login() {
 
                 <br />
 
-                <button className="phone-but">
+                {/* <button className="phone-but">
                     <img src={phone} alt="phone" />
                     <p>Connect with Phone</p>
-                </button>
+                </button> */}
                 <Link to='/create-new-account' className="create-new-account">Create a new account</Link>
             </div>
         </>
