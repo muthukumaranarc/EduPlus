@@ -18,7 +18,7 @@ function Settings() {
 
 
     const { setNavState } = useOutletContext();
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
 
     const [showConfirm, setShowConfirm] = useState(false);
@@ -50,10 +50,12 @@ function Settings() {
             { currentPassword, newPassword }
         );
 
-    const updateFirstname = (password, firstname) =>
+    const updateFirstname = (password, firstname) => {
         api.post("/update-firstname",
             { password, firstname }
         );
+        console.log('updated')
+    }
 
     const updateLastname = (password, lastname) =>
         api.post("/update-lastname",
@@ -103,6 +105,22 @@ function Settings() {
         setShowUpdate(true);
     };
 
+    const fetchUser = async () => {
+        try {
+            const res = await axios.get(`${baseURL}/user/get-user`, {
+                withCredentials: true,
+            });
+            setUser(res.data);
+            console.log("User not get: ", res.data);
+        } catch (err) {
+            if (err.response?.status === 401) {
+                setUser(null);
+            }
+        } finally {
+            console.log("Fetch completed");
+        }
+    };
+
     return (
         <>
             <h3>Settings</h3>
@@ -119,6 +137,11 @@ function Settings() {
                 <div className="account-set">
                     <h4>Account Settings</h4>
                     <p>Customize your account details</p>
+                    <button
+                        onClick={fetchUser}
+                        className="reload-setting">
+                        <img src="/src/assets/reload.png" alt="reload" />
+                    </button>
 
                     <div>
                         <div>
@@ -132,15 +155,15 @@ function Settings() {
                         </div>
 
                         <div onClick={() =>
-                        (!user.username.includes("@")) ?
-                            openUpdateModal({
-                                title: "Update Username",
-                                firstInput: { placeholder: "Password", type: "password" },
-                                secondInput: { placeholder: "New username", type: "text" },
-                                onUpdate: (a, b) => { updateUsername(a, b); setShowUpdate(false); },
-                                onCancel: () => setShowUpdate(false)
-                            }):
-                            alert("Updating the ID is not allowed for users logged in with Google.")
+                            (user != null && user.username && !user.username.includes("@")) ?
+                                openUpdateModal({
+                                    title: "Update Username",
+                                    firstInput: { placeholder: "Password", type: "password" },
+                                    secondInput: { placeholder: "New username", type: "text" },
+                                    onUpdate: (a, b) => { updateUsername(a, b); setShowUpdate(false); },
+                                    onCancel: () => setShowUpdate(false)
+                                }) :
+                                alert("Updating the ID is not allowed for users logged in with Google.")
                         }>
                             <p>User ID</p>
                             <p>{user.username}</p>
@@ -148,7 +171,7 @@ function Settings() {
                         </div>
 
                         {
-                            !user.username.includes("@") ?
+                            (user != null && user.username && !user.username.includes("@")) ?
                                 <>
                                     <div onClick={() => openUpdateModal({
                                         title: "Update Password",
@@ -206,7 +229,8 @@ function Settings() {
                             firstInput: { placeholder: "Password", type: "password" },
                             secondInput: { placeholder: "Gender", type: "text" },
                             onUpdate: (a, b) => { updateGender(a, b); setShowUpdate(false); },
-                            onCancel: () => setShowUpdate(false)
+                            onCancel: () => setShowUpdate(false),
+                            type: "select"
                         })}>
                             <p>Gender</p>
                             <p>{user.gender ?? "Not set"}</p>

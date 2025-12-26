@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/com")
 public class CommunicationHelpController {
@@ -17,5 +19,13 @@ public class CommunicationHelpController {
     @PostMapping("/send")
     public ChatResponse getResults(@RequestBody String message){
         return service.getAiResponse(message);
+    }
+
+    @PostMapping("/update-title")
+    public String updateTitle(@RequestBody Map<String, String> data) {
+        return service.updateTitle(
+                data.get("oldTitle"),
+                data.get("newTitle")
+        );
     }
 }

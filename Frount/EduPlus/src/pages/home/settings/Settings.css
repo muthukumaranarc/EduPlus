@@ -233,6 +233,22 @@
     /* font-weight: bold; */
 }
 
+.reload-setting {
+    background-color: white;
+    border: none;
+    position: absolute;
+    top: 330px;
+    right: 190px;
+}
+
+.reload-setting > img {
+    height: 25px;
+}
+
+.reload-setting:hover {
+    background-color: white;
+}
+
 @media (max-width: 768px) {
 
     .settings>.main-prof {

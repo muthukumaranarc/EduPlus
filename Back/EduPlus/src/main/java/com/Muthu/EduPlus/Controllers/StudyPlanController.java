@@ -1,7 +1,9 @@
 package com.Muthu.EduPlus.Controllers;
 
+import com.Muthu.EduPlus.Models.ChatResponse;
 import com.Muthu.EduPlus.Services.StudyPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +33,6 @@ public class StudyPlanController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("query") String query)
             throws Exception {
-
         return service.process(file, query);
 
     }

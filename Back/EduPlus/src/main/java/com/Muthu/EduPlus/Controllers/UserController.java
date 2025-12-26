@@ -42,6 +42,11 @@ public class UserController {
         return service.getCurrentUserData();
     }
 
+    @PostMapping("get-user-username")
+    public User getUserByUsername(@RequestBody String username) {
+        return service.getUserByUsername(username);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> data, HttpServletResponse response) {
         return service.login(data.get("username"), data.get("password"), response);
@@ -163,6 +168,11 @@ public class UserController {
     @PostMapping("/trophies-sub")
     public void subTrophies(@RequestBody Integer trophies) {
         service.sumTrophiesToCurrentUser(false, trophies);
+    }
+
+    @GetMapping("/update-friends")
+    public void updateFriends() {
+        service.updateFriends();
     }
 
 }

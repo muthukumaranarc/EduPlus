@@ -10,23 +10,23 @@ import ShinyText from "../../../components/ShinyText";
 
 function Ai() {
     const baseURL = import.meta.env.VITE_API_URL;
-    let quichPic = ['How to start EduPlus for learning?', 'Motivate Me', 'What is weather today?'];
-    let [query, setQuery] = useState("")
-    const { setNavState, chatHistory, setChatHistory } = useOutletContext();
     const divRef = useRef(null);
+    const { setNavState, chatHistory, setChatHistory } = useOutletContext();
+    let quichPic = ['How to start EduPlus for learning?', 'Motivate Me', 'What is weather today?'];
     let [waitingMsg, setWaitingMsg] = useState("");
+    let [query, setQuery] = useState("")
 
     useEffect(() => {
         setNavState("ai");
     }, [setNavState]);
 
     useEffect(() => {
-    if (waitingMsg === "Thinking...") {
-        setTimeout(() => {
-            setWaitingMsg("Thinking... (Sorry our server is slow today)");
-        }, 5000);
-    }
-}, [waitingMsg]);
+        if (waitingMsg === "Thinking...") {
+            setTimeout(() => {
+                setWaitingMsg("Thinking... (Sorry our server is slow today)");
+            }, 5000);
+        }
+    }, [waitingMsg]);
 
     useEffect(() => {
         console.log('data: ' + chatHistory);
@@ -34,36 +34,37 @@ function Ai() {
         handleScrollToEnd();
     }, [chatHistory])
 
-    const handleQuery = () => {
-        setWaitingMsg('thinking...')
-        if (chatHistory != []) {
-            setChatHistory(prev => [...prev, query])
+    const handleQuery = async (data) => {
+        try {
+            const currentQuery = data ? data : query;
+            setWaitingMsg("thinking...");
+            setChatHistory(prev =>
+                prev.length ? [...prev, currentQuery] : [currentQuery]
+            );
+
+            const res = await axios.post(
+                `${baseURL}/ass/ask`,
+                { currentQuery },
+                { withCredentials: true }
+            );
+
+            setChatHistory(prev => [...prev, res.data.response]);
+
+        } catch (err) {
+            if (err.response?.status === 401) {
+                window.location.href =
+                    `${baseURL}/oauth2/authorization/google`;
+            } else {
+                console.error(err);
+            }
         }
-        else {
-            setChatHistory(query)
-        }
-        axios.post(
-            `${baseURL}/ass/ask`,
-            { query },
-            { withCredentials: true }
-        )
-            .then(res => {
-                console.log(res.data);
-                setChatHistory(prev => [...prev, res.data.response]);
-            })
-            .catch(err => {
-                if (err.response && err.response.status === 401) {
-                    window.location.href =
-                        `${baseURL}/oauth2/authorization/google`;
-                } else {
-                    console.error(err);
-                }
-            })
     };
+
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             handleQuery();
+            setQuery("");
         }
     };
 
@@ -75,6 +76,12 @@ function Ai() {
             behavior: "smooth"
         });
     };
+
+    const handleQuickPic = async (data) => {
+        setQuery(data);
+        handleQuery(data);
+        setQuery("");
+    }
 
     return (
         <div className="ai-chat">
@@ -105,7 +112,7 @@ function Ai() {
                 <input
                     type="text"
                     id="input"
-                    placeholder="What is in your mind?"
+                    placeholder="Ask anything"
                     value={query}
                     onKeyDown={handleKeyDown}
                     autoComplete="off"
@@ -125,7 +132,7 @@ function Ai() {
                     <div className="quick-pic">
                         {
                             quichPic.map((data, index) => (
-                                <div key={index} onClick={() => { setQuery(data) }}>
+                                <div key={index} onClick={() => { handleQuickPic(data);  }}>
                                     <img src={aiSearch} alt="" />
                                     <p>{data}</p>
                                 </div>

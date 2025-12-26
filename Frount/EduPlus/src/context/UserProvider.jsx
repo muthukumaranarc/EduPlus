@@ -7,26 +7,30 @@ export function UserProvider({ children }) {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        axios
-            .get(`${baseURL}/user/get-user`, {
+    const fetchUser = async () => {
+        setLoading(true);
+        try {
+            const res = await axios.get(`${baseURL}/user/get-user`, {
                 withCredentials: true,
-            })
-            .then(res => {
-                setUser(res.data);
-            })
-            .catch(err => {
-                if (err.response?.status === 401) {
-                    setUser(null);
-                }
-            })
-            .finally(() => {
-                setLoading(false);
             });
+            setUser(res.data);
+        } catch (err) {
+            if (err.response?.status === 401) {
+                setUser(null);
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [baseURL]);
 
+
     return (
-        <UserContext.Provider value={{ user, setUser, loading }}>
+        <UserContext.Provider value={{ user, setUser, loading, fetchUser }}>
             {children}
         </UserContext.Provider>
     );

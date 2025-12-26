@@ -1,153 +1,101 @@
 .plan {
-    display: grid;
-    justify-items: center;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid red;
+    margin-top: 100px;
+
 }
 
-.plan>h2 {
-    margin-top: 180px;
-    font-size: 25px;
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
-
-.plan>p {
-    margin-top: -10px;
+.intro {
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 500px;
     text-align: center;
-    font-size: 18px;
-    color: rgba(87, 87, 87, 1);
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
 }
 
-.query {
-    height: 60px;
-    width: 650px;
+.plan.uploaded .intro {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    transition: all 0.4s ease;
+}
+
+.file-card {
+    width: 500px;
     border: 2px solid rgba(38, 97, 178, 1);
     border-radius: 15px;
-    padding-left: 10px;
+    padding: 20px;
     display: flex;
-    align-items: center;
-    justify-content: right;
-    box-shadow: 0px 0px 10px rgba(38, 97, 178, 0.66);
-    margin-top: 25px;
+    gap: 20px;
+    margin-top: 0px;
+    box-shadow: 0px 0px 10px rgba(38, 97, 178, 0.3);
+
+    animation: slideFade 0.4s ease forwards;
 }
 
-.query>input {
-    width: 480px;
-    border: transparent;
-    font-size: 20px;
-}
-
-.query>input:focus {
-    outline: none;
-}
-
-.query>button {
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(38, 97, 178, 1);
-    color: white;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: none;
+.file-preview {
+    width: 120px;
+    height: 160px;
     border-radius: 10px;
-    font-size: 18px;
-    margin-left: 10px;
-    margin-right: 5px;
-}
-
-.query>button>img {
-    height: 25px;
-    margin-right: 10px;
-}
-
-.quick-pic {
-    width: 570px;
-    padding-left: 0px;
-    padding-top: 20px;
-}
-
-.quick-pic>div {
+    background: #f4f6fb;
+    overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: left;
-    height: 40px;
-    color: rgb(83, 83, 83);
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+    justify-content: center;
+}
+
+.file-preview img,
+.file-preview canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-details p {
+    margin: 6px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.file-card {
+    position: relative;
+}
+
+.cancel-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background-color: white;
+    color: black;
+    font-size: 16px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.quick-pic>div>img {
-    height: 20px;
-    padding: 10px;
+.cancel-btn:hover {
+    background: white;
+    transform: scale(1);
 }
 
-@media (max-width: 768px) {
-    .plan {
-        justify-items: center;
-        width: 95vw;
-        margin: 0 auto;
-        margin-top: 20vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* border: 2px solid red; */
-    }
-    
-    .plan>h2 {
-        margin-top: 0px;
-        font-size: 22px;
-    }
 
-    .plan>p {
-        width: 90%;
-        font-size: 16px;
+@keyframes slideFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-    .query {
-        height: 60px;
-        width: 90vw;
-        margin: 0 auto;
-        padding-left: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: right;
-        box-shadow: 0px 0px 10px rgba(38, 97, 178, 0.66);
-        margin-top: 25px;
-        position: fixed;
-        bottom: 40px;
-    }
-
-    .query>input {
-        width: 70%;
-        border: transparent;
-        font-size: 18px;
-    }
-
-    .query>input::placeholder {
-        font-size: 16px;
-    }
-
-    .query>input:focus {
-        outline: none;
-    }
-
-    .query>button {
-        width: 120px;
-        font-size: 18px;
-        margin-left: 10px;
-        margin-right: 5px;
-    }
-
-    .query>button>img {
-        height: 22px;
-        margin-right: 10px;
-    }
+.query button p {
+    margin: 0;
 }

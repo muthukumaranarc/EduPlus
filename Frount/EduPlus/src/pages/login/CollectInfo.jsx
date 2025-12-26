@@ -4,19 +4,19 @@ import FirstField from "./FirstField";
 import SecondField from "./SecondField";
 import axios from "axios";
 
-export default function CollectInfo({whoCalled}) {
+export default function CollectInfo({ whoCalled }) {
     const baseURL = import.meta.env.VITE_API_URL;
     const [field, setField] = useState((whoCalled === 'google') ? 2 : 1);
-    const [username, setUsername] = useState("");   
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [dob, setDob] = useState("");
     const [gender, setGender] = useState("");
-    const [mobile, setMobile] = useState();
+    const [mobile, setMobile] = useState("");
     const [email, setEmail] = useState("");
     const [linkedIn, setLinkedIn] = useState("");
-    
+
     let [isUsernameValid, setIsUsernameValid] = useState(false);
     // let [isPasswordValid, setIsPasswordValid] = useState(false);
 
@@ -39,7 +39,7 @@ export default function CollectInfo({whoCalled}) {
             )
                 .then(res => {
                     setIsUsernameValid((username.length >= 8 && !username.includes("@")) ? !res.data : false);
-                    if(username.includes("@")) alert("The character '@' is not allowed in the username.")
+                    if (username.includes("@")) alert("The character '@' is not allowed in the username.")
                 })
                 .catch(() => {
                     setIsUsernameValid(false);
@@ -72,11 +72,29 @@ export default function CollectInfo({whoCalled}) {
                     },
                 }
             );
+            loginUser();
             console.log("User created:", res.data);
-            window.location.replace("/home")
         } catch (err) {
             console.error("User creation failed:", err);
         }
+    };
+
+    const loginUser = async () => {
+        await axios.post(
+            `${baseURL}/user/login`,
+            {
+                username,
+                password,
+            },
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        window.location.replace("/home");
     };
 
     return (

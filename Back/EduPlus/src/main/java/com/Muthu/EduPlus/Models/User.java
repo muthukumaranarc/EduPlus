@@ -19,8 +19,17 @@ public class User {
     private String mailId;
     private String linkedIn;
     private Integer trophy;
+    private Integer friends;
 
     public User(){}
+
+    public void setFriends(Integer friends) {
+        this.friends = friends;
+    }
+
+    public Integer getFriends() {
+        return this.friends;
+    }
 
     public void setTrophy(Integer trophy) {
         this.trophy = trophy;

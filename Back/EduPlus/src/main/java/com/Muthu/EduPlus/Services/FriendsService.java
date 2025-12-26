@@ -4,6 +4,8 @@ import com.Muthu.EduPlus.Models.Friends;
 import com.Muthu.EduPlus.Repositories.FriendsRepo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,11 +17,17 @@ public class FriendsService {
     @Autowired
     private FriendsRepo friendsRepo;
 
+    public UserService userService;
+
     @Autowired
     private JwtService jwtService;
 
     @Autowired
     private HttpServletRequest request;
+
+    public FriendsService(@Lazy UserService userService) {
+        this.userService = userService;
+    }
 
     public boolean createUser(String username) {
         try {
@@ -28,10 +36,8 @@ public class FriendsService {
                     new ArrayList<String>()
             );
             friendsRepo.save(newUser);
-            System.out.println("Friends are created");
             return true;
         } catch (Exception e) {
-            System.out.println("Error from Friends: "+ e.getMessage());
             return false;
         }
     }
@@ -64,11 +70,13 @@ public class FriendsService {
 
     public boolean addFriend(String id) {
         try {
+            if(friendsRepo.getUserByUsername(id) == null) return false;
             Friends data = getCurrentUser();
             List<String> friends = data.getFriends();
             friends.add(id);
             data.setFriends(friends);
             friendsRepo.save(data);
+            userService.updateFriends();
             return true;
         } catch (Exception e) {
             return false;
@@ -82,6 +90,7 @@ public class FriendsService {
             friends.remove(id);
             data.setFriends(friends);
             friendsRepo.save(data);
+            userService.updateFriends();
             return true;
         }
         catch (Exception e) {

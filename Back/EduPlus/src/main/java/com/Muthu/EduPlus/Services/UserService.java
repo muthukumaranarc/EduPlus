@@ -1,5 +1,6 @@
 package com.Muthu.EduPlus.Services;
 
+import com.Muthu.EduPlus.Models.Friends;
 import com.Muthu.EduPlus.Models.Gender;
 import com.Muthu.EduPlus.Models.User;
 import com.Muthu.EduPlus.Repositories.FriendsRepo;
@@ -128,6 +129,14 @@ public class UserService {
         return data.findByUsername(username);
     }
 
+    public User getUserByUsername(String username) {
+        User userData = data.findByUsername(username);
+        userData.setGender(null);
+        userData.setMobileNumber(null);
+        userData.setPassword(null);
+        return userData;
+    }
+
     public String deleteAllUsers() {
         String currentUser = jwtService.getCurrentUsername(request);
         System.out.println(currentUser);
@@ -178,6 +187,11 @@ public class UserService {
             userData.setGender(user.getGender());
 
             data.save(userData);
+
+            // Create requirements
+            aboutUserService.createUserData(user.getUsername(), user.getFirstName());
+            friendsService.createUser(user.getUsername());
+            progressTrackerService.createTrack(user.getFirstName(), "Today task");
 
             return true;
         }
@@ -369,5 +383,17 @@ public class UserService {
         else currentTrophies = currentTrophies - trophyToSum;
         user.setTrophy(currentTrophies);
         data.save(user);
+    }
+
+    public void updateFriends(){
+        User currentUser = data.findByUsername(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+        );
+        currentUser.setFriends(
+                friendsService.
+                        getCurrentUser().
+                        getFriends().
+                        size()
+        );
     }
 }

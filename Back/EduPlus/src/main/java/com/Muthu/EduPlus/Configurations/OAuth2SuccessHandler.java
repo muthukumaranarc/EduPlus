@@ -1,7 +1,5 @@
 package com.Muthu.EduPlus.Configurations;
 
-import com.Muthu.EduPlus.Models.AboutUser;
-import com.Muthu.EduPlus.Models.Friends;
 import com.Muthu.EduPlus.Models.User;
 import com.Muthu.EduPlus.Repositories.UserRepo;
 import com.Muthu.EduPlus.Services.AboutUserService;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;

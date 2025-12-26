@@ -9,7 +9,7 @@ import java.util.List;
 public class Tracks {
 
     @Id
-    private int id;
+    private String id;
     private String username;
     private String trackName;
     private String trackDescription;
@@ -17,7 +17,7 @@ public class Tracks {
 
     public Tracks() {}
 
-    public Tracks(int id, String username, String trackName, String trackDescription, List<Task> task) {
+    public Tracks(String id, String username, String trackName, String trackDescription, List<Task> task) {
         this.id = id;
         this.username = username;
         this.trackName = trackName;
@@ -25,11 +25,11 @@ public class Tracks {
         this.task = task;
     }
 
-    public int getId(){
+    public String getId(){
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

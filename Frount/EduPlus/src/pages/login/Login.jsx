@@ -6,7 +6,7 @@ import google from "../../assets/Google.png";
 // import phone from "../../assets/Call.png";
 
 import axios, { Axios } from "axios";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 function Login() {
@@ -14,6 +14,7 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [wrongPass, setWrongPass] = useState(false);
+    const inputRef = useRef(null);
 
     const loginUser = async () => {
         try {
@@ -33,7 +34,7 @@ function Login() {
 
             setWrongPass(false);
             window.location.replace("/home");
-        // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars
         } catch (err) {
             setWrongPass(true);
         }
@@ -43,6 +44,22 @@ function Login() {
         e.preventDefault();
         window.location.href = `${baseURL}/oauth2/authorization/google`;
     };
+
+    const handleKeyDownUsername = async (e) => {
+        if (e.key === "Enter") {
+            await inputRef.current?.focus();
+        }
+    };
+
+    const handleKeyDownPassword = async (e) => {
+        if (e.key === "Enter") {
+            await loginUser();
+        }
+    };
+
+    useEffect(() => {
+        
+    }, []);
 
     return (
         <>
@@ -59,13 +76,16 @@ function Login() {
                     type="text"
                     placeholder="Username"
                     value={username}
+                    onKeyDown={handleKeyDownUsername}
                     onChange={(e) => { setUsername(e.target.value); setWrongPass(false) }}
-                />
+                    />
 
                 <input
+                    ref={inputRef}
                     type="password"
                     placeholder="Password"
                     value={password}
+                    onKeyDown={handleKeyDownPassword}
                     onChange={(e) => { setPassword(e.target.value); setWrongPass(false) }}
                 />
 

@@ -28,19 +28,16 @@ public class AboutUserService {
     }
 
     public void createUserData(String username, String name){
-        try {
-            List<String> info = new ArrayList<String>();
-            info.add("Name: " + name);
-            aboutUserRepo.save(new AboutUser(username, info));
-            System.out.println("User data is created");
-        } catch (Exception e) {
-            System.out.println("Error from About: " + e.getMessage());
-        }
+        List<String> info = new ArrayList<String>();
+        info.add("Name: " + name);
+        aboutUserRepo.save(new AboutUser(username, info));
     }
 
     public List<String> getUserdata() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         AboutUser data = aboutUserRepo.findByUsername(username);
+        System.out.println(username);
+        System.out.println(data);
         return data.getData();
     }
 
