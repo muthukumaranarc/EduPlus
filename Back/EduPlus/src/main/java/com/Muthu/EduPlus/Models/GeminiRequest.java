@@ -21,7 +21,6 @@ public class GeminiRequest {
         this.contents = contents;
     }
 
-    // ✅ MUST be static
     public static class Content {
 
         private List<Part> parts;
@@ -42,7 +41,6 @@ public class GeminiRequest {
         }
     }
 
-    // ✅ MUST be static
     public static class Part {
 
         private String text;
@@ -62,4 +60,5 @@ public class GeminiRequest {
             this.text = text;
         }
     }
+
 }

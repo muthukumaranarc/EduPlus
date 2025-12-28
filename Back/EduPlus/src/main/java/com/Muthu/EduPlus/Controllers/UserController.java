@@ -5,7 +5,6 @@ import com.Muthu.EduPlus.Services.JwtService;
 import com.Muthu.EduPlus.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,65 +15,64 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService service;
+    private final UserService service;
+    private final JwtService jwtService;
 
-    @Autowired
-    private JwtService jwtService;
+    public UserController(UserService service, JwtService jwtService) {
+        this.service = service;
+        this.jwtService = jwtService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(
+            @RequestBody Map<String, String> data,
+            HttpServletResponse response
+    ) {
+        return service.login(
+                data.get("username"),
+                data.get("password"),
+                response
+        );
+    }
+
+    @GetMapping("/logout")
+    public boolean logout(HttpServletResponse response) {
+        return service.logout(response);
+    }
+
+    @GetMapping("/get-token")
+    public String getToken(HttpServletRequest request) {
+        return jwtService.getTokenFromRequest(request);
+    }
 
     @PostMapping("/create")
-    public String createUser(@RequestBody User user, HttpServletResponse response){
+    public String createUser(@RequestBody User user, HttpServletResponse response) {
         return service.createUser(user, response);
     }
 
     @PostMapping("/update-oauth")
-    public boolean updateUserOAuth(@RequestBody User user) {
+    public boolean updateOAuth(@RequestBody User user) {
         return service.updateUserOAuth(user);
     }
 
-    @GetMapping("/get-all")
-    public List<User> getAllUsers(){
-        return service.getAllUsers();
-    }
-
     @GetMapping("/get-user")
-    public User getCurrentUserName() {
+    public User getCurrentUser() {
         return service.getCurrentUserData();
     }
 
-    @PostMapping("get-user-username")
+    @PostMapping("/get-user-username")
     public User getUserByUsername(@RequestBody String username) {
         return service.getUserByUsername(username);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> data, HttpServletResponse response) {
-        return service.login(data.get("username"), data.get("password"), response);
+    @GetMapping("/get-all")
+    public List<User> getAllUsers() {
+        return service.getAllUsers();
     }
 
-    @GetMapping("/logout")
-    public Boolean logout(HttpServletResponse response) {
-        return service.logout(response);
-    }
-
-    @DeleteMapping("/delete")
-    public boolean deleteUser(HttpServletResponse response) {
-        return service.deleteUser(response);
-    }
-
-    @DeleteMapping("/delete-by-username")
-    public String deleteByUsername(@RequestBody String username){
-        return service.deleteUserByUsername(username);
-    }
-
-    @DeleteMapping("/delete-all")
-    public String deleteAllUser() {
-        return service.deleteAllUsers();
-    }
-
-    @GetMapping("/get-token")
-    public String geToken(HttpServletRequest request){
-        return jwtService.getTokenFromRequest(request);
+    @GetMapping("/get-username")
+    public String getUsername() {
+        return service.getUsernames();
     }
 
     @PostMapping("/is-user-exist")
@@ -83,7 +81,10 @@ public class UserController {
     }
 
     @PostMapping("/update-username")
-    public String updateUsername(@RequestBody Map<String, String> data, HttpServletResponse response) {
+    public String updateUsername(
+            @RequestBody Map<String, String> data,
+            HttpServletResponse response
+    ) {
         return service.updateUsername(
                 data.get("usernameToChange"),
                 data.get("password"),
@@ -135,7 +136,7 @@ public class UserController {
     public String updateDOB(@RequestBody Map<String, String> data) {
         return service.UpdateDOB(
                 data.get("password"),
-                data.get("dob") //yyyy-mm-dd formate only
+                data.get("dob")
         );
     }
 
@@ -148,16 +149,26 @@ public class UserController {
     }
 
     @PostMapping("/update-linkedin")
-    public String updateLinkedIn(@RequestBody Map<String, String> data){
+    public String updateLinkedIn(@RequestBody Map<String, String> data) {
         return service.updateLinkedIn(
                 data.get("password"),
                 data.get("linkedin")
         );
     }
 
-    @GetMapping("/get-username")
-    public String getUsername(){
-        return service.getUsernames();
+    @DeleteMapping("/delete")
+    public boolean deleteCurrentUser(HttpServletResponse response) {
+        return service.deleteUser(response);
+    }
+
+    @DeleteMapping("/delete-by-username")
+    public String deleteByUsername(@RequestBody String username) {
+        return service.deleteUserByUsername(username);
+    }
+
+    @DeleteMapping("/delete-all")
+    public String deleteAllUsers() {
+        return service.deleteAllUsers();
     }
 
     @PostMapping("/trophies-add")
@@ -166,7 +177,7 @@ public class UserController {
     }
 
     @PostMapping("/trophies-sub")
-    public void subTrophies(@RequestBody Integer trophies) {
+    public void subtractTrophies(@RequestBody Integer trophies) {
         service.sumTrophiesToCurrentUser(false, trophies);
     }
 
@@ -174,5 +185,4 @@ public class UserController {
     public void updateFriends() {
         service.updateFriends();
     }
-
 }

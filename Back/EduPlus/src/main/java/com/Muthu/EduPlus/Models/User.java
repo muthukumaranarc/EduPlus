@@ -125,4 +125,5 @@ public class User {
                 ", linkedIn='" + linkedIn + '\'' +
                 '}';
     }
+
 }

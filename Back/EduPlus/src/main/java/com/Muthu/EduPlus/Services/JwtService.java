@@ -1,6 +1,7 @@
 package com.Muthu.EduPlus.Services;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
@@ -11,47 +12,56 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
 public class JwtService {
 
-    // 32+ chars (256-bit key for HS256)
     private static final String SECURITY_KEY =
             "MuthuEduPlusSuperSecureJwtSigningKey2025@#123";
 
-    // Centralized expiry (30 days)
     private static final long JWT_EXPIRATION_MS =
-            1000L * 60 * 60 * 24 * 30;
+            1000L * 60 * 60 * 24 * 30; // 30 days
 
-    private SecretKey getKey() {
-        return Keys.hmacShaKeyFor(SECURITY_KEY.getBytes(StandardCharsets.UTF_8));
+    private static final String AUTH_COOKIE_NAME = "auth";
+    private static final String BEARER_PREFIX = "Bearer ";
+
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(
+                SECURITY_KEY.getBytes(StandardCharsets.UTF_8)
+        );
     }
 
     public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_MS))
-                .signWith(getKey())
+                .subject(username)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_MS))
+                .signWith(getSigningKey())
                 .compact();
+    }
+
+    public boolean validateToken(String token, UserDetails userDetails) {
+        if (token == null || userDetails == null) return false;
+
+        String username = extractUsername(token);
+        return username != null
+                && username.equals(userDetails.getUsername())
+                && !isTokenExpired(token);
     }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) {
-        String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        Date expiration = extractExpiration(token);
+        return expiration == null || expiration.before(new Date());
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> resolver) {
@@ -62,28 +72,26 @@ public class JwtService {
     private Claims extractAllClaims(String token) {
         try {
             return Jwts.parser()
-                    .verifyWith(getKey())
+                    .verifyWith(getSigningKey())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
-        } catch (Exception e) {
-            return null; // fail safely
+        } catch (JwtException | IllegalArgumentException e) {
+            return null; // invalid / expired / malformed token
         }
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {
 
-        // Authorization header (optional)
-        String bearer = request.getHeader("Authorization");
-        if (bearer != null && bearer.startsWith("Bearer ")) {
-            return bearer.substring(7);
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith(BEARER_PREFIX)) {
+            return authHeader.substring(BEARER_PREFIX.length());
         }
 
-        // HttpOnly cookie (MAIN)
         if (request.getCookies() != null) {
-            for (Cookie c : request.getCookies()) {
-                if ("auth".equals(c.getName())) {
-                    return c.getValue();
+            for (Cookie cookie : request.getCookies()) {
+                if (AUTH_COOKIE_NAME.equals(cookie.getName())) {
+                    return cookie.getValue();
                 }
             }
         }
@@ -92,7 +100,8 @@ public class JwtService {
     }
 
     public String getCurrentUsername(HttpServletRequest request) {
-        String token = getTokenFromRequest(request);
-        return token != null ? extractUsername(token) : null;
+        return Optional.ofNullable(getTokenFromRequest(request))
+                .map(this::extractUsername)
+                .orElse(null);
     }
 }

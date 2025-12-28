@@ -19,4 +19,5 @@ public class AssistantController {
     public ChatResponse getChatResponse(@RequestBody String message) {
         return service.getAiResponse(message);
     }
+
 }

@@ -2,13 +2,10 @@ package com.Muthu.EduPlus.Configurations;
 
 import com.Muthu.EduPlus.Models.User;
 import com.Muthu.EduPlus.Repositories.UserRepo;
-import com.Muthu.EduPlus.Services.AboutUserService;
-import com.Muthu.EduPlus.Services.FriendsService;
 import com.Muthu.EduPlus.Services.JwtService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
@@ -22,18 +19,15 @@ import java.time.Duration;
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
+    private static final String AUTH_COOKIE_NAME = "auth";
+    private static final long COOKIE_DAYS = 30;
+
     private final JwtService jwtService;
-    private final UserRepo users;
+    private final UserRepo userRepo;
 
-    @Autowired
-    private AboutUserService aboutUserService;
-
-    @Autowired
-    private FriendsService friendsService;
-
-    public OAuth2SuccessHandler(JwtService jwtService, UserRepo users) {
+    public OAuth2SuccessHandler(JwtService jwtService, UserRepo userRepo) {
         this.jwtService = jwtService;
-        this.users = users;
+        this.userRepo = userRepo;
     }
 
     @Override
@@ -46,42 +40,43 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
         String email = oAuth2User.getAttribute("email");
-        String username = (email != null)
+        String username = (email != null && !email.isBlank())
                 ? email
-                : oAuth2User.getAttribute("login"); // GitHub
-        boolean needToGetUserInformation = false;
+                : oAuth2User.getAttribute("login"); // GitHub fallback
 
-        // Create user if not exists
-        User user = users.findByUsername(username);
+        boolean isNewUser = false;
+
+        User user = userRepo.findByUsername(username);
         if (user == null) {
-            // Create user
             user = new User();
             user.setUsername(username);
-            user.setFirstName(username.split("@")[0]);
+            user.setFirstName(username.contains("@")
+                    ? username.split("@")[0]
+                    : username);
             user.setMailId(email);
-            users.save(user);
-            needToGetUserInformation = true;
+            userRepo.save(user);
+            isNewUser = true;
         }
 
         // Generate JWT
         String token = jwtService.generateToken(username);
 
-        // SAME cookie config as everywhere else
-        ResponseCookie cookie = ResponseCookie.from("auth", token)
+        // HttpOnly Auth Cookie
+        ResponseCookie cookie = ResponseCookie.from(AUTH_COOKIE_NAME, token)
                 .httpOnly(true)
-                .secure(false)
+                .secure(false) // << MUST be true in production (HTTPS)
                 .path("/")
-                .maxAge(Duration.ofDays(30))
+                .maxAge(Duration.ofDays(COOKIE_DAYS))
                 .sameSite("Lax")
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        // Redirect to React app
-        if(needToGetUserInformation)
+        // Redirect to frontend
+        if (isNewUser) {
             response.sendRedirect("http://localhost:5173/get-info-oauth");
-        else
+        } else {
             response.sendRedirect("http://localhost:5173/home");
-
+        }
     }
 }

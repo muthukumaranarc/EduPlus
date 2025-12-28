@@ -3,20 +3,27 @@ package com.Muthu.EduPlus.Models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "AboutUser")
+@Document(collection = "about_users")
 public class AboutUser {
 
     @Id
-    private String username;
-    private List<String> data;
+    private String id;
 
-    public AboutUser(){}
+    private String username;
+    private List<String> data = new ArrayList<>();
+
+    public AboutUser() {}
 
     public AboutUser(String username, List<String> data) {
         this.username = username;
         this.data = data;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getUsername() {
@@ -33,13 +40,5 @@ public class AboutUser {
 
     public void setData(List<String> data) {
         this.data = data;
-    }
-
-    @Override
-    public String toString() {
-        return "AboutUser{" +
-                "username='" + username + '\'' +
-                ", data=" + data +
-                '}';
     }
 }

@@ -38,4 +38,5 @@ public class GrammarStructure {
                 ", content='" + content + '\'' +
                 '}';
     }
+
 }

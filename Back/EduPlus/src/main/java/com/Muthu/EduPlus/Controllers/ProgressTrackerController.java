@@ -13,16 +13,17 @@ import java.util.Map;
 @RestController
 @RequestMapping("/pro")
 public class ProgressTrackerController {
+
     @Autowired
     private ProgressTrackerService service;
 
     @GetMapping("/get-all-tracks")
-    public List<Tracks> getAllTracks(){
+    public List<Tracks> getAllTracks() {
         return service.getAllTrack();
     }
 
     @PostMapping("/create-track")
-    public Tracks createTrac(@RequestBody String name) {
+    public Tracks createTrack(@RequestBody String name) {
         return service.createTrack(name);
     }
 

@@ -34,4 +34,5 @@ public class GrammarConcepts {
     public void setData(List<GrammarStructure> data) {
         this.data = data;
     }
+
 }

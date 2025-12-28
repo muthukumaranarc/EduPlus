@@ -3,7 +3,7 @@ package com.Muthu.EduPlus.Models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "friends")
@@ -11,13 +11,14 @@ public class Friends {
 
     @Id
     private String username;
-    private List<String> friends;
+
+    private List<String> friends = new ArrayList<>();
 
     public Friends() {}
 
-    public Friends(String username, List<String> friends) {
+    public Friends(String username) {
         this.username = username;
-        this.friends = friends;
+        this.friends = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -32,15 +33,13 @@ public class Friends {
         return friends;
     }
 
-    public void setFriends(List<String> friends) {
-        this.friends = friends;
+    public void addFriend(String friendId) {
+        if (!friends.contains(friendId)) {
+            friends.add(friendId);
+        }
     }
 
-    @Override
-    public String toString() {
-        return "Friends{" +
-                "username='" + username + '\'' +
-                ", friends=" + friends +
-                '}';
+    public void removeFriend(String friendId) {
+        friends.remove(friendId);
     }
 }

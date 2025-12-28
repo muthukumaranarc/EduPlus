@@ -2,88 +2,86 @@ package com.Muthu.EduPlus.Services;
 
 import com.Muthu.EduPlus.Models.AboutUser;
 import com.Muthu.EduPlus.Repositories.AboutUserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AboutUserService {
 
-    @Autowired
-    private JwtService jwtService;
+    private final AboutUserRepo repo;
 
-    @Autowired
-    private AboutUserRepo aboutUserRepo;
-
-    public void changeUsername(String username){
-        String currentName = SecurityContextHolder.getContext().getAuthentication().getName();
-        AboutUser info = aboutUserRepo.findByUsername(currentName);
-        info.setUsername(username);
-        aboutUserRepo.save(info);
-        aboutUserRepo.deleteById(currentName);
+    public AboutUserService(AboutUserRepo repo) {
+        this.repo = repo;
     }
 
-    public void createUserData(String username, String name){
-        List<String> info = new ArrayList<String>();
-        info.add("Name: " + name);
-        aboutUserRepo.save(new AboutUser(username, info));
+    private String currentUsername() {
+        return SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+    }
+
+    public void createUserData(String username, String name) {
+        if (repo.findByUsername(username).isPresent()) return;
+
+        AboutUser user = new AboutUser();
+        user.setUsername(username);
+        user.getData().add("Name: " + name);
+        repo.save(user);
     }
 
     public List<String> getUserdata() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        AboutUser data = aboutUserRepo.findByUsername(username);
-        System.out.println(username);
-        System.out.println(data);
-        return data.getData();
+        AboutUser user = repo.findByUsername(currentUsername())
+                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
+        return user.getData();
     }
 
-    public String getUserDataInString(){
+    public String getUserDataInString() {
         return String.join(";", getUserdata());
     }
 
     public void addData(String info) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        AboutUser data = aboutUserRepo.findByUsername(username);
-        List<String> userData = data.getData();
-        userData.add(info);
-        data.setData(userData);
-        aboutUserRepo.save(data);
+        AboutUser user = repo.findByUsername(currentUsername())
+                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
+        user.getData().add(info);
+        repo.save(user);
     }
 
     public boolean removeData(String info) {
-        AboutUser data = aboutUserRepo.findByUsername(
-                SecurityContextHolder.getContext().getAuthentication().getName()
-        );
-        List<String> userData = data.getData();
-        boolean res = userData.remove(info);
-        if(!res) return false;
-        data.setData(userData);
-        aboutUserRepo.save(data);
+        AboutUser user = repo.findByUsername(currentUsername())
+                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
+
+        boolean removed = user.getData().remove(info);
+        if (removed) repo.save(user);
+        return removed;
+    }
+
+    public boolean replaceData(String oldInfo, String newInfo) {
+        AboutUser user = repo.findByUsername(currentUsername())
+                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
+
+        int index = user.getData().indexOf(oldInfo);
+        if (index == -1) return false;
+
+        user.getData().set(index, newInfo);
+        repo.save(user);
         return true;
     }
 
-     public boolean replaceData(String oldInfo, String newInfo) {
-        AboutUser data = aboutUserRepo.findByUsername(
-                SecurityContextHolder.getContext().getAuthentication().getName()
-        );
-        List<String> info = data.getData();
-        int index = info.indexOf(oldInfo);
-        if(index == -1) return false;
-        info.set(index, newInfo);
-        data.setData(info);
-        aboutUserRepo.save(data);
-        return true;
-     }
+    public void updateUsernameByOldUsername(String oldUsername, String newUsername) {
+        AboutUser user = repo.findByUsername(oldUsername)
+                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
+        user.setUsername(newUsername);
+        repo.save(user);
+    }
 
-     public void removeAboutUser(String username) {
-        aboutUserRepo.deleteById(username);
-     }
+    public void deleteByUsername(String username) {
+        repo.findByUsername(username).ifPresent(repo::delete);
+    }
 
-     public void deleteAll() {
-        aboutUserRepo.deleteAll();
-     }
+    public void deleteAll() {
+        repo.deleteAll();
+    }
 }

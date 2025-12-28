@@ -3,9 +3,8 @@ package com.Muthu.EduPlus.Controllers;
 import com.Muthu.EduPlus.Models.Friends;
 import com.Muthu.EduPlus.Services.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/friends")
@@ -15,32 +14,37 @@ public class FriendsController {
     private FriendsService service;
 
     @PostMapping("/create")
-    public boolean createUser(@RequestBody String username){
-        return service.createUser(username);
+    public ResponseEntity<?> createUser(@RequestBody String username) {
+        service.createUser(username);
+        return ResponseEntity.ok("Friends profile created");
     }
 
-    @GetMapping("/get-user")
-    public Friends getUser() {
-        return service.getCurrentUser();
+    @GetMapping("/me")
+    public ResponseEntity<Friends> getUser() {
+        return ResponseEntity.ok(service.getCurrentUser());
     }
 
     @PostMapping("/change-username")
-    public boolean changeUsername(@RequestBody String username) {
-        return service.changeUsername(username);
+    public ResponseEntity<?> changeUsername(@RequestBody String username) {
+        service.changeUsername(username);
+        return ResponseEntity.ok("Username updated");
     }
 
-    @DeleteMapping("/delete-user")
-    public boolean deleteUser(@RequestBody String username) {
-        return service.deleteUser(username);
+    @DeleteMapping("/delete/{username}")
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        service.deleteUser(username);
+        return ResponseEntity.ok("User deleted");
     }
 
-    @PostMapping("/add-friend")
-    public boolean addFriend(@RequestBody String friendId) {
-        return service.addFriend(friendId);
+    @PostMapping("/add/{friendId}")
+    public ResponseEntity<?> addFriend(@PathVariable String friendId) {
+        service.addFriend(friendId);
+        return ResponseEntity.ok("Friend added");
     }
 
-    @DeleteMapping("/delete-friend")
-    public boolean removeFriend(@RequestBody String friendId) {
-        return service.removeFriend(friendId);
+    @DeleteMapping("/remove/{friendId}")
+    public ResponseEntity<?> removeFriend(@PathVariable String friendId) {
+        service.removeFriend(friendId);
+        return ResponseEntity.ok("Friend removed");
     }
 }

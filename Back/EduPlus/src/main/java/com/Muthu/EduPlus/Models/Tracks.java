@@ -5,40 +5,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "Tracks")
 public class Tracks {
 
-    @Id
-    private String id;
-    private String username;
     private String trackName;
     private String trackDescription;
     private List<Task> task;
 
     public Tracks() {}
 
-    public Tracks(String id, String username, String trackName, String trackDescription, List<Task> task) {
-        this.id = id;
-        this.username = username;
+    public Tracks(String trackName, String trackDescription, List<Task> task) {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
         this.task = task;
-    }
-
-    public String getId(){
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getTrackName() {
@@ -68,8 +46,7 @@ public class Tracks {
     @Override
     public String toString() {
         return "Tracks{" +
-                "username='" + username + '\'' +
-                ", trackName='" + trackName + '\'' +
+                "trackName='" + trackName + '\'' +
                 ", trackDescription='" + trackDescription + '\'' +
                 ", task=" + task +
                 '}';

@@ -5,11 +5,7 @@ import com.Muthu.EduPlus.Repositories.FriendsRepo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class FriendsService {
@@ -17,85 +13,78 @@ public class FriendsService {
     @Autowired
     private FriendsRepo friendsRepo;
 
-    public UserService userService;
-
     @Autowired
     private JwtService jwtService;
 
     @Autowired
     private HttpServletRequest request;
 
+    private final UserService userService;
+
     public FriendsService(@Lazy UserService userService) {
         this.userService = userService;
     }
 
-    public boolean createUser(String username) {
-        try {
-            Friends newUser = new Friends(
-                    username,
-                    new ArrayList<String>()
-            );
-            friendsRepo.save(newUser);
-            return true;
-        } catch (Exception e) {
-            return false;
+    private String currentUsername() {
+        return jwtService.getCurrentUsername(request);
+    }
+
+    private Friends getCurrentUserEntity() {
+        return friendsRepo.findByUsername(currentUsername())
+                .orElseThrow(() -> new RuntimeException("Friends profile not found"));
+    }
+
+
+    public void createUser(String username) {
+        if (friendsRepo.existsById(username)) {
+            throw new RuntimeException("Friends profile already exists");
         }
+        friendsRepo.save(new Friends(username));
     }
 
     public Friends getCurrentUser() {
-        return friendsRepo.getUserByUsername(jwtService.getCurrentUsername(request));
+        return getCurrentUserEntity();
     }
 
-    public boolean changeUsername(String newUsername) {
-        try {
-            Friends data = getCurrentUser();
-            String oldUsername = data.getUsername();
-            data.setUsername(newUsername);
-            friendsRepo.save(data);
-            friendsRepo.deleteById(oldUsername);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public void changeUsername(String newUsername) {
+        Friends user = getCurrentUserEntity();
+
+        if (friendsRepo.existsById(newUsername)) {
+            throw new RuntimeException("Username already taken");
         }
+
+        friendsRepo.deleteById(user.getUsername());
+        user.setUsername(newUsername);
+        friendsRepo.save(user);
     }
 
-    public boolean deleteUser(String username) {
-        try {
-            friendsRepo.deleteById(username);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public void deleteUser(String username) {
+        if (!friendsRepo.existsById(username)) {
+            throw new RuntimeException("User not found");
         }
+        friendsRepo.deleteById(username);
     }
 
-    public boolean addFriend(String id) {
-        try {
-            if(friendsRepo.getUserByUsername(id) == null) return false;
-            Friends data = getCurrentUser();
-            List<String> friends = data.getFriends();
-            friends.add(id);
-            data.setFriends(friends);
-            friendsRepo.save(data);
-            userService.updateFriends();
-            return true;
-        } catch (Exception e) {
-            return false;
+    public void addFriend(String friendId) {
+        Friends user = getCurrentUserEntity();
+
+        if (!friendsRepo.existsById(friendId)) {
+            throw new RuntimeException("Friend does not exist");
         }
+
+        if (friendId.equals(user.getUsername())) {
+            throw new RuntimeException("Cannot add yourself");
+        }
+
+        user.addFriend(friendId);
+        friendsRepo.save(user);
+        userService.updateFriends();
     }
 
-    public boolean removeFriend(String id) {
-        try {
-            Friends data = getCurrentUser();
-            List<String> friends = data.getFriends();
-            friends.remove(id);
-            data.setFriends(friends);
-            friendsRepo.save(data);
-            userService.updateFriends();
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
+    public void removeFriend(String friendId) {
+        Friends user = getCurrentUserEntity();
+        user.removeFriend(friendId);
+        friendsRepo.save(user);
+        userService.updateFriends();
     }
-
 }
