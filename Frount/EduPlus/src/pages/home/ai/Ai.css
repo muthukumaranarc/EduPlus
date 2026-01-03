@@ -133,7 +133,6 @@
         justify-items: center;
         margin-top: 20vh;
         padding: 0;
-        /* border: 2px solid red; */
     }
 
     .ai-chat>h2 {
@@ -158,8 +157,9 @@
 
     .query {
         height: 60px;
-        width: 650px;
-        border: 2px solid rgba(38, 97, 178, 1);
+        width: 90vw;
+        position: fixed;
+        bottom: 20px;
         border-radius: 15px;
         padding-left: 10px;
         display: flex;
@@ -170,54 +170,54 @@
     }
 
     .query>input {
-        width: 470px;
+        width: 100%;
         border: transparent;
         font-size: 20px;
+        /* background-color: red; */
     }
 
     .query>input:focus {
         outline: none;
     }
 
-    .ai-chat>.query>button {
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(38, 97, 178, 1);
-        color: white;
-        padding-left: 20px;
-        padding-right: 20px;
-        border: none;
-        border-radius: 10px;
-        font-size: 17px;
-        margin-left: 10px;
-        margin-right: 5px;
+    .query>button {
+        width: 30%;
+        font-size: 16px;
     }
 
-    .ai-chat>.query>button>img {
-        height: 20px;
+    .query>button>img {
+        height: 15px;
         margin-right: 5px;
     }
 
     .ai-chat>.quick-pic {
         position: fixed;
         top: auto;
-        bottom: 14vh;
-        left: 10px;
+        bottom: 100px;
+        left: 30px;
+        width: calc(100vw - 60px);
+        /* border: 1px solid red; */
     }
 
-    .ai-chat>.quick-pic>div {
+    .history-sec {
+        max-height: calc(100vh - 100px - 135px);
+        width: 90%;
+        /* border: 1px solid red; */
+
         display: flex;
-        align-items: center;
-        justify-content: left;
-        height: 40px;
-        color: rgb(83, 83, 83);
-        user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        cursor: pointer;
+        flex-direction: column;
+        gap: 10px;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+        position: fixed;
+        bottom: 100px;
     }
+
 
     .ai-chat>.quick-pic>div:hover {
         background-color: rgba(128, 128, 128, 0.048);

@@ -8,6 +8,13 @@
 }
 
 .nav {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nav ,nav > div{
     height: 100vh;
     width: 182px;
     position: fixed;
@@ -18,14 +25,14 @@
     background-color: white;
 }
 
-.nav>div {
+.nav>div>div {
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
 }
 
-.nav>.logo-box {
+.nav>div>.logo-box {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,37 +41,37 @@
     cursor: default;
 }
 
-.nav>.logo-box>.logo {
+.nav>div>.logo-box>.logo {
     height: 40px;
     width: 40px;
     margin-right: 10px;
     /* border: 2px solid red; */
 }
 
-.nav>.logo-box>.name {
+.nav>div>.logo-box>.name {
     height: 23px;
     width: 80px;
     /* border: 2px solid red; */
 }
 
-.nav>.dashboard>img,
-.nav>.action>img,
-.nav>.ai>img,
-.nav>.test>img,
-.nav>.friend>img,
-.nav>.setting>img {
+.nav>div>.dashboard>img,
+.nav>div>.action>img,
+.nav>div>.ai>img,
+.nav>div>.test>img,
+.nav>div>.friend>img,
+.nav>div>.setting>img {
     height: 22px;
     width: 22px;
     margin-right: 15px;
     margin-left: 30px;
 }
 
-.nav>.dashboard,
-.nav>.action,
-.nav>.ai,
-.nav>.test,
-.nav>.friend,
-.nav>.setting {
+.nav>div>.dashboard,
+.nav>div>.action,
+.nav>div>.ai,
+.nav>div>.test,
+.nav>div>.friend,
+.nav>div>.setting {
     /* border: 1px solid red; */
     display: flex;
     align-items: center;
@@ -74,12 +81,12 @@
     width: 180px;
 }
 
-.nav>.dashboard:hover,
-.nav>.action:hover,
-.nav>.ai:hover,
-.nav>.test:hover,
-.nav>.friend:hover,
-.nav>.setting:hover {
+.nav>div>.dashboard:hover,
+.nav>div>.action:hover,
+.nav>div>.ai:hover,
+.nav>div>.test:hover,
+.nav>div>.friend:hover,
+.nav>div>.setting:hover {
     background-color: rgba(128, 128, 128, 0.048);
 }
 
@@ -104,18 +111,45 @@
     /* border:1px solid red; */
 }
 
-h3 {
-    position: absolute;
-    top: 5px;
-    left: 40px;
-    text-align: left;
-}
-
-
 .home>.trop {
     position: absolute;
     right: 35px;
     top: 30px;
+}
+
+.home-profile > div {
+    border: 1px solid rgb(138, 138, 138);
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-profile > div > img {
+    height: 30px;
+}
+
+.home-profile {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.home-profile > p {
+    /* border: 1px solid red; */
+    display: block;
+    width: 110px;
+    overflow-x: hidden;
+    font-size: 14px;
 }
 
 @media (max-width: 768px) {
@@ -126,8 +160,9 @@ h3 {
         padding-right: 10px;
         padding-left: 10px;
         margin-top: 20px;
+        /* color: #000; */
     }
-
+    
     .nav {
         height: 100vh;
         width: 182px;
@@ -139,8 +174,9 @@ h3 {
         z-index: 100;
         transform: translateX(-185px);
         transition: transform 0.3s ease;
+        /* border: 1px solid red; */
     }
-
+    
     .nav > div:first-child {
         margin: 0 auto;
         margin-top: 20px;
@@ -162,12 +198,11 @@ h3 {
         margin-bottom: 35px;
         cursor: default;
     }
-
+    
     .nav>.logo-box>.logo {
-        height: 40px;
+        height: 20px;
         width: 40px;
         margin-right: 10px;
-        /* border: 2px solid red; */
     }
 
     .nav>.logo-box>.name {
@@ -252,6 +287,7 @@ h3 {
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: white;
     }
 
     .mobile-logo>img:first-child {
@@ -286,6 +322,7 @@ h3 {
 
     .page-name>h2 {
         font-size: 20px;
+        margin: 1px;
     }
 
     .page-name>img {

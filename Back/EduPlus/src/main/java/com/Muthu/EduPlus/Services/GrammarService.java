@@ -26,7 +26,7 @@ public class GrammarService {
     """;
 
     public ChatResponse getAiResponse(String message) {
-        return aiModelService.getAiResponse(message, CHATBOT_PROMPT, true);
+        return aiModelService.getAiResponse(message, CHATBOT_PROMPT, false);
     }
 
     private String getCurrentUsername() {

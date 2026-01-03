@@ -1,4 +1,3 @@
-
 .field {
     margin-bottom: 18px;
 }
@@ -58,12 +57,90 @@ input:focus {
     width: 90%;
 }
 
-.name-row > div {
+.name-row>div {
     /* border: 1px solid red; */
     width: 200px;
 }
 
-.name-row > div > input{
+.name-row>div>input {
     /* border: 1px solid red; */
     width: 250px;
+}
+
+@media (max-width: 768px) {
+
+    .field {
+        margin-bottom: 18px;
+        width: 300px;
+        /* border: 2px solid red; */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        color: #1f3b75;
+    }
+
+    /* Inputs */
+    input {
+        width: 100%;
+        height: 38px;
+        padding: 0 12px;
+        border-radius: 10px;
+        border: 1.5px solid #7b8fc7;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #245bbb;
+    }
+
+    /* Username & password row */
+    .input-row {
+        width: 360px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        /* border: 1px solid red; */
+    }
+    
+    .input-row input {
+        flex: 1;
+        /* border: 1px solid red; */
+        max-width: 80%;
+    }
+    
+    /* Status text */
+    .ok {
+        color: #1fa24a;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    
+    .bad {
+        color: #e53935;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    
+    /* First & Last name */
+    .name-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        /* border: 1px solid red; */
+        width: 320px;
+        /* border: 2px solid red; */
+    }
+    
+    .name-row>div {
+        /* border: 1px solid red; */
+        width: auto;
+    }
+    
+    .name-row>div>input {
+        /* border: 1px solid red; */
+        width:90%;   
+    }
 }

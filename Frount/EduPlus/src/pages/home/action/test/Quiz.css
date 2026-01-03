@@ -1,0 +1,118 @@
+.quiz-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 22px;
+    margin-left: 50px;
+    margin-top: 90px;
+    padding: o;
+    /* border: 1px solid red; */
+}
+
+.quiz {
+    margin-top: 0px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+.question-card {
+    margin-top: 20px;
+}
+
+.question-card button {
+    padding: 5px 10px;
+    margin-left: 15px;
+    /* background-color: white; */
+    box-shadow: 0px 0px 5px gray;
+    border: none;
+    border-radius: 8px;
+    /* border: 1px solid red; */
+    margin-bottom: 5px;
+}
+
+.get-answer {
+    padding: 5px 10px;
+    box-shadow: 0px 0px 6px rgb(104, 104, 104);
+    background-color: rgba(147, 164, 185, 0);
+    border: none;
+    border-radius: 8px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-left: 30px;
+}
+
+.correct {
+    background-color: rgb(2, 201, 9);
+    color: white;
+}
+
+.wrong {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+}
+
+@media (max-width:768px) {
+    .quiz-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 22px;
+    margin-left: 10px;
+    margin-top: 90px;
+    padding: 0;
+    /* border: 1px solid red; */
+    width: 200px;
+    overflow-x: auto;
+}
+
+.quiz {
+    width: 90vw;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    margin-top: -20px;
+}
+
+.question-card {
+    margin-top: 20px;
+}
+
+.question-card button {
+    padding: 5px 10px;
+    margin-left: 15px;
+    /* background-color: white; */
+    box-shadow: 0px 0px 5px gray;
+    border: none;
+    border-radius: 8px;
+    /* border: 1px solid red; */
+    margin-bottom: 15px;
+}
+
+.get-answer {
+    padding: 10px 15px;
+    box-shadow: 0px 0px 6px rgb(104, 104, 104);
+    background-color: rgba(147, 164, 185, 0);
+    border: none;
+    border-radius: 8px;
+    height: 20px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-left: 30px;
+}
+
+.correct {
+    background-color: rgb(2, 201, 9);
+    color: white;
+}
+
+.wrong {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+}
+
+}

@@ -10,13 +10,13 @@ public class ProgressTrack {
 
     @Id
     private String username;
-    private List<Tracks> tracks;
+    private List<Task> tasks;
 
     public ProgressTrack() {}
 
-    public ProgressTrack(String username, List<Tracks> tracks) {
+    public ProgressTrack(String username, List<Task> tasks) {
         this.username = username;
-        this.tracks = tracks;
+        this.tasks = tasks;
     }
 
     public String getUsername() {
@@ -27,19 +27,11 @@ public class ProgressTrack {
         this.username = username;
     }
 
-    public List<Tracks> getTracks() {
-        return tracks;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public void setTracks(List<Tracks> tracks) {
-        this.tracks = tracks;
-    }
-
-    @Override
-    public String toString() {
-        return "ProgressTrack{" +
-                "username='" + username + '\'' +
-                ", tracks=" + tracks +
-                '}';
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

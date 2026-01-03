@@ -118,7 +118,7 @@
     align-items: center;
     justify-content: center;
     gap: 50px;
-    
+
 }
 
 .aboutAction>img {
@@ -146,6 +146,122 @@
     height: 20px;
     transform: rotate(45deg);
     margin-left: 5px;
+}
+
+.today-track {
+    width: 450px;
+    padding: 20px;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+    border: rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+
+.today-track>div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: -10px;
+}
+
+.today-track>div:first-child>h2 {
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.today-track>div:first-child>img {
+    height: 25px;
+    cursor: pointer;
+}
+
+
+.pro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+}
+
+.pro>p {
+    width: 45px;
+    text-align: right;
+}
+
+.pro>.bar {
+    border: 1px solid rgba(21, 135, 25, 1);
+    height: 16px;
+    width: 350px;
+    margin-right: 5px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.pro>.bar>.state {
+    height: 16px;
+    background-color: rgba(21, 135, 25, 1);
+    border-radius: 30px;
+    transition: all 0.5s ease;
+}
+
+
+.today-track>div:nth-child(n + 3) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -10px;
+}
+
+.today-track>div:nth-child(3) {
+    margin-top: 5px;
+}
+
+.today-track>div:nth-child(n + 3)>p {
+    width: 290px;
+    /* border: 1px solid blue; */
+    font-size: 18px;
+}
+
+.today-track>div:nth-child(n + 3)>button {
+    height: 30px;
+    width: 110px;
+    background-color: white;
+    border-radius: 40px;
+    font-size: 15px;
+}
+
+.done {
+    color: rgba(21, 135, 25, 1);
+    border: 2px solid rgba(21, 135, 25, 1);
+}
+
+.comp {
+    border: 2px solid rgba(142, 142, 142, 0.822);
+    color: rgb(142, 142, 142);
+}
+
+.create-new-task {
+    /* border: 1px solid red; */
+    width: 90%;
+    display: flex;
+    gap: 10px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.create-new-task > form {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+.create-new-task > form > button {
+    background-color: transparent;
+    border: 1px solid rgba(34, 82, 146, 1);
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    color: rgba(34, 82, 146, 1);
+    padding: 0px 10px;
 }
 
 @Media (max-width: 768px) {
@@ -266,4 +382,77 @@
         width: 90%;
         margin-bottom: 30px;
     }
+
+    .aboutSec {
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        /* border: 2px solid red; */
+    }
+
+    .aboutAction {
+        /* border: 2px solid red; */
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        margin: 0px;
+        margin-bottom: 30px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+    }
+
+    .aboutAction>img {
+        height: auto;
+        width: 90vw;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px rgba(77, 77, 77, 0.774);
+    }
+
+    .aboutAction>div>p {
+        width: 90%;
+    }
+
+    .aboutAction>div>div {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        width: 120px;
+        height: 30px;
+        font-size: 18px;
+        color: rgba(34, 82, 146, 1);
+        cursor: pointer;
+    }
+
+    .aboutAction>div>div>img {
+        height: 20px;
+        transform: rotate(45deg);
+        margin-left: 5px;
+    }
+
+    .today-track {
+        width: 90%;
+        /* border: 2px solid red; */
+    }
+
+    .pro>.bar {
+        width: 260px;
+    }
+
+    .today-track>div:nth-child(n + 3)>p {
+        width: 215px;
+        font-size: 18px;
+    }
+
+    .today-track>div:nth-child(n + 3)>button {
+        height: 25px;
+        width: 90px;
+        font-size: 13px;
+    }
+
 }

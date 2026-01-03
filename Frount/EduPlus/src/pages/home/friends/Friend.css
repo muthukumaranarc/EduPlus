@@ -1,13 +1,10 @@
 .friend-page {
-    /* border: 1px solid red; */
     padding: 10px;
 }
- 
+
 .my-profile {
     height: 110px;
-    /* border: 1px solid red; */
     width: 1000px;
-    /* margin: 0 auto; */
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     margin-top: 120px;
@@ -16,14 +13,17 @@
     display: flex;
     gap: 20px;
     align-items: center;
-    /* justify-content: space-be; */
 }
 
-.my-profile > div:first-child > img {
+.my-det {
+    gap: 100px;
+}
+
+.my-profile>div:first-child>img {
     height: 90px;
 }
 
-.my-profile > div:first-child {
+.my-profile>div:first-child {
     height: 120px;
     width: 120px;
     background-color: white;
@@ -38,7 +38,7 @@
     left: 30px;
 }
 
-.my-profile > div:not(:first-child) {
+.my-profile>div:not(:first-child) {
     display: flex;
     gap: 9vw;
     margin-left: 8%;
@@ -77,11 +77,11 @@
     cursor: pointer;
 }
 
-.friend-profile > div:first-child > img {
+.friend-profile>div:first-child>img {
     height: 70px;
 }
 
-.friend-profile > div:first-child {
+.friend-profile>div:first-child {
     height: 90px;
     width: 90px;
     background-color: white;
@@ -96,17 +96,30 @@
     left: 30px;
 }
 
-.friend-profile > div:not(:first-child) {
+.friend-profile>div:not(:first-child) {
+    gap: 2vw;
     display: flex;
-    gap: 9vw;
+    align-items: center;
+    justify-content: center;
     margin-left: 8%;
     font-size: 17px;
     line-height: 40px;
+    height: 80px;
+    /* border: 1px solid red; */
+    padding-top: 10px;
 }
 
+
 .friend-name {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+}
+
+.friend-name>b {
     font-size: 22px;
-    margin-right: 8vw;
+    width: 400px;
     /* border: 1px solid red; */
 }
 
@@ -115,9 +128,12 @@
 
 .view-friend {
     position: fixed;
-    inset: 0;                 /* ✅ best practice */
+    inset: 0;
     background-color: rgba(0, 0, 0, 0.19);
+    backdrop-filter: blur(5px);
     z-index: 10;
+    height: 100vh;
+    width: 100vw;
 
     display: flex;
     align-items: center;
@@ -125,21 +141,21 @@
     margin-bottom: 20px;
 }
 
-.view-friend > div {
+.view-friend>div {
     background-color: white;
-    height: 280px;
+    /* height: 280px; */
     width: 600px;
     border-radius: 20px;
 }
 
-.view-friend > div > div:first-child {
+.view-friend>div>div:first-child {
     display: flex;
     align-items: center;
     margin: 30px;
     margin-bottom: 10px;
 }
 
-.view-friend > div > div:first-child > div:first-child {
+.view-friend>div>div:first-child>div:first-child {
     height: 100px;
     width: 100px;
     border-radius: 50%;
@@ -149,12 +165,12 @@
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
 }
 
-.view-friend > div > div:first-child > div:first-child > img {
+.view-friend>div>div:first-child>div:first-child>img {
     height: 80px;
     width: 80px;
 }
 
-.view-friend > div > div:first-child > p {
+.view-friend>div>div:first-child>p {
     width: 240px;
     margin-left: 30px;
     font-weight: bold;
@@ -162,33 +178,324 @@
     margin-right: 10px;
 }
 
-.view-friend > div > div:nth-child(2) {
+.view-friend>div>div:nth-child(2) {
     display: flex;
     align-items: center;
 }
 
-.view-friend > div > div:nth-child(2) > div:first-child{
+.view-friend>div>div:nth-child(2)>div:first-child {
     /* border: 1px solid red; */
     margin-left: 50px;
     width: 100px;
     font-weight: bold;
 }
 
-.view-friend > div > div:nth-child(2) > div:nth-child(2){
+.view-friend>div>div:nth-child(2)>div:nth-child(2) {
     /* border: 1px solid red; */
     margin-left: 20px;
     width: 440px;
 }
 
-.view-friend > div > button {
+.view-friend>div>button {
     height: 40px;
     width: 130px;
     position: relative;
-    bottom: 45px;
-    left: 440px;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    left: 300px;
     background-color: rgba(138, 138, 138, 0.308);
     border: none;
     border-radius: 20px;
     color: black;
     font-size: 15px
+}
+
+.add-friend {
+    background-color: rgb(17, 167, 25);
+    border: none;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    font-size: 40px;
+    color: white;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-friend>img {
+    height: 35px;
+    margin-left: 5px;
+    z-index: 5;
+}
+
+.add-friend:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .friend-page {
+        padding: 10px;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .my-profile {
+        height: 80px;
+        width: 100%;
+        margin-top: 30px;
+        margin-left: 0;
+        display: flex;
+        gap: 20px;
+        /* border: 1px solid red; */
+    }
+
+    .my-profile>div:first-child>img {
+        height: 60px;
+        width: 60px;
+    }
+
+    .my-profile>div:first-child {
+        /* border: 1px solid red; */
+        height: 80px;
+        width: 80px;
+        background-color: white;
+        z-index: 1;
+        border-radius: 50%;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        bottom: 20px;
+        left: 20px;
+    }
+
+    .my-profile>div:not(:first-child) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        width: 60%;
+        gap: 0px;
+        margin-top: -5px;
+        margin-left: 8%;
+        font-size: 18px;
+        line-height: 0px;
+        /* border: 1px solid blue; */
+        padding: 0;
+    }
+
+    .my-det {
+        gap: 10px;
+        height: 20px;
+        margin: 0;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        /* border: 1px solid red; */
+    }
+
+    .my-name {
+        font-size: 18px;
+        margin: 0;
+        padding: 1px;
+        /* display: flex; */
+        align-items: center;
+        /* border: 1px solid black; */
+        margin: -15px;
+        margin-left: 10px;
+    }
+
+    .your-friend {
+        font-size: 17px;
+        margin: 30px;
+        margin-left: 0;
+        margin-top: 30px;
+    }
+
+    .friend-profile {
+        height: 80px;
+        width: 100%;
+        /* margin: 0 auto; */
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        margin-left: 0;
+        display: grid;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        /* justify-content: space-be; */
+        cursor: pointer;
+    }
+
+    .friend-profile>div:first-child>img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .friend-profile>div:first-child {
+        height: 70px;
+        width: 70px;
+        background-color: white;
+        z-index: 1;
+        border-radius: 50%;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        /* bottom: 30px; */
+        left: 20px;
+    }
+
+    .friend-profile>div:not(:first-child) {
+        /* border: 1px solid red; */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 60%;
+        gap: 5px;
+        padding: 0;
+        margin-top: -5px;
+        margin-left: 20px;
+        font-size: 18px;
+        line-height: 0px;
+        /* border: 1px solid blue; */
+        /* border: 1px solid red; */
+    }
+
+    /* View frinds */
+
+    .view-friend {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.19);
+        z-index: 10;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .view-friend>div {
+        background-color: white;
+        /* height: 280px; */
+        width: 90%;
+        border-radius: 20px;
+    }
+
+    .view-friend>div>div:first-child {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 30px;
+        margin-bottom: 10px;
+    }
+
+    .view-friend>div>div:first-child>div:first-child {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .view-friend>div>div:first-child>div:first-child>img {
+        height: 80px;
+        width: 80px;
+    }
+
+    .view-friend>div>div:first-child>p {
+        width: 240px;
+        margin-left: 30px;
+        font-weight: bold;
+        font-size: 18px;
+        margin-right: 10px;
+        text-align: center;
+    }
+
+    .view-friend>div>div:nth-child(2) {
+        display: flex;
+        align-items: center;
+        width: 95%;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .view-friend>div>div:nth-child(2)>div:first-child {
+        /* border: 1px solid red; */
+        margin-left: 15px;
+        width: auto;
+        font-weight: bold;
+    }
+
+    .view-friend>div>div:nth-child(2)>div:nth-child(2) {
+        /* border: 1px solid red; */
+        margin-left: 20px;
+        width: 60%;
+    }
+
+    .view-friend>div>div:nth-child(2)>div:nth-child(2)>p {
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .view-friend>div>div:nth-child(2)>div:nth-child(2)>p::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .view-friend>div>button {
+        height: 40px;
+        width: 130px;
+        margin: 0 auto;
+        position: relative;
+        margin-bottom: 15px;
+        margin-right: 15px;
+        left: 15%;
+        background-color: rgba(138, 138, 138, 0.308);
+        border: none;
+        border-radius: 20px;
+        color: black;
+        font-size: 15px;
+        /* border: 2px solid red; */
+    }
+
+    .add-friend {
+        background-color: rgb(17, 167, 25);
+        border: none;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        font-size: 40px;
+        color: white;
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .add-friend>img {
+        height: 35px;
+        margin-left: 5px;
+        z-index: 5;
+    }
+
+    .add-friend:hover {
+        transform: scale(1.05);
+    }
 }

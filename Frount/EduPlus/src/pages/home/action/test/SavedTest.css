@@ -1,0 +1,155 @@
+.tests {
+    margin-top: 90px;
+}
+
+.test-group {
+    margin-left: 45px;
+    margin-bottom: 40px;
+}
+
+.test-group>div>p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.test-group>div:first-child {
+    width: 95%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    /* border: 1px solid red; */
+}
+
+.test-group>div>img {
+    height: 25px;
+    cursor: pointer;
+}
+
+.test-group>div:not(:first-child) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 10px;
+    /* width: 90%; */
+}
+
+.test-group>div>div {
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.test-block {
+    width: 300px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+
+
+.test-group>div:first-child {
+    margin-left: 0;
+}
+
+.test-block>img {
+    height: 30px;
+    width: 30px;
+}
+
+.test-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.test-actions img {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+}
+
+.test-block input {
+    flex: 1;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.edit-icon {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: none;
+}
+
+.edit-icon>img {
+    height: 30px;
+    width: 30px;
+}
+
+
+@media (max-width: 768px) {
+    .tests {
+        margin: 0 auto;
+        margin-top: 20px;
+        width: 90vw;
+    }
+
+    .test-group {
+        margin-left: 0;
+        margin-bottom: 40px;
+    }
+
+    .test-group>p {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .test-group>div {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 10px;
+        max-width: 90%;
+    }
+
+    .test-group>div:not(:first-child) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 10px;
+        /* width: 90%; */
+    }
+
+    .test-block {
+        width: 120px;
+        height: 20px;
+        font-size: 18px;
+    }
+    
+    .test-block > p {
+        /* border: 1px solid red; */
+        width: 110px;
+        overflow: hidden;
+    }
+
+
+    .test-group>div:first-child {
+        margin-left: 0;
+    }
+
+    .test-block>img {
+        height: 25px;
+        width: 25px;
+        /* border: 1px solid red; */
+    }
+
+
+}

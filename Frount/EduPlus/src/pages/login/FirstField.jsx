@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import './FirstField.css';
 
 function FirstField({
@@ -12,40 +13,92 @@ function FirstField({
     isUsernameValid,
     isPasswordStrong
 }) {
+    const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setDeviceWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <>
             <div className="field">
-                <label>Username</label>
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "310px"
+                }}>
+                    <label>Username</label>
+                    {deviceWidth < 768 && (
+                        (username.length != 0) ?
+                            <span className={isUsernameValid ? "ok" : "bad"}>
+                                {isUsernameValid ? "✓ Available" : "✕ Not available"}
+                            </span> :
+                            null
+                    )
+                    }
+                </div>
                 <div className="input-row">
                     <input
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                    {
-                        (username.length != 0) ?
-                            <span className={isUsernameValid ? "ok" : "bad"}>
-                                {isUsernameValid ? "✓ Available" : "✕ Not available"}
-                            </span> :
-                            null
+                    {!(deviceWidth < 768) ?
+                        <>
+                            {
+                                (username.length != 0) ?
+                                    <span className={isUsernameValid ? "ok" : "bad"}>
+                                        {isUsernameValid ? "✓ Available" : "✕ Not available"}
+                                    </span> :
+                                    null
+
+                            }
+                        </> : null
+
                     }
                 </div>
             </div>
 
             <div className="field">
-                <label>Password</label>
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "310px"
+                }}
+                >
+                    <label>Password</label>
+                    {deviceWidth < 768 && (
+                        (password.length != 0) ?
+                            <span className={isPasswordStrong ? "ok" : "bad"}>
+                                {isPasswordStrong ? "✓ Strong" : "✕ Weak"}
+                            </span> :
+                            null
+                    )}
+                </div>
                 <div className="input-row">
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    {
-                        (password.length != 0) ?
-                            <span className={isPasswordStrong ? "ok" : "bad"}>
-                                {isPasswordStrong ? "✓ Strong" : "✕ Weak"}
-                            </span> :
-                            null
+                    {!(deviceWidth < 768) ?
+                        <>
+                            {
+                                (password.length != 0) ?
+                                    <span className={isPasswordStrong ? "ok" : "bad"}>
+                                        {isPasswordStrong ? "✓ Strong" : "✕ Weak"}
+                                    </span> :
+                                    null
+                            }
+                        </> : null
                     }
                 </div>
             </div>

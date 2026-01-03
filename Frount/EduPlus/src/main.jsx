@@ -10,20 +10,19 @@ import Login from './pages/login/Login.jsx';
 
 import { NotFound } from './pages/NotFound.jsx';
 import Home from './pages/home/Home.jsx';
-import Quiz from './pages/home/test/Quiz.jsx';
 import Dashboard from './pages/home/dashboard/Dashboard.jsx';
 import Action from './pages/home/action/Action.jsx';
-import Test from './pages/home/test/Test.jsx';
 import Ai from './pages/home/ai/Ai.jsx';
 import Friend from './pages/home/friends/Friend.jsx';
 import Settings from './pages/home/settings/Settings.jsx';
 import Plan from './pages/home/action/Plan.jsx';
-import Communication from './pages/home/action/Communication.jsx';
-import Progress from './pages/home/action/Progress.jsx';
 import { ImageProvider } from './context/ImageProvider.jsx';
 import { UserProvider } from './context/UserProvider.jsx';
 import CollectInfo from './pages/login/collectInfo.jsx';
 import CollectInfoOAuth from './pages/login/CollectInfoOAuth';
+import TestBuilder from './pages/home/action/test/TestBuilder';
+import GenerateTest from './pages/home/action/test/GenerateTest';
+import SavedTest from './pages/home/action/test/SavedTest';
 
 
 const router = createBrowserRouter([
@@ -62,10 +61,6 @@ const router = createBrowserRouter([
         element: <Ai />
       },
       {
-        path: '/home/test',
-        element: <Test />
-      },
-      {
         path: '/home/friend',
         element: <Friend />
       },
@@ -80,23 +75,21 @@ const router = createBrowserRouter([
         element: <Plan />
       },
       {
-        path: '/home/action/communication',
-        element: <Communication />
+        path: '/home/action/test',
+        element: <TestBuilder />
       },
       {
-        path: '/home/action/progress',
-        element: <Progress />
+        path: '/home/action/test/saved',
+        element: <SavedTest />
+      },
+      {
+        path: '/home/action/test/generate',
+        element: <GenerateTest />
       },
       {
         path: '/home/action/ai',
         element: <Ai />
       },
-
-      // test navigaters
-      {
-        path: '/home/test/:testName',
-        element: <Quiz />
-      }
     ],
   }
 ]);

@@ -1,4 +1,5 @@
 import './SecondField.css'
+import { useEffect, useState } from 'react';
 
 function SecondField({
   dob,
@@ -13,6 +14,8 @@ function SecondField({
   setLinkedIn
 }) {
 
+  const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
+
   const handleMobileChange = (e) => {
     let value = e.target.value;
     value = value.replace(/[^0-9]/g, "");
@@ -21,9 +24,20 @@ function SecondField({
     }
   };
 
+  useEffect(() => {
+        const handleResize = () => {
+            setDeviceWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
   return (
     <>
       <div className="row">
+
         <div className="field dob">
           <label>Date of birth</label>
           <input
@@ -46,22 +60,39 @@ function SecondField({
           </select>
         </div>
 
-        <div className="field mobile">
-          <label>Mobile number</label>
-          <input
-            type="tel"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            value={mobile}
-            onChange={handleMobileChange}
-          />
-        </div>
+        {
+          !(deviceWidth < 768) && (
+            <div className="field mobile">
+              <label>Mobile number</label>
+              <input
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={mobile}
+                onChange={handleMobileChange}
+              />
+            </div>)
+        }
       </div>
+      {
+        (deviceWidth < 768) && (
+          <div className="field mobile">
+            <label>Mobile number</label>
+            <input
+              type="tel"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={mobile}
+              onChange={handleMobileChange}
+            />
+          </div>)
+      }
 
-      <div className="row">
+      <div className="row second">
         <div className="field email">
           <label>Email address</label>
           <input
+            
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

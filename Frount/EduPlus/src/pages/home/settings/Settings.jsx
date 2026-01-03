@@ -18,7 +18,7 @@ function Settings() {
 
 
     const { setNavState } = useOutletContext();
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser, loading } = useContext(UserContext);
     const navigate = useNavigate();
 
     const [showConfirm, setShowConfirm] = useState(false);
@@ -121,9 +121,20 @@ function Settings() {
         }
     };
 
+    if (loading || !user) {
+        return (
+            <div className="friend-page">
+                <p style={{ textAlign: "center", marginTop: "50px" }}>
+                    Loading friends...
+                </p>
+            </div>
+        );
+    }
+
+
     return (
         <>
-            <h3>Settings</h3>
+            <h3 style={{ position: "absolute", top: "5px", left: "20px", textAlign: "left" }}>Settings</h3>
 
             <div className="settings">
                 <div className="main-prof">

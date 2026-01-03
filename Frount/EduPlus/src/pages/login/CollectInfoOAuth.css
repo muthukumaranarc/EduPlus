@@ -62,10 +62,6 @@ h2 {
     margin-right: -5px;
 }
 
-button:hover {
-    background: #1c4aa3;
-}
-
 /* First & Last name */
 .name-rowOAuth {
     display: flex;

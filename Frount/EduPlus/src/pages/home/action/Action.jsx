@@ -35,13 +35,13 @@ function Action() {
 
     return (
         <>
-            <h3>Actions</h3>
+            <h3 style = {{position: "absolute", top: "5px", left: "5px", textAlign: "left"}}>Actions</h3>
 
             <div className="action-com">
                 <ActionCard img={images.plan} title="Study plan with test" path="/home/action/plan" />
-                <ActionCard img={images.communication} title="Grammar improver" sub="(English)" path="/home/action/communication" />
-                <ActionCard img={images.progress} title="Study progress tracker" path="/home/action/progress" />
+                <ActionCard img={images.test} title="Smart Test Builder" path="/home/action/test" />
                 <ActionCard img={images.assistant} title="Personal assistant" sub="(AI Chat)" path="/home/action/ai" />
+                <ActionCard img={images.communication} title="Your Friends" path="/home/friend" />
             </div>
         </>
     );

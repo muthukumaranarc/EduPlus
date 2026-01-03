@@ -4,19 +4,19 @@
     justify-content: center;
 }
 
-.not-found > img {
+.not-found>img {
     height: 150px;
     margin: 0 auto;
     margin-top: 40px;
 }
 
-.not-found > h1 {
+.not-found>h1 {
     margin: 0 auto;
     margin-top: 20px;
     font-size: 25px;
 }
 
-.not-found > p {
+.not-found>p {
     margin: 0 auto;
     text-align: center;
     font-size: 18px;
@@ -25,7 +25,7 @@
     margin-top: 10px;
 }
 
-.not-found > button {
+.not-found>button {
     width: 200px;
     height: 40px;
     border: none;
@@ -34,4 +34,23 @@
     background-color: rgba(1, 69, 212, 1);
     color: white;
     margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+    .not-found>img {
+        height: 100px;
+    }
+    
+    .not-found>h1 {
+        margin-top: 20px;
+    }
+
+    .not-found>p {
+        font-size: 15px;
+        width: 95%;
+    }
+
+    .not-found>button {
+        font-size: 16px;
+    }
 }

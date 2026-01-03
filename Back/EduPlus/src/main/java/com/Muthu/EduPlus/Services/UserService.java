@@ -94,9 +94,7 @@ public class UserService {
         aboutUserService.createUserData(user.getUsername(), user.getFirstName());
         friendsService.createUser(user.getUsername());
         progressTrackerService.createTrack(
-                user.getUsername(),
-                "Today task",
-                "Set your daily task to structure your day."
+                user.getUsername()
         );
 
         response.addHeader(
@@ -154,7 +152,7 @@ public class UserService {
     private void deleteAllActivity(String username) {
         aboutUserService.deleteByUsername(username);
         friendsService.deleteUser(username);
-        progressTrackerService.deleteUser(username);
+        progressTrackerService.deleteTrack(username);
         grammarService.deleteUser(username);
     }
 
@@ -212,7 +210,7 @@ public class UserService {
         data.save(userData);
 
         aboutUserService.updateUsernameByOldUsername(currentUsername, newUsername);
-        progressTrackerService.changeUsernameForAllTrack(currentUsername, newUsername);
+        progressTrackerService.changeUsernameTrack(currentUsername, newUsername);
         friendsService.changeUsername(newUsername);
         grammarService.updateUsername(currentUsername, newUsername);
 

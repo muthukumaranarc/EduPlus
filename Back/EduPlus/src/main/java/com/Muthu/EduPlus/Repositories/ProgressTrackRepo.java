@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProgressTrackRepo extends MongoRepository<ProgressTrack, String> {
+    ProgressTrack findUserByUsername(String username);
 }
