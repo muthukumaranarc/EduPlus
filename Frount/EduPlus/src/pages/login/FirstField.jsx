@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import './FirstField.css';
+import eyeOpen from "../../assets/eye-open.png";
+import eyeClose from "../../assets/eye-close.png";
 
 function FirstField({
     setFirstname,
@@ -14,6 +16,8 @@ function FirstField({
     isPasswordStrong
 }) {
     const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
+    const [pasShow, setPassShow] = useState(false);
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -46,8 +50,9 @@ function FirstField({
                 </div>
                 <div className="input-row">
                     <input
-                        type="text"
+                        type="text" 
                         value={username}
+                        maxLength={40}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     {!(deviceWidth < 768) ?
@@ -85,8 +90,9 @@ function FirstField({
                 </div>
                 <div className="input-row">
                     <input
-                        type="password"
+                        type={pasShow ? "text" : "password"}
                         value={password}
+                        maxLength={40}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     {!(deviceWidth < 768) ?
@@ -100,6 +106,10 @@ function FirstField({
                             }
                         </> : null
                     }
+                    {
+                        password !== "" &&
+                        <img src={pasShow ? eyeClose : eyeOpen} alt="Toggle password visibility" onClick={() => setPassShow(!pasShow)} className="toggle-password" />
+                    }
                 </div>
             </div>
 
@@ -109,6 +119,7 @@ function FirstField({
                     <input
                         type="text"
                         value={firstname}
+                        maxLength={20}
                         onChange={(e) => setFirstname(e.target.value)}
                     />
                 </div>
@@ -118,6 +129,7 @@ function FirstField({
                     <input
                         type="text"
                         value={lastname}
+                        maxLength={20}
                         onChange={(e) => setLastname(e.target.value)}
                     />
                 </div>

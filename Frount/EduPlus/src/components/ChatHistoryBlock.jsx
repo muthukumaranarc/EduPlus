@@ -1,4 +1,5 @@
 import './ChatHistoryBlock.css';
+import ReactMarkdown from "react-markdown";
 
 function ChatHistoryBlock({ chatHistory }) {
     if (!Array.isArray(chatHistory)) return null;
@@ -9,7 +10,7 @@ function ChatHistoryBlock({ chatHistory }) {
                     key={index}
                     className={index % 2 === 0 ? "request" : "response"}
                 >
-                    <p>{data}</p>
+                    <ReactMarkdown>{data}</ReactMarkdown>
                 </div>
             ))}
         </>

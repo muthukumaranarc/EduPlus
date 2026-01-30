@@ -2,6 +2,13 @@
     margin-bottom: 18px;
 }
 
+.input-row img {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    right: 115px;
+}
+
 label {
     display: block;
     margin-bottom: 6px;
@@ -104,26 +111,26 @@ input:focus {
         gap: 14px;
         /* border: 1px solid red; */
     }
-    
+
     .input-row input {
         flex: 1;
         /* border: 1px solid red; */
         max-width: 80%;
     }
-    
+
     /* Status text */
     .ok {
         color: #1fa24a;
         font-size: 14px;
         white-space: nowrap;
     }
-    
+
     .bad {
         color: #e53935;
         font-size: 14px;
         white-space: nowrap;
     }
-    
+
     /* First & Last name */
     .name-row {
         display: flex;
@@ -133,14 +140,14 @@ input:focus {
         width: 320px;
         /* border: 2px solid red; */
     }
-    
+
     .name-row>div {
         /* border: 1px solid red; */
         width: auto;
     }
-    
+
     .name-row>div>input {
         /* border: 1px solid red; */
-        width:90%;   
+        width: 90%;
     }
 }

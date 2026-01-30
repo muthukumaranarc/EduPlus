@@ -6,6 +6,22 @@ import Trophy from "../../components/Trophy";
 import ScrollToTop from "./ScrollToTop";
 import { UserContext } from '../../context/UserContext';
 
+import eduplus_logo from '../../assets/eduplus_logo.png';
+import eduplus_name from '../../assets/eduplus_name.png';
+
+import dashboard_icon from '../../assets/dashboard.png';
+import action_icon from '../../assets/action.png';
+import ai_chat_icon from '../../assets/ai_chat.png';
+import friends_icon from '../../assets/friends.png';
+import settings_icon from '../../assets/settings.png';
+import menu_icon from '../../assets/menu.jpg';
+
+import dashboard_icon_g from '../../assets/dashboard_g.png';
+import action_icon_g from '../../assets/action_g.png';
+import ai_chat_icon_g from '../../assets/ai_chat_g.png';
+import friends_icon_g from '../../assets/friends_g.png';
+import settings_icon_g from '../../assets/settings_g.png';
+
 function Home() {
     let [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
     const navigate = useNavigate();
@@ -55,8 +71,8 @@ function Home() {
                         {
                             (deviceWidth > 768) ?
                                 <div className="logo-box" >
-                                    <img src="/src/assets/EduPlus_logo.png" alt="Eduplus logo" className="logo" />
-                                    <img src="/src/assets/EduPlus_name.png" alt="Eduplus name" className="name" />
+                                    <img src={eduplus_logo} alt="Eduplus logo" className="logo" />
+                                    <img src={eduplus_name} alt="Eduplus name" className="name" />
                                 </div> :
                                 <Trophy trophy={(user !== null) ? user.trophy : 0} />
                         }
@@ -67,8 +83,8 @@ function Home() {
                         >
                             {
                                 navState === "dashboard" ?
-                                    <img src="/src/assets/dashboard.png" alt="dashboard" /> :
-                                    <img src="/src/assets/dashboard_g.png" alt="dashboard" />
+                                    <img src={dashboard_icon} alt="dashboard" /> :
+                                    <img src={dashboard_icon_g} alt="dashboard" />
                             }
                             <p>Dashboard</p>
                         </div>
@@ -88,8 +104,8 @@ function Home() {
                                     navState === "communication" ||
                                     navState === "progress" ||
                                     navState === "fitness") ?
-                                    <img src="/src/assets/action.png" alt="action" /> :
-                                    <img src="/src/assets/action_g.png" alt="action" />
+                                    <img src={action_icon} alt="action" /> :
+                                    <img src={action_icon_g} alt="action" />
                             }
                             <p>Actions</p>
                         </div>
@@ -100,8 +116,8 @@ function Home() {
                         >
                             {
                                 navState === "ai" ?
-                                    <img src="/src/assets/ai_chat.png" alt="ai chat" /> :
-                                    <img src="/src/assets/ai_chat_g.png" alt="ai chat" />
+                                    <img src={ai_chat_icon} alt="ai chat" /> :
+                                    <img src={ai_chat_icon_g} alt="ai chat" />
                             }
                             <p>AI Chat</p>
                         </div>
@@ -112,8 +128,8 @@ function Home() {
                         >
                             {
                                 navState === "friend" ?
-                                    <img src="/src/assets/friends.png" alt="friends" /> :
-                                    <img src="/src/assets/friends_g.png" alt="friends" />
+                                    <img src={friends_icon} alt="friends" /> :
+                                    <img src={friends_icon_g} alt="friends" />
                             }
                             <p>Friends</p>
                         </div>
@@ -124,8 +140,8 @@ function Home() {
                         >
                             {
                                 navState === "setting" ?
-                                    <img src="/src/assets/settings.png" alt="settings" /> :
-                                    <img src="/src/assets/settings_g.png" alt="settings" />
+                                    <img src={settings_icon} alt="settings" /> :
+                                    <img src={settings_icon_g} alt="settings" />
                             }
                             <p>Settings</p>
                         </div>
@@ -137,11 +153,11 @@ function Home() {
                 <div className="head-mobile">
                     <div>
                         <div className="mobile-menu" onClick={() => { setIsNavActive(true) }}>
-                            <img src="/src/assets/menu.jpg" alt="menu" />
+                            <img src={menu_icon} alt="menu" />
                         </div>
                         <div className="mobile-logo" onClick={() => { navigate("/home/dashboard") }}>
-                            <img src="/src/assets/eduplus_logo.png" alt="Eduplus logo" className="logo" />
-                            <img src="/src/assets/eduplus_name.png" alt="Eduplus name" />
+                            <img src={eduplus_logo} alt="Eduplus logo" className="logo" />
+                            <img src={eduplus_name} alt="Eduplus name" />
                         </div>
                     </div>
                     <div className="page-name">
@@ -164,22 +180,19 @@ function Home() {
 function renderImage(navState) {
     switch (navState) {
         case "dashboard":
-            return <img src="/src/assets/dashboard.png" alt="dashboard" />;
+            return <img src={dashboard_icon} alt="dashboard" />;
 
         case "action":
-            return <img src="/src/assets/action.png" alt="dashboard" />;
+            return <img src={action_icon} alt="action" />;
 
         case "ai":
-            return <img src="/src/assets/ai_chat.png" alt="dashboard" />;
-
-        case "test": ;
-            return <img src="/src/assets/test.png" alt="dashboard" />;
+            return <img src={ai_chat_icon} alt="ai chat" />;
 
         case "friend":
-            return <img src="/src/assets/friends.png" alt="dashboard" />;
+            return <img src={friends_icon} alt="friends" />;
 
         case "setting":
-            return <img src="/src/assets/settings.png" alt="dashboard" />;
+            return <img src={settings_icon} alt="settings" />;
 
         default:
             null

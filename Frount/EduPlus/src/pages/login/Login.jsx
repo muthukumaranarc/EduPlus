@@ -4,6 +4,8 @@ import logo from "../../assets/EduPlus_logo.png";
 import nameImg from "../../assets/EduPlus_name.png";
 import google from "../../assets/Google.png";
 // import phone from "../../assets/Call.png";
+import eyeOpen from "../../assets/eye-open.png";
+import eyeClose from "../../assets/eye-close.png";
 
 import axios, { Axios } from "axios";
 import { useState, useEffect, useRef } from "react";
@@ -15,6 +17,7 @@ function Login() {
     const [password, setPassword] = useState("");
     const [wrongPass, setWrongPass] = useState(false);
     const inputRef = useRef(null);
+    const [pasShow, setPassShow] = useState(false);
 
     const loginUser = async () => {
         try {
@@ -58,7 +61,7 @@ function Login() {
     };
 
     useEffect(() => {
-        
+
     }, []);
 
     return (
@@ -78,16 +81,22 @@ function Login() {
                     value={username}
                     onKeyDown={handleKeyDownUsername}
                     onChange={(e) => { setUsername(e.target.value); setWrongPass(false) }}
-                    />
-
-                <input
-                    ref={inputRef}
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onKeyDown={handleKeyDownPassword}
-                    onChange={(e) => { setPassword(e.target.value); setWrongPass(false) }}
                 />
+
+                <div className="password">
+                    <input
+                        ref={inputRef}
+                        type={pasShow ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onKeyDown={handleKeyDownPassword}
+                        onChange={(e) => { setPassword(e.target.value); setWrongPass(false) }}
+                    />
+                    {
+                        password !== ""  &&
+                        <img src={pasShow ? eyeClose : eyeOpen} alt="Toggle password visibility" onClick={() => setPassShow(!pasShow)} className="toggle-password" />
+                    }
+                </div>
 
                 {
                     (wrongPass == true) ? <h4>Wrong password or username!</h4> : null

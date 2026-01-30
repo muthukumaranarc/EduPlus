@@ -171,7 +171,7 @@ function Friend() {
                     <div><img src={profile} alt="profile" /></div>
                     <div>
                         <p>
-                            <b className="my-name">{user.username}</b><br />
+                            <b className="my-name">{user.username}</b>
                             {'#' + currentUserRank}
                         </p>
                         <center><p>Trophies <br /> {user.trophy}</p></center>

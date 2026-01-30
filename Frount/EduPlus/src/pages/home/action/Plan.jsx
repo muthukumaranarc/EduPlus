@@ -95,7 +95,7 @@ function Plan() {
 
 
     const handleSend = async () => {
-        if (!file || loading) return; // 🚨 prevent double fire (mobile)
+        if (!file || loading) return;
 
         setLoading(true);
         try {

@@ -2,6 +2,10 @@
   font-family: "Inter", sans-serif;
 }
 
+body {
+  background-color: #F9FBFD;
+}
+
 button:hover {
   cursor: pointer;
 }

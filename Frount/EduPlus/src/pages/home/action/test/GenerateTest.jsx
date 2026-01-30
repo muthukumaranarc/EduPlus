@@ -213,6 +213,7 @@ function GenerateTest() {
                             type="text"
                             placeholder="Create new group"
                             value={newGroupName}
+                            maxLength={20}
                             onChange={(e) => {
                                 setNewGroupName(e.target.value);
                                 setGroupName("");
@@ -227,6 +228,7 @@ function GenerateTest() {
                                 type="text"
                                 placeholder="Test title"
                                 value={testTitle}
+                                maxLength={20}
                                 onChange={(e) => setTestTitle(e.target.value)}
                             />
                         </div>
