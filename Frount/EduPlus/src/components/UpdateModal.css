@@ -10,11 +10,11 @@
 }
 
 .update-box {
-    background: #fff;
+    background: var(--bg-card);
     padding: 20px;
     width: 320px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-lg);
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -24,15 +24,22 @@
     margin-bottom: 8px;
     text-align: center;
     font-size: 18px;
+    color: var(--text-primary);
 }
 
 .update-box input {
     padding: 10px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-primary);
     outline: none;
     width: 90%;
     height: 25px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+}
+
+.update-box input::placeholder {
+    color: var(--input-placeholder);
 }
 
 .actions {
@@ -43,7 +50,7 @@
 
 .confirm {
     flex: 1;
-    background: #10b981;
+    background: var(--accent-success);
     color: white;
     border: none;
     padding: 10px;
@@ -54,12 +61,14 @@
 }
 
 .confirm:hover {
-    background: #099e6d;
+    background: var(--accent-success);
+    opacity: 0.9;
 }
 
 .cancel {
     flex: 1;
-    background: #e5e7eb;
+    background: var(--accent-primary);
+    color: var(--text-primary);
     border: none;
     padding: 10px;
     border-radius: 6px;
@@ -67,5 +76,6 @@
 }
 
 .cancel:hover {
-    background-color: hwb(0 84% 16%);
+    background: var(--accent-primary);
+    opacity: 0.9;
 }

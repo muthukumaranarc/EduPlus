@@ -12,12 +12,13 @@
 }
 
 .alert-box {
-    background: #fff;
+    background: var(--bg-card);
     padding: 20px;
     width: 320px;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
 }
 
 .actions {
@@ -37,20 +38,22 @@
 
 
 .confirm {
-    background: #ef4444;
+    background: var(--accent-danger);
     color: white;
     margin-right: 10px;
 }
 
 .cancel {
-    background: #e5e7eb;
-    color: #111827;
+    background: var(--accent-primary);
+    color: var(--text-primary);
 }
 
 .confirm:hover {
-    background: #ef4444;
+    background: var(--accent-danger);
+    opacity: 0.9;
 }
 
 .cancel:hover {
-    background: #e5e7eb;
+    background: var(--accent-primary);
+    opacity: 0.9;
 }

@@ -5,6 +5,7 @@ import arrow from '../../../assets/arrow.png';
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import axios from "axios";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 import UpdateModal from "../../../components/UpdateModal";
@@ -12,13 +13,12 @@ import UpdateModal from "../../../components/UpdateModal";
 function Settings() {
     const baseURL = import.meta.env.VITE_API_URL;
 
-    let theme = 'Light theme';
     let Language = 'English';
     let Notification = 'ON';
 
-
     const { setNavState } = useOutletContext();
     const { user, setUser, loading } = useContext(UserContext);
+    const { theme, toggleTheme } = useContext(ThemeContext);
     const navigate = useNavigate();
 
     const [showConfirm, setShowConfirm] = useState(false);
@@ -291,9 +291,9 @@ function Settings() {
                     <h4>App Settings</h4>
                     <p>Customize this application</p>
                     <div>
-                        <div>
+                        <div onClick={toggleTheme}>
                             <p>Theme</p>
-                            <p>{theme}</p>
+                            <p>{theme.charAt(0).toUpperCase() + theme.slice(1)} mode</p>
                             <img src={arrow} />
                         </div>
                         <div>

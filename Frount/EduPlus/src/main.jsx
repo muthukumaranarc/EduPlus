@@ -18,6 +18,7 @@ import Settings from './pages/home/settings/Settings.jsx';
 import Plan from './pages/home/action/Plan.jsx';
 import { ImageProvider } from './context/ImageProvider.jsx';
 import { UserProvider } from './context/UserProvider.jsx';
+import { ThemeProvider } from './context/ThemeProvider.jsx';
 import CollectInfo from './pages/login/collectInfo.jsx';
 import CollectInfoOAuth from './pages/login/CollectInfoOAuth';
 import TestBuilder from './pages/home/action/test/TestBuilder';
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
         path: '/home/setting',
         element: <Settings />
       },
-      
+
       // action navigaters
       {
         path: '/home/action/plan',
@@ -96,10 +97,12 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <UserProvider>
-      <ImageProvider>
-        <RouterProvider router={router} />
-      </ImageProvider>
-    </UserProvider>
+    <ThemeProvider>
+      <UserProvider>
+        <ImageProvider>
+          <RouterProvider router={router} />
+        </ImageProvider>
+      </UserProvider>
+    </ThemeProvider>
   </StrictMode>
 );

@@ -14,15 +14,16 @@
     justify-content: space-between;
 }
 
-.nav ,nav > div{
+.nav,
+nav>div {
     height: 100vh;
     width: 182px;
     position: fixed;
     top: 0px;
     left: 0px;
-    box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.171);
+    box-shadow: var(--shadow-lg);
     z-index: 2;
-    background-color: white;
+    background-color: var(--bg-secondary);
 }
 
 .nav>div>div {
@@ -75,7 +76,7 @@
     /* border: 1px solid red; */
     display: flex;
     align-items: center;
-    color: rgba(86, 86, 86, 0.67);
+    color: var(--text-secondary);
     height: 35px;
     margin-bottom: 17px;
     width: 180px;
@@ -87,17 +88,27 @@
 .nav>div>.test:hover,
 .nav>div>.friend:hover,
 .nav>div>.setting:hover {
-    background-color: rgba(128, 128, 128, 0.048);
+    background-color: var(--bg-hover);
 }
 
 .active>p {
-    color: black;
+    color: var(--text-primary);
 }
 
 .active {
     display: block;
-    border-right: 3px solid black;
+    border-right: 3px solid var(--text-primary);
     width: 20px;
+}
+
+/* Make inactive nav icons match text color in dark mode */
+[data-theme="dark"] .nav>div>div:not(.active)>img {
+    filter: brightness(0.7) contrast(1.2);
+}
+
+/* Keep active icons at full brightness */
+[data-theme="dark"] .nav>div>.active>img {
+    filter: none;
 }
 
 .outlet {
@@ -117,8 +128,8 @@
     top: 30px;
 }
 
-.home-profile > div {
-    border: 1px solid rgb(138, 138, 138);
+.home-profile>div {
+    border: 1px solid var(--border-primary);
     height: 40px;
     width: 40px;
     border-radius: 50%;
@@ -127,7 +138,7 @@
     justify-content: center;
 }
 
-.home-profile > div > img {
+.home-profile>div>img {
     height: 30px;
 }
 
@@ -144,12 +155,13 @@
     -ms-user-select: none;
 }
 
-.home-profile > p {
+.home-profile>p {
     /* border: 1px solid red; */
     display: block;
     width: 110px;
     overflow-x: hidden;
     font-size: 14px;
+    color: var(--text-primary);
 }
 
 @media (max-width: 768px) {
@@ -162,22 +174,22 @@
         margin-top: 20px;
         /* color: #000; */
     }
-    
+
     .nav {
         height: 100vh;
         width: 182px;
         position: fixed;
         top: 0px;
         left: 0px;
-        box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.171);
-        background-color: white;
+        box-shadow: var(--shadow-lg);
+        background-color: var(--bg-secondary);
         z-index: 100;
         transform: translateX(-185px);
         transition: transform 0.3s ease;
         /* border: 1px solid red; */
     }
-    
-    .nav > div:first-child {
+
+    .nav>div:first-child {
         margin: 0 auto;
         margin-top: 20px;
         margin-bottom: 20px;
@@ -198,7 +210,7 @@
         margin-bottom: 35px;
         cursor: default;
     }
-    
+
     .nav>.logo-box>.logo {
         height: 20px;
         width: 40px;
@@ -232,7 +244,7 @@
         /* border: 1px solid red; */
         display: flex;
         align-items: center;
-        color: rgba(86, 86, 86, 0.67);
+        color: var(--text-secondary);
         height: 35px;
         margin-bottom: 17px;
         width: 180px;
@@ -244,7 +256,7 @@
     .nav>.test:hover,
     .nav>.friend:hover,
     .nav>.setting:hover {
-        background-color: rgba(128, 128, 128, 0.048);
+        background-color: var(--bg-hover);
     }
 
     .active-nav {
@@ -263,7 +275,7 @@
         width: 40px;
         z-index: 3;
         cursor: pointer;
-        border: 1.5px solid black;
+        border: 1.5px solid var(--text-primary);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -282,12 +294,12 @@
         height: 40px;
         width: 150px;
         z-index: 3;
-        border: 1.5px solid black;
+        border: 1.5px solid var(--text-primary);
         border-radius: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: white;
+        background-color: var(--bg-secondary);
     }
 
     .mobile-logo>img:first-child {
@@ -346,5 +358,5 @@
         transition: all 3s ease;
     }
 
-    
+
 }

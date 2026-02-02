@@ -1,9 +1,98 @@
+/* Light Theme (Default) */
+:root,
+[data-theme="light"] {
+  /* Background colors */
+  --bg-primary: #F9FBFD;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #F5F5F5;
+  --bg-card: #FFFFFF;
+  --bg-hover: rgba(0, 0, 0, 0.05);
+  
+  /* Text colors */
+  --text-primary: #000000;
+  --text-secondary: rgba(98, 98, 98, 1);
+  --text-tertiary: rgba(0, 0, 0, 0.637);
+  --text-inverse: #FFFFFF;
+  
+  /* Border colors */
+  --border-primary: rgba(186, 186, 186, 1);
+  --border-secondary: rgba(217, 217, 217, 1);
+  --border-light: rgba(217, 217, 217, 0.5);
+  
+  /* Shadow colors */
+  --shadow-sm: 0 0 5px rgba(217, 217, 217, 1);
+  --shadow-md: 0 0 10px rgba(217, 217, 217, 1);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.1);
+  
+  /* Accent colors */
+  --accent-primary: rgba(138, 138, 138, 0.308);
+  --accent-danger: rgba(255, 50, 50, 1);
+  --accent-success: #4CAF50;
+  --accent-info: #2196F3;
+  
+  /* Input colors */
+  --input-bg: #FFFFFF;
+  --input-border: rgba(186, 186, 186, 1);
+  --input-text: #000000;
+  --input-placeholder: rgba(98, 98, 98, 0.6);
+
+  /*Dashboard */
+  --motivate-back:rgba(255, 91, 91, 0.233);
+  --motivate-head:rgba(227, 80, 80, 0.89);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  /* Background colors */
+  --bg-primary: #0F1419;
+  --bg-secondary: #1A1F26;
+  --bg-tertiary: #252B33;
+  --bg-card: #1E2329;
+  --bg-hover: rgba(255, 255, 255, 0.08);
+  
+  /* Text colors */
+  --text-primary: #E8E9EA;
+  --text-secondary: #A8AAAD;
+  --text-tertiary: #8B8D91;
+  --text-inverse: #0F1419;
+  
+  /* Border colors */
+  --border-primary: #2F3336;
+  --border-secondary: #3A3F44;
+  --border-light: rgba(255, 255, 255, 0.1);
+  
+  /* Shadow colors */
+  --shadow-sm: 0 0 5px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 0 10px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.4);
+  
+  /* Accent colors */
+  --accent-primary: rgba(60, 65, 73, 0.8);
+  --accent-danger: #E74C3C;
+  --accent-success: #27AE60;
+  --accent-info: #3498DB;
+  
+  /* Input colors */
+  --input-bg: #1E2329;
+  --input-border: #2F3336;
+  --input-text: #E8E9EA;
+  --input-placeholder: rgba(168, 170, 173, 0.6);
+
+  /*Dashboard */
+  --motivate-back: #2f3641;
+  --motivate-head: rgba(255, 255, 255, 0.89);
+}
+
 * {
   font-family: "Inter", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
-  background-color: #F9FBFD;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
 }
 
 button:hover {
