@@ -21,21 +21,9 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final MyUserDetailsService userDetailsService;
 
-    public JwtFilter(
-            JwtService jwtService,
-            MyUserDetailsService userDetailsService
-    ) {
+    public JwtFilter(JwtService jwtService, MyUserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getServletPath();
-        return path.startsWith("/user/login")
-                || path.startsWith("/user/create")
-                || path.startsWith("/oauth2")
-                || path.startsWith("/login");
     }
 
     @Override
@@ -45,42 +33,46 @@ public class JwtFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // Skip if already authenticated
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+        String path = request.getRequestURI();
+
+        // 🔥 VERY IMPORTANT: Skip JWT validation for public & OAuth endpoints
+        if (
+                path.startsWith("/oauth2/")
+                        || path.startsWith("/login/")
+                        || path.equals("/user/login")
+                        || path.equals("/user/create")
+                        || path.equals("/user/is-user-exist")
+                        || "OPTIONS".equalsIgnoreCase(request.getMethod())
+        ) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Centralized token retrieval (cookie / header)
+        // Get token from Authorization header or Cookie
         String token = jwtService.getTokenFromRequest(request);
 
-        if (token == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-        String username = jwtService.extractUsername(token);
+            String username = jwtService.extractUsername(token);
 
-        if (username != null) {
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(username);
+            if (username != null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            if (jwtService.validateToken(token, userDetails)) {
+                if (jwtService.validateToken(token, userDetails)) {
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
 
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request)
-                );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
 
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
         }
 

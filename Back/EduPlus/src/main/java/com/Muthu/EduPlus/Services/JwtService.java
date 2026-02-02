@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,9 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECURITY_KEY =
-            "MuthuEduPlusSuperSecureJwtSigningKey2025@#123";
+
+    @Value("${jwt.secret}")
+    private String SECURITY_KEY;
 
     private static final long JWT_EXPIRATION_MS =
             1000L * 60 * 60 * 24 * 30; // 30 days

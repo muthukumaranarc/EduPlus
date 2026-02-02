@@ -80,6 +80,11 @@ public class UserController {
         return service.isUserExist(username);
     }
 
+    @GetMapping("/are-you-alive")
+    public boolean isAlive() {
+        return true;
+    }
+
     @PostMapping("/update-username")
     public String updateUsername(
             @RequestBody Map<String, String> data,

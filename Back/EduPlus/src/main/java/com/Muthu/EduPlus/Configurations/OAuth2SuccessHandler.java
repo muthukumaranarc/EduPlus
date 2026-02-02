@@ -6,6 +6,7 @@ import com.Muthu.EduPlus.Services.JwtService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,15 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtService jwtService;
     private final UserRepo userRepo;
+
+    @Value("${app.cookie.secure:false}")
+    private boolean secureCookie;
+
+    @Value("${app.cookie.samesite:Lax}")
+    private String sameSite;
+
+    @Value("${app.frontend.url:http://localhost:5173}")
+    private String frontendUrl;
 
     public OAuth2SuccessHandler(JwtService jwtService, UserRepo userRepo) {
         this.jwtService = jwtService;
@@ -58,25 +68,30 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             isNewUser = true;
         }
 
-        // Generate JWT
+        // 🔐 Generate JWT
         String token = jwtService.generateToken(username);
 
-        // HttpOnly Auth Cookie
-        ResponseCookie cookie = ResponseCookie.from(AUTH_COOKIE_NAME, token)
+        // 🍪 Build cookie depending on environment
+        ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie
+                .from(AUTH_COOKIE_NAME, token)
                 .httpOnly(true)
-                .secure(false) // << MUST be true in production (HTTPS)
                 .path("/")
-                .maxAge(Duration.ofDays(COOKIE_DAYS))
-                .sameSite("Lax")
-                .build();
+                .maxAge(Duration.ofDays(COOKIE_DAYS));
 
+        if (secureCookie) {
+            cookieBuilder.secure(true);
+        }
+
+        cookieBuilder.sameSite(sameSite);
+
+        ResponseCookie cookie = cookieBuilder.build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        // Redirect to frontend
+        // 🔄 Redirect user
         if (isNewUser) {
-            response.sendRedirect("http://localhost:5173/get-info-oauth");
+            response.sendRedirect(frontendUrl + "/get-info-oauth");
         } else {
-            response.sendRedirect("http://localhost:5173/home");
+            response.sendRedirect(frontendUrl + "/home");
         }
     }
 }

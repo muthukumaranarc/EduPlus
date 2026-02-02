@@ -44,12 +44,11 @@ public class AuthConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/user/create",
+                                "/user/are-you-alive",
                                 "/user/login",
                                 "/oauth2/**",
                                 "/login/**",
-                                "/user/is-user-exist",
-                                "/stu/**",
-                                "/ass/**"
+                                "/user/is-user-exist"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
