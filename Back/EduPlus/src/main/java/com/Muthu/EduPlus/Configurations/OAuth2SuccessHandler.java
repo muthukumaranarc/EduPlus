@@ -54,6 +54,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 ? email
                 : oAuth2User.getAttribute("login"); // GitHub fallback
 
+        // Extract profile picture from OAuth2 provider
+        String profilePictureUrl = oAuth2User.getAttribute("picture"); // Google profile picture
+
         boolean isNewUser = false;
 
         User user = userRepo.findByUsername(username);
@@ -64,8 +67,15 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     ? username.split("@")[0]
                     : username);
             user.setMailId(email);
+            user.setProfilePicture(profilePictureUrl); // Set profile picture for new OAuth2 users
             userRepo.save(user);
             isNewUser = true;
+        } else {
+            // Update profile picture for existing OAuth2 users if available
+            if (profilePictureUrl != null && !profilePictureUrl.isBlank()) {
+                user.setProfilePicture(profilePictureUrl);
+                userRepo.save(user);
+            }
         }
 
         // 🔐 Generate JWT

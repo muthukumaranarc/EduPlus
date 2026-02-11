@@ -27,6 +27,21 @@ function Settings() {
     const [showUpdate, setShowUpdate] = useState(false);
     const [updateType, setUpdateType] = useState(null);
 
+    const [profilePicture, setProfilePicture] = useState("");
+    const [profilePreview, setProfilePreview] = useState("");
+
+    const handleProfilePictureChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfilePicture(reader.result);
+                setProfilePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     useEffect(() => {
         setNavState("setting");
     }, [setNavState]);
@@ -87,6 +102,11 @@ function Settings() {
             { password, linkedin }
         );
 
+    const updateProfilePicture = (password, profilePic) =>
+        api.post("/update-profile-picture",
+            { password, profilePicture: profilePic }
+        );
+
     const logoutUser = () => api.get("/logout");
     const deleteUser = () => api.delete("/delete");
 
@@ -138,7 +158,16 @@ function Settings() {
 
             <div className="settings">
                 <div className="main-prof">
-                    <img src={profile} alt="profile" />
+                    <img
+                        src={user.profilePicture || profile}
+                        alt="profile"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "50%",
+                            objectFit: "cover"
+                        }}
+                    />
                 </div>
 
                 <p>
@@ -161,9 +190,46 @@ function Settings() {
                                 <p>A profile picture helps personalize your account</p>
                             </div>
                             <div>
-                                <img src={profile} alt="profile" />
+                                <img
+                                    src={user.profilePicture || profile}
+                                    alt="profile"
+                                    style={{
+                                        width: "60px",
+                                        height: "60px",
+                                        borderRadius: "50%",
+                                        objectFit: "cover"
+                                    }}
+                                />
                             </div>
                         </div>
+
+                        {/* Profile Picture Upload - Only for basic auth users */}
+                        {(user != null && user.username && !user.username.includes("@")) ? (
+                            <div onClick={() => openUpdateModal({
+                                title: "Update Profile Picture",
+                                firstInput: { placeholder: "Password", type: "password" },
+                                secondInput: { placeholder: "Select Image", type: "file", accept: "image/*" },
+                                onUpdate: (password, file) => {
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onloadend = () => {
+                                            updateProfilePicture(password, reader.result);
+                                            setShowUpdate(false);
+                                            setTimeout(() => fetchUser(), 500);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    } else {
+                                        alert("Please select an image");
+                                    }
+                                },
+                                onCancel: () => setShowUpdate(false),
+                                isFileUpload: true
+                            })}>
+                                <p>Change Profile Picture</p>
+                                <p>Upload a new photo</p>
+                                <img src={arrow} />
+                            </div>
+                        ) : null}
 
                         <div onClick={() =>
                             (user != null && user.username && !user.username.includes("@")) ?
@@ -296,14 +362,14 @@ function Settings() {
                             <p>{theme.charAt(0).toUpperCase() + theme.slice(1)} mode</p>
                             <img src={arrow} />
                         </div>
-                        <div>
+                        {/* <div>
                             <p>Language</p>
                             <p>{Language}</p>
                             <img src={arrow} />
-                        </div>
+                        </div> */}
                         <div>
                             <p>Notification</p>
-                            <p>{Notification}</p>
+                            <p>{Notification} (Can't change)</p>
                             <img src={arrow} />
                         </div>
                     </div>

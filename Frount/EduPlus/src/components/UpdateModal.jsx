@@ -72,15 +72,25 @@ function UpdateModal({ title, firstInput, secondInput, onUpdate, onCancel, type 
               <option value="FEMALE">Female</option>
               <option value="OTHER">Other</option>
             </select> :
-            <input
-              ref={secondInput.type == 'text' ? inputRef : null}
-              type={secondInput.type}
-              placeholder={secondInput.placeholder}
-              value={second}
-              onChange={(e) => setSecond(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
+            secondInput.type === "file" ?
+              <input
+                type="file"
+                accept={secondInput.accept || "image/*"}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setSecond(file);
+                }}
+              /> :
+              <input
+                ref={secondInput.type == 'text' ? inputRef : null}
+                type={secondInput.type}
+                placeholder={secondInput.placeholder}
+                value={second}
+                onChange={(e) => setSecond(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
         }
+
 
 
         <div className="actions">

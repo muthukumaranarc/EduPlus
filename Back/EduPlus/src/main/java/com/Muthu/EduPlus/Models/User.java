@@ -18,6 +18,7 @@ public class User {
     private String mobileNumber;
     private String mailId;
     private String linkedIn;
+    private String profilePicture;
     private Integer trophy;
     private Integer friends;
 
@@ -45,6 +46,14 @@ public class User {
 
     public void setLinkedIn(String linkedIn) {
         this.linkedIn = linkedIn;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public String getMailId() {

@@ -168,7 +168,18 @@ function Friend() {
             {/* Desktop */}
             {screenWidth > 768 && (
                 <div className="my-profile">
-                    <div><img src={profile} alt="profile" /></div>
+                    <div>
+                        <img
+                            src={user.profilePicture || profile}
+                            alt="profile"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                borderRadius: "50%",
+                                objectFit: "cover"
+                            }}
+                        />
+                    </div>
                     <div>
                         <p>
                             <b className="my-name">{user.username}</b>
@@ -183,7 +194,18 @@ function Friend() {
             {/* Mobile */}
             {screenWidth < 768 && (
                 <div className="my-profile">
-                    <div><img src={profile} alt="profile" /></div>
+                    <div>
+                        <img
+                            src={user.profilePicture || profile}
+                            alt="profile"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                borderRadius: "50%",
+                                objectFit: "cover"
+                            }}
+                        />
+                    </div>
                     <div>
                         <p>
                             {'#' + currentUserRank}
@@ -209,7 +231,18 @@ function Friend() {
                             className="friend-profile"
                             onClick={() => openFriendProfile(friend)}
                         >
-                            <div><img src={profile} alt="profile" /></div>
+                            <div>
+                                <img
+                                    src={friend.profilePicture || profile}
+                                    alt="profile"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        borderRadius: "50%",
+                                        objectFit: "cover"
+                                    }}
+                                />
+                            </div>
                             <div>
                                 <p className="friend-name">
                                     <b>{friend.firstName + " " + friend.lastName}</b>
@@ -233,7 +266,18 @@ function Friend() {
                         <div className="friend-profile"
                             onClick={() => openFriendProfile(friend)}
                         >
-                            <div><img src={profile} alt="profile" /></div>
+                            <div>
+                                <img
+                                    src={friend.profilePicture || profile}
+                                    alt="profile"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        borderRadius: "50%",
+                                        objectFit: "cover"
+                                    }}
+                                />
+                            </div>
                             <div>
                                 <p>
                                     {'#' + friend.rank}
@@ -274,7 +318,18 @@ function viewFriend(friend, setIsFriendViewOpen, baseURL, setFriendUsernames) {
         <div className="view-friend">
             <div>
                 <div>
-                    <div><img src={profile} /></div>
+                    <div>
+                        <img
+                            src={friend.profilePicture || profile}
+                            alt="profile"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                borderRadius: "50%",
+                                objectFit: "cover"
+                            }}
+                        />
+                    </div>
                     <p>{friend.firstName + " " + friend.lastName}</p>
                     <Trophy trophy={friend.trophy} />
                 </div>

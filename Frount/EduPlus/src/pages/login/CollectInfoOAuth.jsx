@@ -13,6 +13,22 @@ function CollectInfoOAuth() {
     const [mobile, setMobile] = useState();
     const [email, setEmail] = useState("");
     const [linkedIn, setLinkedIn] = useState("");
+    const [profilePicture, setProfilePicture] = useState("");
+    const [profilePreview, setProfilePreview] = useState("");
+
+    const handleProfilePictureChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Convert to Base64
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfilePicture(reader.result);
+                setProfilePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     const handleMobileChange = (e) => {
         let value = e.target.value;
@@ -35,6 +51,7 @@ function CollectInfoOAuth() {
                     mobileNumber: mobile,
                     mailId: email,
                     linkedIn: linkedIn,
+                    profilePicture: profilePicture,
                     trophy: 10
                 },
                 {
@@ -77,6 +94,31 @@ function CollectInfoOAuth() {
                         />
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="field">
+                        <label>Profile Picture (Optional)</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleProfilePictureChange}
+                        />
+                        {profilePreview && (
+                            <img
+                                src={profilePreview}
+                                alt="Profile Preview"
+                                style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    borderRadius: "50%",
+                                    objectFit: "cover",
+                                    marginTop: "10px"
+                                }}
+                            />
+                        )}
+                    </div>
+                </div>
+
                 <div className="row">
                     <div className="field dob">
                         <label>Date of birth</label>
@@ -138,7 +180,7 @@ function CollectInfoOAuth() {
                 >
                     <button
                         className="button next"
-                        onClick={() => {createUser()}}
+                        onClick={() => { createUser() }}
                     >
                         Get start
                     </button>

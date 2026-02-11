@@ -161,6 +161,14 @@ public class UserController {
         );
     }
 
+    @PostMapping("/update-profile-picture")
+    public String updateProfilePicture(@RequestBody Map<String, String> data) {
+        return service.updateProfilePicture(
+                data.get("password"),
+                data.get("profilePicture")
+        );
+    }
+
     @DeleteMapping("/delete")
     public boolean deleteCurrentUser(HttpServletResponse response) {
         return service.deleteUser(response);

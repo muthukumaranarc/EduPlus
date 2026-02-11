@@ -39,8 +39,7 @@ public class UserService {
             AboutUserService aboutUserService,
             FriendsService friendsService,
             GrammarService grammarService,
-            ProgressTrackerService progressTrackerService
-    ) {
+            ProgressTrackerService progressTrackerService) {
         this.data = data;
         this.jwtService = jwtService;
         this.aboutUserService = aboutUserService;
@@ -94,20 +93,19 @@ public class UserService {
         aboutUserService.createUserData(user.getUsername(), user.getFirstName());
         friendsService.createUser(user.getUsername());
         progressTrackerService.createTrack(
-                user.getUsername()
-        );
+                user.getUsername());
 
         response.addHeader(
                 HttpHeaders.SET_COOKIE,
-                giveCookie(jwtService.generateToken(user.getUsername())).toString()
-        );
+                giveCookie(jwtService.generateToken(user.getUsername())).toString());
 
         return "New user created!";
     }
 
     public boolean updateUserOAuth(User user) {
         User existing = data.findByUsername(user.getUsername());
-        if (existing == null) return false;
+        if (existing == null)
+            return false;
 
         existing.setFirstName(user.getFirstName());
         existing.setLastName(user.getLastName());
@@ -117,6 +115,11 @@ public class UserService {
         existing.setMobileNumber(user.getMobileNumber());
         existing.setGender(user.getGender());
         existing.setTrophy(user.getTrophy());
+
+        // Update profile picture if provided (for basic auth users)
+        if (user.getProfilePicture() != null && !user.getProfilePicture().isBlank()) {
+            existing.setProfilePicture(user.getProfilePicture());
+        }
 
         data.save(existing);
 
@@ -138,7 +141,8 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         User user = data.findByUsername(username);
-        if (user == null) return null;
+        if (user == null)
+            return null;
 
         user.setPassword(null);
         user.setMobileNumber(null);
@@ -159,10 +163,12 @@ public class UserService {
     public boolean deleteUser(HttpServletResponse response) {
 
         String username = getUsernames();
-        if (username == null) return false;
+        if (username == null)
+            return false;
 
         User user = data.findByUsername(username);
-        if (user == null) return false;
+        if (user == null)
+            return false;
 
         data.delete(user);
 
@@ -171,16 +177,17 @@ public class UserService {
         SecurityContextHolder.clearContext();
         response.addHeader(
                 HttpHeaders.SET_COOKIE,
-                deleteCookie().toString()
-        );
+                deleteCookie().toString());
 
         return true;
     }
 
     public String deleteUserByUsername(String username) {
-        if (!"admin".equals(getUsernames())) return "Access denied!";
+        if (!"admin".equals(getUsernames()))
+            return "Access denied!";
         User user = data.findByUsername(username);
-        if (user == null) return "User not found";
+        if (user == null)
+            return "User not found";
 
         data.delete(user);
 
@@ -190,7 +197,8 @@ public class UserService {
     }
 
     public String deleteAllUsers() {
-        if (!"admin".equals(getUsernames())) return "Access denied!";
+        if (!"admin".equals(getUsernames()))
+            return "Access denied!";
         data.deleteAll();
         aboutUserService.deleteAll();
         return "All users deleted!";
@@ -199,8 +207,10 @@ public class UserService {
     public String updateUsername(String newUsername, String password, HttpServletResponse response) {
 
         String currentUsername = getUsernames();
-        if (!isCorrectPassword(password)) return "Wrong Password!";
-        if (data.findByUsername(newUsername) != null) return "Username already exist!";
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
+        if (data.findByUsername(newUsername) != null)
+            return "Username already exist!";
 
         User userData = data.findByUsername(currentUsername);
 
@@ -219,9 +229,9 @@ public class UserService {
         return "Username Changed!";
     }
 
-
     public String updatePassword(String currentPassword, String newPassword) {
-        if (!isCorrectPassword(currentPassword)) return "Wrong password!";
+        if (!isCorrectPassword(currentPassword))
+            return "Wrong password!";
         User user = data.findByUsername(getUsernames());
         user.setPassword(encoder.encode(newPassword));
         data.save(user);
@@ -229,7 +239,8 @@ public class UserService {
     }
 
     public String updateFirstname(String password, String firstname) {
-        if (!isCorrectPassword(password)) return "Wrong Password!";
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
         User user = data.findByUsername(getUsernames());
         user.setFirstName(firstname);
         data.save(user);
@@ -237,7 +248,8 @@ public class UserService {
     }
 
     public String updateLastname(String password, String lastname) {
-        if (!isCorrectPassword(password)) return "Wrong Password!";
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
         User user = data.findByUsername(getUsernames());
         user.setLastName(lastname);
         data.save(user);
@@ -245,7 +257,8 @@ public class UserService {
     }
 
     public String updateMobileNumber(String password, String mobileNumber) {
-        if (!isCorrectPassword(password)) return "Wrong Password!";
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
         User user = data.findByUsername(getUsernames());
         user.setMobileNumber(mobileNumber);
         data.save(user);
@@ -253,7 +266,8 @@ public class UserService {
     }
 
     public String UpdateMailId(String password, String mailId) {
-        if (!isCorrectPassword(password)) return "Wrong Password!";
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
         User user = data.findByUsername(getUsernames());
         user.setMailId(mailId);
         data.save(user);
@@ -261,7 +275,8 @@ public class UserService {
     }
 
     public String UpdateDOB(String password, String date) {
-        if (!isCorrectPassword(password)) return "Wrong Password!";
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
         User user = data.findByUsername(getUsernames());
         user.setDob(LocalDate.parse(date));
         data.save(user);
@@ -269,7 +284,8 @@ public class UserService {
     }
 
     public String updateGender(String password, String gender) {
-        if (!isCorrectPassword(password)) return "Wrong Password!";
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
         User user = data.findByUsername(getUsernames());
         user.setGender(gender);
         data.save(user);
@@ -277,11 +293,21 @@ public class UserService {
     }
 
     public String updateLinkedIn(String password, String linkedIn) {
-        if (!isCorrectPassword(password)) return "Wrong Password!";
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
         User user = data.findByUsername(getUsernames());
         user.setLinkedIn(linkedIn);
         data.save(user);
         return "LinkedIn Changed!";
+    }
+
+    public String updateProfilePicture(String password, String profilePicture) {
+        if (!isCorrectPassword(password))
+            return "Wrong Password!";
+        User user = data.findByUsername(getUsernames());
+        user.setProfilePicture(profilePicture);
+        data.save(user);
+        return "Profile Picture Changed!";
     }
 
     public void sumTrophiesToCurrentUser(boolean add, Integer trophies) {
@@ -293,8 +319,7 @@ public class UserService {
     public void updateFriends() {
         User user = data.findByUsername(getUsernames());
         user.setFriends(
-                friendsService.getCurrentUser().getFriends().size()
-        );
+                friendsService.getCurrentUser().getFriends().size());
         data.save(user);
     }
 
@@ -318,7 +343,6 @@ public class UserService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                Collections.emptyList()
-        );
+                Collections.emptyList());
     }
 }
