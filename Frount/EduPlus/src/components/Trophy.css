@@ -2,49 +2,53 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
-    width: 150px;
-    border: 2p solid rgba(0, 0, 0, 0.25);
+    gap: 10px;
+    height: 40px;
+    width: 160px;
+    padding: 8px 16px;
+    border: 2px solid var(--border-light);
     border-radius: 12px;
-    box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.25);
-    /* background-color: rgb(255, 255, 255); */
-    background-color: var(--bg-tertiary);
+    box-shadow: 0 4px 15px rgba(38, 97, 178, 0.15);
+    background: var(--bg-card);
     z-index: 10;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trop:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(38, 97, 178, 0.25);
+    border-color: rgba(38, 97, 178, 0.5);
 }
 
 .trop>img {
-    height: 18px;
-    width: 18px;
-    margin-right: 10px;
-    margin-left: 5px;
+    height: 22px;
+    width: 22px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .trop>p {
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(38, 97, 178, 1);
+    margin: 0;
+    white-space: nowrap;
 }
 
 @media (max-width: 768px) {
     .trop {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 30px;
-        width: 150px;
-        border: 2p solid rgba(0, 0, 0, 0.25);
-        border-radius: 12px;
-        box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.25);
-        background-color: var(--bg-tertiary);
-        z-index: 10;
+        height: 36px;
+        width: 145px;
+        padding: 6px 12px;
+        gap: 8px;
         margin: 5px;
         margin-left: 15px;
         margin-bottom: 20px;
     }
 
     .trop>img {
-        height: 18px;
-        width: 18px;
-        margin-right: 10px;
-        margin-left: 5px;
+        height: 20px;
+        width: 20px;
     }
 
     .trop>p {

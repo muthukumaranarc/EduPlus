@@ -180,29 +180,9 @@ function Settings() {
                     <button
                         onClick={fetchUser}
                         className="reload-setting">
-                        <img src="/src/assets/reload.png" alt="reload" />
                     </button>
 
                     <div>
-                        <div>
-                            <div>
-                                <p>Profile picture</p>
-                                <p>A profile picture helps personalize your account</p>
-                            </div>
-                            <div>
-                                <img
-                                    src={user.profilePicture || profile}
-                                    alt="profile"
-                                    style={{
-                                        width: "60px",
-                                        height: "60px",
-                                        borderRadius: "50%",
-                                        objectFit: "cover"
-                                    }}
-                                />
-                            </div>
-                        </div>
-
                         {/* Profile Picture Upload - Only for basic auth users */}
                         {(user != null && user.username && !user.username.includes("@")) ? (
                             <div onClick={() => openUpdateModal({
@@ -225,9 +205,19 @@ function Settings() {
                                 onCancel: () => setShowUpdate(false),
                                 isFileUpload: true
                             })}>
-                                <p>Change Profile Picture</p>
+                                <p>Profile Picture</p>
                                 <p>Upload a new photo</p>
-                                <img src={arrow} />
+                                <img
+                                    src={user.profilePicture || profile}
+                                    alt="profile"
+                                    style={{
+                                        width: "60px",
+                                        height: "60px",
+                                        borderRadius: "50%",
+                                        objectFit: "cover",
+                                        marginBottom: "10px"
+                                    }}
+                                />
                             </div>
                         ) : null}
 

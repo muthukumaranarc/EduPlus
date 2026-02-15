@@ -24,6 +24,7 @@ import CollectInfoOAuth from './pages/login/CollectInfoOAuth';
 import TestBuilder from './pages/home/action/test/TestBuilder';
 import GenerateTest from './pages/home/action/test/GenerateTest';
 import SavedTest from './pages/home/action/test/SavedTest';
+import Trophies from './pages/home/trophies/Trophies.jsx';
 
 
 const router = createBrowserRouter([
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: '/home/setting',
         element: <Settings />
+      },
+      {
+        path: '/home/trophies',
+        element: <Trophies />
       },
 
       // action navigaters

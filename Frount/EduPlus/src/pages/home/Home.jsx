@@ -15,12 +15,14 @@ import ai_chat_icon from '../../assets/ai_chat.png';
 import friends_icon from '../../assets/friends.png';
 import settings_icon from '../../assets/settings.png';
 import menu_icon from '../../assets/menu.jpg';
+import trophy_icon from '../../assets/trophy.png';
 
 import dashboard_icon_g from '../../assets/dashboard_g.png';
 import action_icon_g from '../../assets/action_g.png';
 import ai_chat_icon_g from '../../assets/ai_chat_g.png';
 import friends_icon_g from '../../assets/friends_g.png';
 import settings_icon_g from '../../assets/settings_g.png';
+import trophy_icon_g from '../../assets/trophy_dark.png';
 
 function Home() {
     let [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
@@ -63,7 +65,7 @@ function Home() {
             <ScrollToTop />
             <div className="home">
                 {
-                    (deviceWidth >= 786) ? <Trophy trophy={(user !== null) ? user.trophy : 0} /> : null
+                    (deviceWidth >= 786) ? <Trophy /> : null
                 }
 
                 <div className={`nav ${isNavActive ? "active-nav" : ""}`} >
@@ -74,7 +76,7 @@ function Home() {
                                     <img src={eduplus_logo} alt="Eduplus logo" className="logo" />
                                     <img src={eduplus_name} alt="Eduplus name" className="name" />
                                 </div> :
-                                <Trophy trophy={(user !== null) ? user.trophy : 0} />
+                                <Trophy />
                         }
 
                         <div
@@ -135,6 +137,18 @@ function Home() {
                         </div>
 
                         <div
+                            onClick={() => { navigate("/home/trophies"); setIsNavActive(false) }}
+                            className={`${navState === "trophies" ? "active" : ""} trophies`}
+                        >
+                            {
+                                navState === "trophies" ?
+                                    <img src={trophy_icon} alt="trophies" /> :
+                                    <img src={trophy_icon_g} alt="trophies" />
+                            }
+                            <p>Trophies</p>
+                        </div>
+
+                        <div
                             onClick={() => { navigate("/home/setting"); setIsNavActive(false) }}
                             className={`${navState === "setting" ? "active" : ""} setting`}
                         >
@@ -190,6 +204,9 @@ function renderImage(navState) {
 
         case "friend":
             return <img src={friends_icon} alt="friends" />;
+
+        case "trophies":
+            return <img src={trophy_icon} alt="trophies" />;
 
         case "setting":
             return <img src={settings_icon} alt="settings" />;
