@@ -121,6 +121,8 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .trophy-card::before {
@@ -157,13 +159,18 @@
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-bottom: 16px;
+    max-width: 100%;
+    overflow: hidden;
+    min-height: 80px;
 }
 
 .trophy-icon {
     font-size: 4rem;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
     transition: all 0.3s ease;
+    max-width: 100%;
 }
 
 .trophy-card.earned .trophy-icon {

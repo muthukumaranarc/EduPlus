@@ -1,11 +1,13 @@
 import './trophy.css';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import trophyImgLight from "../assets/trophy.png";
 import trophyImgDark from "../assets/trophy_dark.png";
 
 function Trophy() {
     const baseURL = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [trophyCount, setTrophyCount] = useState({ earned: 0, total: 0 });
 
@@ -45,8 +47,12 @@ function Trophy() {
         }
     };
 
+    const handleClick = () => {
+        navigate('/home/trophies');
+    };
+
     return (
-        <div className="trop">
+        <div className="trop" onClick={handleClick}>
             <img src={isDarkMode ? trophyImgDark : trophyImgLight} alt="trophy" />
             <p>Trophies: {trophyCount.earned}/{trophyCount.total}</p>
         </div>
