@@ -64,20 +64,13 @@ function Home() {
         <div className="home-page">
             <ScrollToTop />
             <div className="home">
-                {
-                    (deviceWidth >= 786) ? <Trophy /> : null
-                }
 
                 <div className={`nav ${isNavActive ? "active-nav" : ""}`} >
                     <div>
-                        {
-                            (deviceWidth > 768) ?
-                                <div className="logo-box" >
-                                    <img src={eduplus_logo} alt="Eduplus logo" className="logo" />
-                                    <img src={eduplus_name} alt="Eduplus name" className="name" />
-                                </div> :
-                                <Trophy />
-                        }
+                        <div className="logo-box" >
+                            <img src={eduplus_logo} alt="Eduplus logo" className="logo" />
+                            <img src={eduplus_name} alt="Eduplus name" className="name" />
+                        </div>
 
                         <div
                             onClick={() => { navigate("/home/dashboard"); setIsNavActive(false) }}
@@ -138,7 +131,7 @@ function Home() {
 
                         <div
                             onClick={() => { navigate("/home/trophies"); setIsNavActive(false) }}
-                            className={`${navState === "trophies" ? "active" : ""} trophies`}
+                            className={`${navState === "trophies" ? "active" : ""} trophy`}
                         >
                             {
                                 navState === "trophies" ?
@@ -146,6 +139,18 @@ function Home() {
                                     <img src={trophy_icon_g} alt="trophies" />
                             }
                             <p>Trophies</p>
+                        </div>
+                        
+                        <div
+                            onClick={() => { navigate("/home/syllabus"); setIsNavActive(false) }}
+                            className={`${navState === "syllabus" ? "active" : ""} syllabus`}
+                        >
+                            {
+                                navState === "syllabus" ?
+                                    <img src={action_icon} alt="syllabus" /> :
+                                    <img src={action_icon_g} alt="syllabus" />
+                            }
+                            <p>Syllabus</p>
                         </div>
 
                         <div
@@ -158,6 +163,11 @@ function Home() {
                                     <img src={settings_icon_g} alt="settings" />
                             }
                             <p>Settings</p>
+                        </div>
+
+
+                        <div className="nav-trophy">
+                            <Trophy />
                         </div>
                     </div>
                 </div>
@@ -210,6 +220,9 @@ function renderImage(navState) {
 
         case "setting":
             return <img src={settings_icon} alt="settings" />;
+
+        case "syllabus":
+            return <img src={action_icon} alt="syllabus" />;
 
         default:
             null

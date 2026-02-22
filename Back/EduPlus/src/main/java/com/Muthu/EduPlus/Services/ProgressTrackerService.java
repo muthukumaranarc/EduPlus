@@ -22,11 +22,60 @@ public class ProgressTrackerService {
                 .getName();
     }
 
-    public ProgressTrack createTrack(String username) {
-        return repo.save(
-                new ProgressTrack(username, new ArrayList<Task>())
-        );
+    // ─── DEFAULT TASKS ────────────────────────────────────────────────────────
+
+    /**
+     * Returns the standard "starter" task list shown to every new user
+     * (or any user whose task list is empty) on their first login of the day.
+     */
+    private List<Task> defaultTasks() {
+        List<Task> defaults = new ArrayList<>();
+        defaults.add(new Task("Complete one test on a topic you're studying", false));
+        defaults.add(new Task("Review yesterday's test results", false));
+        defaults.add(new Task("Ask the AI assistant one study question", false));
+        defaults.add(new Task("Upload a new study material or note", false));
+        defaults.add(new Task("Check and respond to your friends' progress", false));
+        return defaults;
     }
+
+    // ─── CREATE / INIT ────────────────────────────────────────────────────────
+
+    /**
+     * Called when a brand-new user registers.
+     * Pre-loads the default tasks immediately so the dashboard is never empty.
+     */
+    public ProgressTrack createTrack(String username) {
+        if (repo.existsById(username)) {
+            return repo.findById(username).orElseThrow();
+        }
+        return repo.save(new ProgressTrack(username, defaultTasks()));
+    }
+
+    /**
+     * Ensures a user's task list is non-empty.
+     * Called on first dashboard load each session.
+     * If the list is empty (new user or cleared list), seeds the defaults.
+     */
+    public ProgressTrack ensureDefaultTasks() {
+        String username = currentUser();
+        ProgressTrack track = repo.findById(username).orElse(null);
+
+        if (track == null) {
+            // User has no track at all — create one with defaults
+            return repo.save(new ProgressTrack(username, defaultTasks()));
+        }
+
+        if (track.getTasks() == null || track.getTasks().isEmpty()) {
+            // Track exists but has no tasks — seed defaults
+            track.setTasks(defaultTasks());
+            return repo.save(track);
+        }
+
+        // All good, return as-is
+        return track;
+    }
+
+    // ─── CRUD ─────────────────────────────────────────────────────────────────
 
     public ProgressTrack addTask(String taskName) {
         ProgressTrack currentTrack = repo.findUserByUsername(currentUser());
@@ -47,8 +96,7 @@ public class ProgressTrackerService {
         }
 
         progressTrack.getTasks().removeIf(
-                task -> task.getName().equalsIgnoreCase(taskName)
-        );
+                task -> task.getName().equalsIgnoreCase(taskName));
 
         return repo.save(progressTrack);
     }

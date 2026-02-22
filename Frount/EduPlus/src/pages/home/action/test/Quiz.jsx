@@ -23,14 +23,8 @@ function Quiz({ groupName, testTitle, onBack }) {
         withCredentials: true,
       });
 
-      const group = res.data.testGroup.find(
-        (g) => g.name === groupName
-      );
-
-      const test = group?.group.find(
-        (t) => t.title === testTitle
-      );
-
+      const group = res.data.testGroup.find((g) => g.name === groupName);
+      const test = group?.group.find((t) => t.title === testTitle);
       setQuestions(test?.questionSet || []);
     } catch (err) {
       console.error("Failed to load quiz", err);
@@ -38,15 +32,16 @@ function Quiz({ groupName, testTitle, onBack }) {
   };
 
   const handleAnswerSelect = (questionIndex, selectedAnswer, isCorrect) => {
-    setUserAnswers(prev => ({
+    setUserAnswers((prev) => ({
       ...prev,
-      [questionIndex]: { answer: selectedAnswer, isCorrect }
+      [questionIndex]: { answer: selectedAnswer, isCorrect },
     }));
   };
 
   const handleSubmitQuiz = async () => {
-    // Calculate score
-    const correctAnswers = Object.values(userAnswers).filter(a => a.isCorrect).length;
+    const correctAnswers = Object.values(userAnswers).filter(
+      (a) => a.isCorrect
+    ).length;
     const totalQuestions = questions.length;
     const percentage = (correctAnswers / totalQuestions) * 100;
 
@@ -57,21 +52,45 @@ function Quiz({ groupName, testTitle, onBack }) {
     try {
       const earnedTrophies = [];
 
-      // Perfect score trophy
-      if (percentage === 100) {
-        await awardTrophy("Perfect Score", "Achieved 100% on a test!");
-        earnedTrophies.push({ name: "Perfect Score", description: "Achieved 100% on a test!" });
-      }
+      // Always award test completion trophy
+      await axios.post(
+        `${baseURL}/trophy/increment-test-completed`,
+        {},
+        { withCredentials: true }
+      );
+      earnedTrophies.push({
+        name: "Test Completed",
+        description: "You completed a test!",
+        icon: "📝",
+      });
 
-      // High achiever trophy (90%+)
+      // High score trophy for 90%+
       if (percentage >= 90) {
-        await awardTrophy("High Achiever", "Scored 90% or higher!");
-        earnedTrophies.push({ name: "High Achiever", description: "Scored 90% or higher!" });
+        await axios.post(
+          `${baseURL}/trophy/record-high-score`,
+          {},
+          { withCredentials: true }
+        );
+        earnedTrophies.push({
+          name: "High Score",
+          description: `Scored ${percentage.toFixed(0)}% — Outstanding!`,
+          icon: "⭐",
+        });
       }
 
-      // Test taker trophy (for completing any test)
-      await awardTrophy("Test Taker", "Completed a test!");
-      earnedTrophies.push({ name: "Test Taker", description: "Completed a test!" });
+      // Milestone trophy for perfect score
+      if (percentage === 100) {
+        await axios.post(
+          `${baseURL}/trophy/increment-milestone`,
+          {},
+          { withCredentials: true }
+        );
+        earnedTrophies.push({
+          name: "Perfect Score",
+          description: "Achieved 100% — Flawless!",
+          icon: "🥇",
+        });
+      }
 
       setTrophiesEarned(earnedTrophies);
     } catch (err) {
@@ -79,50 +98,42 @@ function Quiz({ groupName, testTitle, onBack }) {
     }
   };
 
-  const awardTrophy = async (trophyName, description) => {
-    try {
-      await axios.post(
-        `${baseURL}/trophy/earn`,
-        { trophyName, description },
-        { withCredentials: true }
-      );
-    } catch (err) {
-      console.error(`Failed to award trophy: ${trophyName}`, err);
-    }
-  };
-
-  const allQuestionsAnswered = Object.keys(userAnswers).length === questions.length;
+  const allQuestionsAnswered =
+    Object.keys(userAnswers).length === questions.length;
 
   if (showResults) {
-    return <QuizResults
-      score={score}
-      totalQuestions={questions.length}
-      correctAnswers={Object.values(userAnswers).filter(a => a.isCorrect).length}
-      trophiesEarned={trophiesEarned}
-      onBack={onBack}
-      onRetry={() => {
-        setUserAnswers({});
-        setShowResults(false);
-        setComplete(false);
-        setScore(0);
-        setTrophiesEarned([]);
-      }}
-    />;
+    return (
+      <QuizResults
+        score={score}
+        totalQuestions={questions.length}
+        correctAnswers={Object.values(userAnswers).filter((a) => a.isCorrect).length}
+        trophiesEarned={trophiesEarned}
+        onBack={onBack}
+        onRetry={() => {
+          setUserAnswers({});
+          setShowResults(false);
+          setComplete(false);
+          setScore(0);
+          setTrophiesEarned([]);
+        }}
+      />
+    );
   }
 
   return (
     <>
-      <div className='ac-head' onClick={onBack}>
+      <div className="ac-head" onClick={onBack}>
         <img src={arrow} alt="arrow" />
         <p>Back</p>
       </div>
 
       <div style={{ display: "flex", alignItems: "flex-end", gap: "20px" }}>
         <h4 className="quiz-header">Quiz - {testTitle}</h4>
-        {
-          !complete && !allQuestionsAnswered &&
-          <button className="get-answer" onClick={() => setComplete(true)}>Get Answers</button>
-        }
+        {!complete && !allQuestionsAnswered && (
+          <button className="get-answer" onClick={() => setComplete(true)}>
+            Get Answers
+          </button>
+        )}
       </div>
 
       <div className="quiz">
@@ -132,7 +143,9 @@ function Quiz({ groupName, testTitle, onBack }) {
             questionData={questionData}
             questionNumber={index + 1}
             complete={complete}
-            onAnswerSelect={(answer, isCorrect) => handleAnswerSelect(index, answer, isCorrect)}
+            onAnswerSelect={(answer, isCorrect) =>
+              handleAnswerSelect(index, answer, isCorrect)
+            }
             userAnswer={userAnswers[index]}
           />
         ))}
@@ -149,7 +162,13 @@ function Quiz({ groupName, testTitle, onBack }) {
   );
 }
 
-function QuestionCard({ questionData, questionNumber, complete, onAnswerSelect, userAnswer }) {
+function QuestionCard({
+  questionData,
+  questionNumber,
+  complete,
+  onAnswerSelect,
+  userAnswer,
+}) {
   const [disableOption, setDisableOption] = useState(false);
 
   return (
@@ -158,30 +177,37 @@ function QuestionCard({ questionData, questionNumber, complete, onAnswerSelect, 
         {questionNumber}. {questionData.question}
       </h4>
       <div>
-        {
-          complete ?
-            <p>
-              <b>Answer: </b>
-              {questionData.answer}
-            </p> :
-            questionData.options.map((option, index) => (
-              <Options
-                key={index}
-                index={index}
-                option={option}
-                answer={questionData.answer}
-                setDisableOption={setDisableOption}
-                disableOption={disableOption}
-                onAnswerSelect={onAnswerSelect}
-              />
-            ))
-        }
+        {complete ? (
+          <p>
+            <b>Answer: </b>
+            {questionData.answer}
+          </p>
+        ) : (
+          questionData.options.map((option, index) => (
+            <Options
+              key={index}
+              index={index}
+              option={option}
+              answer={questionData.answer}
+              setDisableOption={setDisableOption}
+              disableOption={disableOption}
+              onAnswerSelect={onAnswerSelect}
+            />
+          ))
+        )}
       </div>
     </div>
   );
 }
 
-function Options({ index, option, answer, setDisableOption, disableOption, onAnswerSelect }) {
+function Options({
+  index,
+  option,
+  answer,
+  setDisableOption,
+  disableOption,
+  onAnswerSelect,
+}) {
   const [isCorrect, setIsCorrect] = useState(null);
 
   const handleClick = () => {
@@ -195,25 +221,33 @@ function Options({ index, option, answer, setDisableOption, disableOption, onAns
     <button
       key={index}
       disabled={disableOption}
-      className={isCorrect !== null ? isCorrect ? 'correct' : 'wrong' : null}
-      onClick={handleClick}>
+      className={isCorrect !== null ? (isCorrect ? "correct" : "wrong") : null}
+      onClick={handleClick}
+    >
       {option}
     </button>
   );
 }
 
-function QuizResults({ score, totalQuestions, correctAnswers, trophiesEarned, onBack, onRetry }) {
+function QuizResults({
+  score,
+  totalQuestions,
+  correctAnswers,
+  trophiesEarned,
+  onBack,
+  onRetry,
+}) {
   const getGrade = () => {
-    if (score >= 90) return "Excellent!";
-    if (score >= 75) return "Great Job!";
-    if (score >= 60) return "Good!";
-    if (score >= 50) return "Pass";
-    return "Keep Practicing!";
+    if (score >= 90) return "Excellent! 🌟";
+    if (score >= 75) return "Great Job! 👍";
+    if (score >= 60) return "Good! 😊";
+    if (score >= 50) return "Pass ✓";
+    return "Keep Practicing! 💪";
   };
 
   return (
     <>
-      <div className='ac-head' onClick={onBack}>
+      <div className="ac-head" onClick={onBack}>
         <img src={arrow} alt="arrow" />
         <p>Back</p>
       </div>
@@ -231,7 +265,9 @@ function QuizResults({ score, totalQuestions, correctAnswers, trophiesEarned, on
           <div className="results-details">
             <div className="result-item">
               <span className="result-label">Correct Answers:</span>
-              <span className="result-value">{correctAnswers} / {totalQuestions}</span>
+              <span className="result-value">
+                {correctAnswers} / {totalQuestions}
+              </span>
             </div>
             <div className="result-item">
               <span className="result-label">Score:</span>
@@ -245,7 +281,7 @@ function QuizResults({ score, totalQuestions, correctAnswers, trophiesEarned, on
               <div className="trophies-list">
                 {trophiesEarned.map((trophy, index) => (
                   <div key={index} className="trophy-item">
-                    <span className="trophy-icon">🏆</span>
+                    <span className="trophy-icon">{trophy.icon || "🏆"}</span>
                     <div className="trophy-info">
                       <span className="trophy-name">{trophy.name}</span>
                       <span className="trophy-desc">{trophy.description}</span>
@@ -257,8 +293,12 @@ function QuizResults({ score, totalQuestions, correctAnswers, trophiesEarned, on
           )}
 
           <div className="results-actions">
-            <button className="retry-button" onClick={onRetry}>Retry Quiz</button>
-            <button className="back-button" onClick={onBack}>Back to Tests</button>
+            <button className="retry-button" onClick={onRetry}>
+              Retry Quiz
+            </button>
+            <button className="back-button" onClick={onBack}>
+              Back to Tests
+            </button>
           </div>
         </div>
       </div>

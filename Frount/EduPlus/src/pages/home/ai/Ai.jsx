@@ -15,6 +15,9 @@ function Ai() {
 
     const { setNavState, chatHistory, setChatHistory } = useOutletContext();
 
+    // ── AI mode: "general" | "syllabus" ──────────────────────────────────
+    const [aiMode, setAiMode] = useState("general");
+
     const quickPic = [
         "How to start EduPlus for learning?",
         "Motivate Me",
@@ -50,7 +53,7 @@ function Ai() {
 
         const currentQuery = data || query;
 
-        // ✅ Clear input IMMEDIATELY
+        // Clear input IMMEDIATELY
         setQuery("");
 
         try {
@@ -61,11 +64,22 @@ function Ai() {
                 prev.length ? [...prev, currentQuery] : [currentQuery]
             );
 
-            const res = await axios.post(
-                `${baseURL}/ass/ask`,
-                { currentQuery },
-                { withCredentials: true }
-            );
+            // ── Route to the correct endpoint based on aiMode ─────────────
+            let res;
+
+            if (aiMode === "syllabus") {
+                res = await axios.post(
+                    `${baseURL}/ass/ask-syllabus`,
+                    { message: currentQuery },
+                    { withCredentials: true }
+                );
+            } else {
+                res = await axios.post(
+                    `${baseURL}/ass/ask`,
+                    { currentQuery },
+                    { withCredentials: true }
+                );
+            }
 
             // Add AI response
             setChatHistory(prev => [...prev, res.data.response]);
@@ -83,7 +97,6 @@ function Ai() {
             }
         }
     };
-
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
@@ -110,7 +123,7 @@ function Ai() {
             {/* Header when no chat */}
             {chatHistory[0] == null && (
                 <>
-                    <h3 style = {{position: "absolute", top: "5px", left: "5px", textAlign: "left"}}>AI Chat</h3>
+                    <h3 style={{ position: "absolute", top: "5px", left: "5px", textAlign: "left" }}>AI Chat</h3>
                     <h2>Speak with EduPlus AI</h2>
                     <p>
                         With EduPlus AI, you can ask questions, get guidance,
@@ -135,29 +148,57 @@ function Ai() {
                 </div>
             )}
 
-            {/* Query box */}
-            <div
-                className={`query ${chatHistory[0] != null ? "query-with-history" : ""}`}
-            >
-                <input
-                    type="text"
-                    placeholder="Ask anything"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                />
+            {/* ── Mode Toggle + Query box wrapper ── */}
+            <div className={`query-wrapper ${chatHistory[0] != null ? "query-wrapper-fixed" : ""}`}>
 
-                <button
-                    disabled={waitingMsg !== ""}
-                    onClick={() => handleQuery()}
-                >
-                    <img src={generate} alt="generate" />
-                    <p>Generate</p>
-                </button>
+                {/* Mode toggle pill */}
+                <div className="ai-mode-toggle">
+                    <button
+                        id="ai-mode-general"
+                        className={`ai-mode-btn ${aiMode === "general" ? "ai-mode-active" : ""}`}
+                        onClick={() => setAiMode("general")}
+                    >
+                        ✨ General AI
+                    </button>
+                    <button
+                        id="ai-mode-syllabus"
+                        className={`ai-mode-btn ${aiMode === "syllabus" ? "ai-mode-active ai-mode-syllabus-active" : ""}`}
+                        onClick={() => setAiMode("syllabus")}
+                    >
+                        📖 Syllabus AI
+                    </button>
+                </div>
+
+                {/* Syllabus mode indicator */}
+                {aiMode === "syllabus" && (
+                    <div className="ai-mode-indicator">
+                        📚 Syllabus AI Mode Active — answers are grounded in your uploaded syllabus
+                    </div>
+                )}
+
+                {/* Query box */}
+                <div className="query">
+                    <input
+                        type="text"
+                        placeholder={aiMode === "syllabus" ? "Ask from your syllabus…" : "Ask anything"}
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="off"
+                        spellCheck={false}
+                    />
+
+                    <button
+                        disabled={waitingMsg !== ""}
+                        onClick={() => handleQuery()}
+                    >
+                        <img src={generate} alt="generate" />
+                        <p>Generate</p>
+                    </button>
+                </div>
+
             </div>
 
             {/* Quick suggestions */}

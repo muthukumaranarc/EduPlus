@@ -1,505 +1,836 @@
-.friend-page {
-    padding: 10px;
-}
+/* ─────────────────────────────────────────────────────────────
+   FRIENDS PAGE  —  Friend.css
+   Uses CSS vars from the global theme (var(--bg-card), etc.)
+───────────────────────────────────────────────────────────── */
 
-.my-profile {
-    height: 110px;
-    width: 1000px;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    margin-top: 120px;
-    margin-left: 50px;
-    display: grid;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-.my-det {
-    gap: 100px;
-}
-
-.my-profile>div:first-child>img {
-    height: 90px;
-}
-
-.my-profile>div:first-child {
-    height: 120px;
-    width: 120px;
-    background-color: white;
-    z-index: 1;
-    border-radius: 50%;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ── Page wrapper ── */
+.fp-page {
+    padding: 32px 36px 100px;
+    max-width: 980px;
+    margin: 0 auto;
     position: relative;
-    bottom: 30px;
-    left: 30px;
 }
 
-.my-profile>div:not(:first-child) {
-    display: flex;
-    gap: 9vw;
-    margin-left: 8%;
-    font-size: 17px;
-    line-height: 40px;
-    height: 100px;
-    /* border: 1px solid red; */
-}
-
-.my-name {
-    font-size: 22px;
-    margin-right: 2vw;
-    /* border: 1px solid red; */
-    display: block;
-    width: 300px;
-}
-
-.your-friend {
-    font-size: 17px;
-    margin: 30px;
-    margin-left: 50px;
-    margin-top: 50px;
-}
-
-.friend-profile {
-    /* border: 1px solid red; */
-    height: 110px;
-    width: 820px;
-    /* margin: 0 auto; */
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    margin-left: 50px;
-    display: grid;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    /* justify-content: space-be; */
-    cursor: pointer;
-}
-
-.friend-profile>div:first-child>img {
-    height: 70px;
-}
-
-.friend-profile>div:first-child {
-    height: 90px;
-    width: 90px;
-    background-color: white;
-    z-index: 1;
-    border-radius: 50%;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    /* bottom: 30px; */
-    left: 30px;
-}
-
-.friend-profile>div:not(:first-child) {
-    gap: 2vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 8%;
-    font-size: 17px;
-    line-height: 40px;
-    height: 80px;
-    /* border: 1px solid red; */
-    padding-top: 10px;
-}
-
-
-.friend-name {
-    /* border: 1px solid red; */
+/* ── Loading states ── */
+.fp-loading {
     display: flex;
     flex-direction: column;
-    height: 80px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 120px;
+    gap: 16px;
+    color: var(--text-secondary);
 }
 
-.friend-name>b {
-    font-size: 22px;
-    width: 400px;
-    /* border: 1px solid red; */
+.fp-spinner {
+    width: 52px;
+    height: 52px;
+    border: 5px solid var(--border-light);
+    border-top-color: rgba(38, 97, 178, 1);
+    border-radius: 50%;
+    animation: fp-spin 0.8s linear infinite;
 }
 
+@keyframes fp-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
-/* View frinds */
+/* ── Avatar ── */
+.fp-avatar-img {
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
 
-.view-friend {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.19);
-    backdrop-filter: blur(5px);
-    z-index: 10;
-    height: 100vh;
-    width: 100vw;
-
+.fp-avatar-placeholder {
+    border-radius: 50%;
+    background: rgba(38, 97, 178, 0.15);
+    color: rgba(38, 97, 178, 1);
+    font-weight: 700;
+    font-size: 1.8rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ── Rank badges ── */
+.fp-rank-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.rank-gold {
+    background: rgba(255, 193, 7, 0.15);
+    color: #c9860a;
+}
+
+.rank-silver {
+    background: rgba(160, 160, 160, 0.15);
+    color: #808080;
+}
+
+.rank-bronze {
+    background: rgba(205, 127, 50, 0.15);
+    color: #a0622a;
+}
+
+.rank-normal {
+    background: rgba(38, 97, 178, 0.12);
+    color: rgba(38, 97, 178, 1);
+}
+
+/* ─────────────────────────────────────────────
+   HERO / MY PROFILE BANNER
+───────────────────────────────────────────── */
+.fp-hero {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 24px;
+    padding: 32px 36px;
+    margin-top: 8px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.fp-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(38, 97, 178, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.fp-hero-avatar {
+    flex-shrink: 0;
+    border: 4px solid rgba(38, 97, 178, 0.3);
+    border-radius: 50%;
+    padding: 4px;
+    background: var(--bg-secondary);
+}
+
+.fp-hero-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.fp-hero-name-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.fp-hero-name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fp-hero-username {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0 0 20px;
+}
+
+.fp-hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 14px 28px;
+    width: fit-content;
+}
+
+.fp-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 28px;
+}
+
+.fp-stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.fp-stat-label {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+}
+
+.fp-stat-divider {
+    width: 1px;
+    height: 44px;
+    background: var(--border-light);
+    flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────
+   SECTION HEADER
+───────────────────────────────────────────── */
+.fp-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.fp-section-header h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.fp-friend-count {
+    background: rgba(38, 97, 178, 0.13);
+    color: rgba(38, 97, 178, 1);
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 999px;
+}
+
+.fp-add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    background: rgba(38, 97, 178, 1);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(38, 97, 178, 0.3);
+}
+
+.fp-add-btn:hover {
+    background: rgba(30, 80, 160, 1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(38, 97, 178, 0.4);
+}
+
+.fp-add-btn span {
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+/* ─────────────────────────────────────────────
+   FRIEND CARDS
+───────────────────────────────────────────── */
+.fp-friend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.fp-friend-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 28px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.fp-friend-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: rgba(38, 97, 178, 1);
+    transform: scaleY(0);
+    border-radius: 0 4px 4px 0;
+    transition: transform 0.2s ease;
+}
+
+.fp-friend-card:hover::before {
+    transform: scaleY(1);
+}
+
+.fp-friend-card:hover {
+    border-color: rgba(38, 97, 178, 0.3);
+    box-shadow: 0 6px 24px rgba(38, 97, 178, 0.12);
+    transform: translateX(4px);
+}
+
+.fp-card-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+.fp-card-rank {
+    font-size: 2rem;
+    min-width: 54px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.rank-normal.fp-card-rank {
+    font-size: 1.2rem;
+}
+
+.fp-card-avatar {
+    border-radius: 50%;
+    border: 2px solid var(--border-light);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.fp-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.fp-card-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fp-card-username {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.fp-card-stats {
+    display: flex;
+    gap: 28px;
+    flex-shrink: 0;
+}
+
+.fp-card-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.fp-card-stat-val {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.fp-card-stat-lbl {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+.fp-card-arrow {
+    font-size: 2rem;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    margin-left: 6px;
+    transition: transform 0.2s ease;
+}
+
+.fp-friend-card:hover .fp-card-arrow {
+    transform: translateX(4px);
+    color: rgba(38, 97, 178, 1);
+}
+
+/* ── Skeleton loaders ── */
+.fp-list-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.fp-skeleton {
+    height: 100px;
+    border-radius: 20px;
+    background: linear-gradient(90deg,
+            var(--bg-card) 25%,
+            var(--bg-secondary) 50%,
+            var(--bg-card) 75%);
+    background-size: 200% 100%;
+    animation: fp-shimmer 1.4s infinite;
+}
+
+@keyframes fp-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ── Empty state ── */
+.fp-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+    gap: 12px;
+}
+
+.fp-empty-icon {
+    font-size: 5rem;
+    margin-bottom: 8px;
+}
+
+.fp-empty h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.fp-empty p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 1.05rem;
+    max-width: 380px;
+}
+
+/* ─────────────────────────────────────────────
+   ADD FRIEND MODAL
+───────────────────────────────────────────── */
+.fp-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.fp-modal {
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 24px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    animation: fp-modal-in 0.25s ease;
+}
+
+@keyframes fp-modal-in {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.fp-modal h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 6px;
+}
+
+.fp-modal-sub {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0 0 24px;
+}
+
+.fp-modal-input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid var(--border-light);
+    border-radius: 14px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.fp-modal-input:focus {
+    border-color: rgba(38, 97, 178, 0.6);
+}
+
+.fp-modal-error {
+    color: #e74c3c;
+    font-size: 0.95rem;
+    margin: 10px 0 0;
+}
+
+.fp-modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* ─────────────────────────────────────────────
+   FRIEND PROFILE DRAWER
+───────────────────────────────────────────── */
+.fp-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+@media (min-width: 600px) {
+    .fp-drawer-overlay {
+        align-items: center;
+        justify-content: flex-end;
+    }
+}
+
+.fp-drawer {
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 28px 28px 0 0;
+    padding: 36px 36px 48px;
+    position: relative;
+    animation: fp-drawer-up 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.18);
+}
+
+@media (min-width: 600px) {
+    .fp-drawer {
+        border-radius: 20px;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        border-right: none;
+        animation: fp-drawer-right 0.3s cubic-bezier(0.34, 1.1, 0.64, 1);
+    }
+}
+
+@keyframes fp-drawer-up {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fp-drawer-right {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.fp-drawer-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--bg-secondary);
+    border: none;
+    color: var(--text-secondary);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.fp-drawer-close:hover {
+    background: var(--border-light);
+    color: var(--text-primary);
+}
+
+.fp-drawer-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-light);
     margin-bottom: 20px;
 }
 
-.view-friend>div {
-    background-color: white;
-    /* height: 280px; */
-    width: 600px;
-    border-radius: 20px;
-}
-
-.view-friend>div>div:first-child {
-    display: flex;
-    align-items: center;
-    margin: 30px;
-    margin-bottom: 10px;
-}
-
-.view-friend>div>div:first-child>div:first-child {
-    height: 100px;
-    width: 100px;
+.fp-drawer-avatar {
+    border: 3px solid rgba(38, 97, 178, 0.3);
     border-radius: 50%;
+    padding: 3px;
+    background: var(--bg-secondary);
+    margin-bottom: 8px;
+}
+
+.fp-drawer-name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.fp-drawer-username {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.fp-drawer-stats {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 18px 32px;
+    margin-bottom: 24px;
+    gap: 0;
 }
 
-.view-friend>div>div:first-child>div:first-child>img {
-    height: 80px;
-    width: 80px;
+.fp-drawer-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 32px;
 }
 
-.view-friend>div>div:first-child>p {
-    width: 240px;
-    margin-left: 30px;
-    font-weight: bold;
-    font-size: 18px;
-    margin-right: 10px;
+.fp-drawer-stat-val {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
-.view-friend>div>div:nth-child(2) {
+.fp-drawer-stat-lbl {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+}
+
+.fp-drawer-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 2px solid var(--border-light);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 28px;
+}
+
+.fp-drawer-row {
     display: flex;
     align-items: center;
+    padding: 17px 22px;
+    gap: 16px;
+    border-bottom: 1px solid var(--border-light);
 }
 
-.view-friend>div>div:nth-child(2)>div:first-child {
-    /* border: 1px solid red; */
-    margin-left: 50px;
-    width: 100px;
-    font-weight: bold;
+.fp-drawer-row:last-child {
+    border-bottom: none;
 }
 
-.view-friend>div>div:nth-child(2)>div:nth-child(2) {
-    /* border: 1px solid red; */
-    margin-left: 20px;
-    width: 440px;
+.fp-drawer-row-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 130px;
+    flex-shrink: 0;
 }
 
-.view-friend>div>button {
-    height: 40px;
-    width: 130px;
-    position: relative;
-    margin-bottom: 15px;
-    margin-right: 15px;
-    left: 300px;
-    background-color: rgba(138, 138, 138, 0.308);
-    border: none;
-    border-radius: 20px;
-    color: black;
-    font-size: 15px
+.fp-drawer-row-value {
+    font-size: 1rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
 }
 
-.add-friend {
-    background-color: rgb(17, 167, 25);
-    border: none;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    font-size: 40px;
+.fp-drawer-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fp-remove-confirm-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 0 0 8px;
+}
+
+/* ─────────────────────────────────────────────
+   SHARED BUTTONS
+───────────────────────────────────────────── */
+.fp-btn-primary {
+    flex: 1;
+    padding: 15px 24px;
+    background: rgba(38, 97, 178, 1);
     color: white;
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(38, 97, 178, 0.3);
 }
 
-.add-friend>img {
-    height: 35px;
-    margin-left: 5px;
-    z-index: 5;
+.fp-btn-primary:hover:not(:disabled) {
+    background: rgba(30, 80, 160, 1);
+    transform: translateY(-1px);
 }
 
-.add-friend:hover {
-    transform: scale(1.05);
+.fp-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
-    .friend-page {
-        padding: 10px;
-        width: 90%;
-        margin: 0 auto;
+.fp-btn-ghost {
+    flex: 1;
+    padding: 15px 24px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 2px solid var(--border-light);
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fp-btn-ghost:hover {
+    background: var(--border-light);
+    color: var(--text-primary);
+}
+
+.fp-btn-danger {
+    width: 100%;
+    padding: 15px 24px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fp-btn-danger:hover {
+    background: #c0392b;
+}
+
+.fp-btn-danger-outline {
+    width: 100%;
+    padding: 15px 24px;
+    background: transparent;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fp-btn-danger-outline:hover {
+    background: rgba(231, 76, 60, 0.08);
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .fp-page {
+        padding: 16px 16px 80px;
     }
 
-    .my-profile {
-        height: 80px;
-        width: 100%;
-        margin-top: 30px;
-        margin-left: 0;
-        display: flex;
-        gap: 20px;
-        /* border: 1px solid red; */
-    }
-
-    .my-profile>div:first-child>img {
-        height: 60px;
-        width: 60px;
-    }
-
-    .my-profile>div:first-child {
-        /* border: 1px solid red; */
-        height: 80px;
-        width: 80px;
-        background-color: white;
-        z-index: 1;
-        border-radius: 50%;
-        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        bottom: 20px;
-        left: 20px;
-    }
-
-    .my-profile>div:not(:first-child) {
-        display: flex;
+    .fp-hero {
         flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        width: 60%;
-        gap: 0px;
-        margin-top: -5px;
-        margin-left: 8%;
-        font-size: 18px;
-        line-height: 0px;
-        /* border: 1px solid blue; */
-        padding: 0;
-    }
-
-    .my-det {
-        gap: 10px;
-        height: 20px;
-        margin: 0;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        /* border: 1px solid red; */
-    }
-
-    .my-name {
-        font-size: 18px;
-        margin: 0;
-        padding: 1px;
-        /* display: flex; */
-        align-items: center;
-        /* border: 1px solid black; */
-        margin: -15px;
-        margin-left: 10px;
-    }
-
-    .your-friend {
-        font-size: 17px;
-        margin: 30px;
-        margin-left: 0;
-        margin-top: 30px;
-    }
-
-    .friend-profile {
-        height: 80px;
-        width: 100%;
-        /* margin: 0 auto; */
-        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-        border-radius: 15px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        margin-left: 0;
-        display: grid;
-        display: flex;
-        gap: 20px;
-        align-items: center;
-        /* justify-content: space-be; */
-        cursor: pointer;
-    }
-
-    .friend-profile>div:first-child>img {
-        height: 50px;
-        width: 50px;
-    }
-
-    .friend-profile>div:first-child {
-        height: 70px;
-        width: 70px;
-        background-color: white;
-        z-index: 1;
-        border-radius: 50%;
-        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        /* bottom: 30px; */
-        left: 20px;
-    }
-
-    .friend-profile>div:not(:first-child) {
-        /* border: 1px solid red; */
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 60%;
-        gap: 5px;
-        padding: 0;
-        margin-top: -5px;
-        margin-left: 20px;
-        font-size: 18px;
-        line-height: 0px;
-        /* border: 1px solid blue; */
-        /* border: 1px solid red; */
-    }
-
-    /* View frinds */
-
-    .view-friend {
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.19);
-        z-index: 10;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-
-    .view-friend>div {
-        background-color: white;
-        /* height: 280px; */
-        width: 90%;
-        border-radius: 20px;
-    }
-
-    .view-friend>div>div:first-child {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin: 30px;
-        margin-bottom: 10px;
-    }
-
-    .view-friend>div>div:first-child>div:first-child {
-        height: 100px;
-        width: 100px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-    }
-
-    .view-friend>div>div:first-child>div:first-child>img {
-        height: 80px;
-        width: 80px;
-    }
-
-    .view-friend>div>div:first-child>p {
-        width: 240px;
-        margin-left: 30px;
-        font-weight: bold;
-        font-size: 18px;
-        margin-right: 10px;
         text-align: center;
+        padding: 24px 20px;
+        gap: 16px;
     }
 
-    .view-friend>div>div:nth-child(2) {
-        display: flex;
-        align-items: center;
-        width: 95%;
-        margin: 0 auto;
-        padding: 0;
-    }
-
-    .view-friend>div>div:nth-child(2)>div:first-child {
-        /* border: 1px solid red; */
-        margin-left: 15px;
-        width: auto;
-        font-weight: bold;
-    }
-
-    .view-friend>div>div:nth-child(2)>div:nth-child(2) {
-        /* border: 1px solid red; */
-        margin-left: 20px;
-        width: 60%;
-    }
-
-    .view-friend>div>div:nth-child(2)>div:nth-child(2)>p {
-        width: 100%;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-
-    .view-friend>div>div:nth-child(2)>div:nth-child(2)>p::-webkit-scrollbar {
-        display: none;
-    }
-
-
-    .view-friend>div>button {
-        height: 40px;
-        width: 130px;
-        margin: 0 auto;
-        position: relative;
-        margin-bottom: 15px;
-        margin-right: 15px;
-        left: 15%;
-        background-color: rgba(138, 138, 138, 0.308);
-        border: none;
-        border-radius: 20px;
-        color: black;
-        font-size: 15px;
-        /* border: 2px solid red; */
-    }
-
-    .add-friend {
-        background-color: rgb(17, 167, 25);
-        border: none;
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
-        font-size: 40px;
-        color: white;
-        position: fixed;
-        bottom: 50px;
-        right: 50px;
-        display: flex;
+    .fp-hero-name-row {
         justify-content: center;
-        align-items: center;
     }
 
-    .add-friend>img {
-        height: 35px;
-        margin-left: 5px;
-        z-index: 5;
+    .fp-hero-stats {
+        justify-content: center;
+        width: 100%;
     }
 
-    .add-friend:hover {
-        transform: scale(1.05);
+    .fp-stat {
+        padding: 0 14px;
+    }
+
+    .fp-card-rank {
+        font-size: 1.2rem;
+        min-width: 34px;
+    }
+
+    .fp-card-stats {
+        gap: 12px;
+    }
+
+    .fp-modal-actions {
+        flex-direction: column;
     }
 }

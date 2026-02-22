@@ -60,6 +60,8 @@ nav>div {
 .nav>div>.ai>img,
 .nav>div>.test>img,
 .nav>div>.friend>img,
+.nav>div>.trophy>img,
+.nav>div>.syllabus>img,
 .nav>div>.setting>img {
     height: 22px;
     width: 22px;
@@ -72,6 +74,8 @@ nav>div {
 .nav>div>.ai,
 .nav>div>.test,
 .nav>div>.friend,
+.nav>div>.trophy,
+.nav>div>.syllabus,
 .nav>div>.setting {
     /* border: 1px solid red; */
     display: flex;
@@ -87,6 +91,8 @@ nav>div {
 .nav>div>.ai:hover,
 .nav>div>.test:hover,
 .nav>div>.friend:hover,
+.nav>div>.trophy:hover,
+.nav>div>.syllabus:hover,
 .nav>div>.setting:hover {
     background-color: var(--bg-hover);
 }
@@ -122,10 +128,14 @@ nav>div {
     /* border:1px solid red; */
 }
 
-.home>.trop {
-    position: absolute;
-    right: 35px;
-    top: 30px;
+.nav>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-trophy {
+    margin-top: auto;
+    padding: 16px 10px 20px 10px;
 }
 
 .home-profile>div {
@@ -228,6 +238,8 @@ nav>div {
     .nav>.ai>img,
     .nav>.test>img,
     .nav>.friend>img,
+    .nav>.trophy>img,
+    .nav>.syllabus>img,
     .nav>.setting>img {
         height: 22px;
         width: 22px;
@@ -240,6 +252,8 @@ nav>div {
     .nav>.ai,
     .nav>.test,
     .nav>.friend,
+    .nav>.trophy,
+    .nav>.syllabus,
     .nav>.setting {
         /* border: 1px solid red; */
         display: flex;
@@ -255,6 +269,8 @@ nav>div {
     .nav>.ai:hover,
     .nav>.test:hover,
     .nav>.friend:hover,
+    .nav>.trophy:hover,
+    .nav>.syllabus:hover,
     .nav>.setting:hover {
         background-color: var(--bg-hover);
     }

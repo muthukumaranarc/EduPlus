@@ -1,0 +1,431 @@
+/* ────────────────────────────────────────────
+   SyllabusList.css  — follows EduPlus
+   variable + pattern system exactly
+──────────────────────────────────────────── */
+
+.sl-page {
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    margin-top: 60px;
+    position: relative;
+}
+
+.sl-page-label {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    font-size: 1rem;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+/* ── Header ─────────────────────────────── */
+.sl-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.sl-title {
+    margin: 0 0 4px 0;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.sl-subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.sl-upload-btn {
+    padding: 12px 22px;
+    background: rgba(38, 97, 178, 1);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.sl-upload-btn:hover {
+    background: rgba(30, 80, 150, 1);
+    box-shadow: 0 4px 16px rgba(38, 97, 178, 0.32);
+    transform: translateY(-1px);
+}
+
+/* ── Filter Bar ─────────────────────────── */
+.sl-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+    flex-wrap: wrap;
+}
+
+.sl-filter-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.sl-select {
+    padding: 10px 16px;
+    background: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--input-text);
+    font-size: 0.95rem;
+    font-family: "Inter", sans-serif;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease;
+    min-width: 200px;
+}
+
+.sl-select:focus {
+    border-color: rgba(38, 97, 178, 0.7);
+    box-shadow: 0 0 0 3px rgba(38, 97, 178, 0.1);
+}
+
+/* ── Loading ────────────────────────────── */
+.sl-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 120px;
+    gap: 16px;
+}
+
+.sl-spinner {
+    font-size: 3.5rem;
+    animation: sl-spin 1.2s linear infinite;
+}
+
+@keyframes sl-spin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.15);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+.sl-loading p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* ── Empty State ────────────────────────── */
+.sl-empty {
+    text-align: center;
+    padding: 70px 20px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 16px;
+}
+
+.sl-empty-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+}
+
+.sl-empty h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.sl-empty p {
+    margin: 0 0 24px 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.sl-btn-primary {
+    padding: 12px 28px;
+    background: rgba(38, 97, 178, 1);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sl-btn-primary:hover {
+    background: rgba(30, 80, 150, 1);
+    box-shadow: 0 4px 16px rgba(38, 97, 178, 0.32);
+    transform: translateY(-1px);
+}
+
+/* ── Subject Block ──────────────────────── */
+.sl-subject-block {
+    margin-bottom: 32px;
+    animation: sl-fade-in 0.3s ease;
+}
+
+@keyframes sl-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sl-subject-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, rgba(38, 97, 178, 0.09), rgba(38, 97, 178, 0.15));
+    border: 1.5px solid rgba(38, 97, 178, 0.28);
+    border-radius: 14px;
+    margin-bottom: 14px;
+}
+
+.sl-subject-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.sl-subject-name {
+    margin: 0;
+    flex: 1;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgba(38, 97, 178, 1);
+}
+
+.sl-subject-count {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    background: rgba(38, 97, 178, 0.12);
+    color: rgba(38, 97, 178, 1);
+    border-radius: 20px;
+}
+
+/* ── Unit Block ─────────────────────────── */
+.sl-unit-block {
+    margin-bottom: 18px;
+    margin-left: 12px;
+}
+
+.sl-unit-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.sl-unit-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.sl-unit-name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ── Topics ─────────────────────────────── */
+.sl-topics {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.sl-topic-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sl-topic-card:hover {
+    border-color: rgba(38, 97, 178, 0.3);
+    box-shadow: 0 4px 16px rgba(38, 97, 178, 0.1);
+}
+
+.sl-topic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    gap: 12px;
+}
+
+.sl-topic-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.sl-topic-arrow {
+    font-size: 1rem;
+    color: rgba(38, 97, 178, 1);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+    width: 16px;
+}
+
+.sl-topic-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sl-delete-btn {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--border-primary);
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.sl-delete-btn:hover:not(:disabled) {
+    background: rgba(255, 50, 50, 0.1);
+    border-color: var(--accent-danger);
+    color: var(--accent-danger);
+}
+
+.sl-delete-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* ── Topic Content (expanded) ───────────── */
+.sl-topic-content {
+    padding: 0 18px 18px 44px;
+    border-top: 1.5px solid var(--border-light);
+    animation: sl-expand 0.2s ease;
+}
+
+@keyframes sl-expand {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sl-topic-content p {
+    margin: 14px 0 10px 0;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    white-space: pre-wrap;
+}
+
+.sl-topic-date {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    font-style: italic;
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 768px) {
+    .sl-page {
+        padding: 15px;
+        margin-top: 40px;
+    }
+
+    .sl-title {
+        font-size: 1.35rem;
+    }
+
+    .sl-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sl-upload-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .sl-filter-bar {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .sl-select {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sl-subject-header {
+        padding: 12px 14px;
+    }
+
+    .sl-unit-block {
+        margin-left: 0;
+    }
+
+    .sl-topics {
+        margin-left: 8px;
+    }
+
+    .sl-topic-content {
+        padding-left: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sl-subject-count {
+        display: none;
+    }
+}

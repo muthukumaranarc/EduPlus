@@ -27,6 +27,15 @@ public class ProgressTrackerController {
         return service.getTrack();
     }
 
+    /**
+     * Called by the Dashboard on first mount each session.
+     * If the user has no tasks, this seeds the default "Today Task" list.
+     */
+    @GetMapping("/ensure-defaults")
+    public ProgressTrack ensureDefaultTasks() {
+        return service.ensureDefaultTasks();
+    }
+
     @PostMapping("/add")
     public ProgressTrack addTask(@RequestBody String taskName) {
         return service.addTask(taskName);
@@ -51,7 +60,6 @@ public class ProgressTrackerController {
     public void changeUsernameTrack(@RequestBody Map<String, String> data) {
         service.changeUsernameTrack(
                 data.get("currentUsername"),
-                data.get("newUsername")
-        );
+                data.get("newUsername"));
     }
 }

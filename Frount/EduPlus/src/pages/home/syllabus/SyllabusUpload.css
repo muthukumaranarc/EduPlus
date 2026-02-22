@@ -1,0 +1,275 @@
+/* ────────────────────────────────────────────
+   SyllabusUpload.css  — follows EduPlus
+   variable + pattern system exactly
+──────────────────────────────────────────── */
+
+.su-page {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 60px;
+    position: relative;
+}
+
+.su-page-label {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    font-size: 1rem;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+/* ── Header ─────────────────────────────── */
+.su-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.su-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.su-back-btn {
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-primary);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.su-back-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: rgba(38, 97, 178, 0.5);
+}
+
+.su-title {
+    margin: 0 0 4px 0;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.su-subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* ── Card ───────────────────────────────── */
+.su-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: var(--shadow-md);
+}
+
+/* ── Form ───────────────────────────────── */
+.su-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.su-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.su-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.su-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.su-input {
+    padding: 12px 16px;
+    background: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--input-text);
+    font-size: 0.95rem;
+    font-family: "Inter", sans-serif;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+.su-input::placeholder {
+    color: var(--input-placeholder);
+}
+
+.su-input:focus {
+    border-color: rgba(38, 97, 178, 0.7);
+    box-shadow: 0 0 0 3px rgba(38, 97, 178, 0.12);
+}
+
+.su-textarea {
+    padding: 14px 16px;
+    background: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--input-text);
+    font-size: 0.95rem;
+    font-family: "Inter", sans-serif;
+    resize: vertical;
+    min-height: 200px;
+    line-height: 1.6;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+.su-textarea::placeholder {
+    color: var(--input-placeholder);
+}
+
+.su-textarea:focus {
+    border-color: rgba(38, 97, 178, 0.7);
+    box-shadow: 0 0 0 3px rgba(38, 97, 178, 0.12);
+}
+
+/* ── Feedback banners ───────────────────── */
+.su-error-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(255, 50, 50, 0.08);
+    border: 1.5px solid rgba(255, 50, 50, 0.35);
+    border-radius: 10px;
+    color: var(--accent-danger);
+    font-size: 0.9rem;
+    font-weight: 500;
+    animation: su-fade-in 0.25s ease;
+}
+
+.su-success-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(76, 175, 80, 0.09);
+    border: 1.5px solid rgba(76, 175, 80, 0.38);
+    border-radius: 10px;
+    color: var(--accent-success);
+    font-size: 0.9rem;
+    font-weight: 500;
+    animation: su-fade-in 0.25s ease;
+}
+
+@keyframes su-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Actions row ────────────────────────── */
+.su-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.su-btn-primary {
+    padding: 12px 28px;
+    background: rgba(38, 97, 178, 1);
+    color: white;
+    border: 2px solid rgba(38, 97, 178, 1);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.su-btn-primary:hover:not(:disabled) {
+    background: rgba(30, 80, 150, 1);
+    box-shadow: 0 4px 16px rgba(38, 97, 178, 0.35);
+    transform: translateY(-1px);
+}
+
+.su-btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.su-btn-ghost {
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border-primary);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.su-btn-ghost:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: rgba(38, 97, 178, 0.5);
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 768px) {
+    .su-page {
+        padding: 15px;
+        margin-top: 40px;
+    }
+
+    .su-card {
+        padding: 20px;
+    }
+
+    .su-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .su-header-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .su-title {
+        font-size: 1.35rem;
+    }
+
+    .su-actions {
+        flex-direction: column-reverse;
+    }
+
+    .su-btn-primary,
+    .su-btn-ghost {
+        width: 100%;
+        text-align: center;
+    }
+}

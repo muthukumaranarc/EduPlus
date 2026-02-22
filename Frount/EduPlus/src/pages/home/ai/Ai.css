@@ -228,3 +228,110 @@
         padding: 10px;
     }
 }
+
+/* ────────────────────────────────────────────
+   Query wrapper — groups toggle + input box
+──────────────────────────────────────────── */
+.query-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.query-wrapper-fixed {
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+}
+
+/* ────────────────────────────────────────────
+   AI Mode toggle pill
+──────────────────────────────────────────── */
+.ai-mode-toggle {
+    display: flex;
+    gap: 6px;
+    background: var(--bg-card, rgba(30, 30, 40, 0.7));
+    border: 1.5px solid var(--border-light, rgba(255, 255, 255, 0.08));
+    border-radius: 30px;
+    padding: 4px;
+}
+
+.ai-mode-btn {
+    padding: 7px 18px;
+    border: none;
+    border-radius: 24px;
+    background: transparent;
+    color: var(--text-secondary, rgba(170, 170, 190, 1));
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.ai-mode-btn:hover {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.06));
+    color: var(--text-primary, white);
+}
+
+.ai-mode-active {
+    background: rgba(38, 97, 178, 1);
+    color: white !important;
+    box-shadow: 0 2px 10px rgba(38, 97, 178, 0.4);
+}
+
+.ai-mode-syllabus-active {
+    background: linear-gradient(135deg, rgba(38, 97, 178, 1), rgba(60, 140, 220, 1));
+}
+
+/* ── Syllabus mode indicator banner ── */
+.ai-mode-indicator {
+    padding: 8px 18px;
+    background: rgba(38, 97, 178, 0.12);
+    border: 1.5px solid rgba(38, 97, 178, 0.35);
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(38, 97, 178, 1);
+    text-align: center;
+    animation: ai-fade-in 0.25s ease;
+    max-width: 650px;
+    width: 100%;
+}
+
+@keyframes ai-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Responsive adjustments ── */
+@media (max-width: 768px) {
+    .query-wrapper-fixed {
+        bottom: 8px;
+    }
+
+    .ai-mode-toggle {
+        width: 90vw;
+        justify-content: center;
+    }
+
+    .ai-mode-btn {
+        padding: 7px 14px;
+        font-size: 0.82rem;
+    }
+
+    .ai-mode-indicator {
+        width: 90vw;
+        font-size: 0.78rem;
+    }
+}

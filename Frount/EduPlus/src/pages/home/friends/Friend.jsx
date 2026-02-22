@@ -1,151 +1,183 @@
 import "./Friend.css";
-import profile from '../../../assets/profile.png';
-import Trophy from "../../../components/Trophy";
-import addFriendImg from "../../../assets/add-friend.png";
+import profile from "../../../assets/profile.png";
 import { useState, useEffect, useContext, useCallback } from "react";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
 
+/* ── rank medal helper ── */
+const rankDisplay = (rank) => {
+    if (rank === 1) return { label: "🥇", cls: "rank-gold" };
+    if (rank === 2) return { label: "🥈", cls: "rank-silver" };
+    if (rank === 3) return { label: "🥉", cls: "rank-bronze" };
+    return { label: `#${rank}`, cls: "rank-normal" };
+};
+
+/* ── avatar placeholder ── */
+function Avatar({ src, name, size = 56 }) {
+    const initials = (name || "?")[0].toUpperCase();
+    if (src) {
+        return (
+            <img
+                src={src}
+                alt={name}
+                className="fp-avatar-img"
+                style={{ width: size, height: size }}
+            />
+        );
+    }
+    return (
+        <div className="fp-avatar-placeholder" style={{ width: size, height: size }}>
+            {initials}
+        </div>
+    );
+}
+
+/* ================================================================
+   MAIN COMPONENT
+================================================================ */
 function Friend() {
     const baseURL = import.meta.env.VITE_API_URL;
     const { setNavState } = useOutletContext();
     const { user, loading, friendUsernames = [], setFriendUsernames } = useContext(UserContext);
 
-    const [screenWidth, setScreenWidth] = useState(() => window.innerWidth);
-    const [isFriendViewOpen, setIsFriendViewOpen] = useState(false);
     const [friendsWithRank, setFriendsWithRank] = useState([]);
     const [selectedFriend, setSelectedFriend] = useState(null);
-    const [isAddFriendModalOpen, setIsAddFriendModalOpen] = useState(false);
-    const [friendUsernameInput, setFriendUsernameInput] = useState("");
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [friendInput, setFriendInput] = useState("");
+    const [addError, setAddError] = useState("");
+    const [addLoading, setAddLoading] = useState(false);
     const [currentUserRank, setCurrentUserRank] = useState(1);
+    const [fetchingFriends, setFetchingFriends] = useState(false);
 
-    /* ---------------- SCREEN RESIZE ---------------- */
-    useEffect(() => {
-        const handleResize = () => setScreenWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    useEffect(() => { setNavState("friend"); }, [setNavState]);
 
-    /* ---------------- INIT ---------------- */
+    /* ---------------- FETCH FRIENDS + RANK ---------------- */
     useEffect(() => {
-        setNavState("friend");
-        // eslint-disable-next-line
-    }, []);
+        if (!user) return;
 
-    /* ---------------- FETCH FRIEND DETAILS + RANK ---------------- */
-    useEffect(() => {
-        if (!user || !friendUsernames.length) {
+        if (!friendUsernames.length) {
             setFriendsWithRank([]);
             setCurrentUserRank(1);
             return;
         }
 
-        const fetchFriendsWithRank = async () => {
+        const fetchFriends = async () => {
+            setFetchingFriends(true);
             try {
-                const requests = friendUsernames.map(username =>
-                    axios.post(
-                        `${baseURL}/user/get-user-username`,
-                        username,
-                        {
-                            withCredentials: true,
-                            headers: { "Content-Type": "text/plain" }
-                        }
+                const responses = await Promise.all(
+                    friendUsernames.map(username =>
+                        axios.post(
+                            `${baseURL}/user/get-user-username`,
+                            username,
+                            { withCredentials: true, headers: { "Content-Type": "text/plain" } }
+                        )
                     )
                 );
-
-                const responses = await Promise.all(requests);
                 const fetchedFriends = responses.map(r => r.data);
-
-                const combinedUsers = [
+                const combined = [
                     { ...user, isCurrentUser: true },
                     ...fetchedFriends.map(f => ({ ...f, isCurrentUser: false }))
                 ];
-
-                const rankedUsers = calculateRanks(
-                    [...combinedUsers].sort((a, b) => b.trophy - a.trophy)
-                );
-
-                const currentUser = rankedUsers.find(u => u.isCurrentUser);
-                const rankedFriends = rankedUsers.filter(u => !u.isCurrentUser);
-
-                setCurrentUserRank(currentUser?.rank ?? 1);
-                setFriendsWithRank(rankedFriends);
+                const ranked = calculateRanks([...combined].sort((a, b) => b.trophy - a.trophy));
+                setCurrentUserRank(ranked.find(u => u.isCurrentUser)?.rank ?? 1);
+                setFriendsWithRank(ranked.filter(u => !u.isCurrentUser));
             } catch (err) {
                 console.error("Error fetching friends", err);
+            } finally {
+                setFetchingFriends(false);
             }
         };
 
-        fetchFriendsWithRank();
+        fetchFriends();
     }, [friendUsernames, baseURL, user]);
-
-    /* ---------------- OPEN FRIEND PROFILE ---------------- */
-    const openFriendProfile = useCallback((friend) => {
-        setSelectedFriend(friend);
-        setIsFriendViewOpen(true);
-    }, []);
 
     /* ---------------- ADD FRIEND ---------------- */
     const addFriend = async () => {
-        if (!friendUsernameInput.trim()) return;
-
+        const username = friendInput.trim();
+        if (!username) return;
+        setAddLoading(true);
+        setAddError("");
         try {
             await axios.post(
-                `${baseURL}/friends/add/${friendUsernameInput}`,
+                `${baseURL}/friends/add/${username}`,
                 {},
                 { withCredentials: true }
             );
-
             setFriendUsernames(prev =>
-                prev.includes(friendUsernameInput)
-                    ? prev
-                    : [...prev, friendUsernameInput]
+                prev.includes(username) ? prev : [...prev, username]
             );
-
-            setFriendUsernameInput("");
-            setIsAddFriendModalOpen(false);
+            setFriendInput("");
+            setIsAddModalOpen(false);
         } catch (err) {
+            setAddError("User not found or already a friend.");
             console.error("Add friend failed", err);
+        } finally {
+            setAddLoading(false);
         }
     };
 
+    const openFriendProfile = useCallback((friend) => {
+        setSelectedFriend(friend);
+    }, []);
+
+    /* ---------------- REMOVE FRIEND ---------------- */
+    const removeFriend = async (username) => {
+        try {
+            await axios.delete(`${baseURL}/friends/remove/${username}`, {
+                withCredentials: true,
+            });
+            setFriendUsernames(prev => prev.filter(u => u !== username));
+            setSelectedFriend(null);
+        } catch (err) {
+            console.error("Remove friend failed", err);
+        }
+    };
+
+    /* ---------------- LOADING ---------------- */
     if (loading || !user) {
         return (
-            <div className="friend-page">
-                <p style={{ textAlign: "center", marginTop: "50px" }}>
-                    Loading friends...
-                </p>
+            <div className="fp-page">
+                <div className="fp-loading">
+                    <div className="fp-spinner" />
+                    <p>Loading friends…</p>
+                </div>
             </div>
         );
     }
 
-    return (
-        <div className="friend-page">
-            {isFriendViewOpen &&
-                viewFriend(
-                    selectedFriend,
-                    setIsFriendViewOpen,
-                    baseURL,
-                    setFriendUsernames
-                )
-            }
+    const myRank = rankDisplay(currentUserRank);
 
-            {isAddFriendModalOpen && (
-                <div className="overlay">
-                    <div className="alert-box">
-                        <p>Enter you friend Username</p>
+    return (
+        <div className="fp-page">
+
+            {/* ── ADD FRIEND MODAL ── */}
+            {isAddModalOpen && (
+                <div className="fp-modal-overlay" onClick={() => setIsAddModalOpen(false)}>
+                    <div className="fp-modal" onClick={e => e.stopPropagation()}>
+                        <h3>Add a Friend</h3>
+                        <p className="fp-modal-sub">Enter their exact username to connect</p>
                         <input
+                            className="fp-modal-input"
                             type="text"
                             placeholder="username"
-                            style={{ width: "90%" }}
-                            value={friendUsernameInput}
-                            onChange={(e) => setFriendUsernameInput(e.target.value)}
+                            value={friendInput}
+                            onChange={e => { setFriendInput(e.target.value); setAddError(""); }}
+                            onKeyDown={e => e.key === "Enter" && addFriend()}
+                            autoFocus
                         />
-                        <div className="actions">
-                            <button className="confirm" onClick={addFriend}>Add</button>
+                        {addError && <p className="fp-modal-error">{addError}</p>}
+                        <div className="fp-modal-actions">
                             <button
-                                className="cancel"
-                                onClick={() => setIsAddFriendModalOpen(false)}
+                                className="fp-btn-primary"
+                                onClick={addFriend}
+                                disabled={addLoading}
+                            >
+                                {addLoading ? "Adding…" : "Add Friend"}
+                            </button>
+                            <button
+                                className="fp-btn-ghost"
+                                onClick={() => { setIsAddModalOpen(false); setAddError(""); }}
                             >
                                 Cancel
                             </button>
@@ -154,219 +186,202 @@ function Friend() {
                 </div>
             )}
 
-            <button
-                className="add-friend"
-                onClick={() => setIsAddFriendModalOpen(true)}
-            >
-                <img src={addFriendImg} alt="addFriend" />
-            </button>
-
-            <h3 style={{ position: "absolute", top: "5px", left: "20px" }}>
-                Friends
-            </h3>
-
-            {/* Desktop */}
-            {screenWidth > 768 && (
-                <div className="my-profile">
-                    <div>
-                        <img
-                            src={user.profilePicture || profile}
-                            alt="profile"
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "50%",
-                                objectFit: "cover"
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <p>
-                            <b className="my-name">{user.username}</b>
-                            {'#' + currentUserRank}
-                        </p>
-                        <center><p>Trophies <br /> {user.trophy}</p></center>
-                        <center><p>Friends <br /> {user.friends}</p></center>
-                    </div>
-                </div>
+            {/* ── FRIEND PROFILE DRAWER ── */}
+            {selectedFriend && (
+                <FriendDrawer
+                    friend={selectedFriend}
+                    onClose={() => setSelectedFriend(null)}
+                    onRemove={removeFriend}
+                />
             )}
 
-            {/* Mobile */}
-            {screenWidth < 768 && (
-                <div className="my-profile">
-                    <div>
-                        <img
-                            src={user.profilePicture || profile}
-                            alt="profile"
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "50%",
-                                objectFit: "cover"
-                            }}
-                        />
+            {/* ── MY PROFILE BANNER ── */}
+            <div className="fp-hero">
+                <div className="fp-hero-avatar">
+                    <Avatar src={user.profilePicture} name={user.username} size={100} />
+                </div>
+                <div className="fp-hero-info">
+                    <div className="fp-hero-name-row">
+                        <h2 className="fp-hero-name">
+                            {(user.firstName || "") + " " + (user.lastName || "") || user.username}
+                        </h2>
+                        <span className={`fp-rank-badge ${myRank.cls}`}>{myRank.label}</span>
                     </div>
-                    <div>
-                        <p>
-                            {'#' + currentUserRank}
-                            <b className="my-name">{user.username}</b>
-                        </p>
-                        <div className="my-det" style={{ display: "flex" }}>
-                            <span>Trophies:&nbsp;{user.trophy}</span>
-                            <p>Friends:&nbsp;{user.friends}</p>
+                    <p className="fp-hero-username">@{user.username}</p>
+                    <div className="fp-hero-stats">
+                        <div className="fp-stat">
+                            <span className="fp-stat-value">🏆 {user.trophy ?? 0}</span>
+                            <span className="fp-stat-label">Trophies</span>
+                        </div>
+                        <div className="fp-stat-divider" />
+                        <div className="fp-stat">
+                            <span className="fp-stat-value">👥 {user.friends ?? 0}</span>
+                            <span className="fp-stat-label">Friends</span>
+                        </div>
+                        <div className="fp-stat-divider" />
+                        <div className="fp-stat">
+                            <span className="fp-stat-value">{myRank.label}</span>
+                            <span className="fp-stat-label">Your Rank</span>
                         </div>
                     </div>
                 </div>
-            )}
+            </div>
 
-            <p className="your-friend">Your friends</p>
+            {/* ── FRIENDS LIST HEADER ── */}
+            <div className="fp-section-header">
+                <h3>Your Friends <span className="fp-friend-count">{friendsWithRank.length}</span></h3>
+                <button className="fp-add-btn" onClick={() => setIsAddModalOpen(true)}>
+                    <span>＋</span> Add Friend
+                </button>
+            </div>
 
-            {/* Desktop */}
-            {screenWidth > 768 && (
-
-                <div style={{ marginBottom: "30px" }}>
-                    {friendsWithRank.map((friend) => (
-                        <div
-                            key={friend.username}
-                            className="friend-profile"
-                            onClick={() => openFriendProfile(friend)}
-                        >
-                            <div>
-                                <img
-                                    src={friend.profilePicture || profile}
-                                    alt="profile"
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        borderRadius: "50%",
-                                        objectFit: "cover"
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <p className="friend-name">
-                                    <b>{friend.firstName + " " + friend.lastName}</b>
-                                    {'#' + friend.rank}
-                                </p>
-                                <center className="friend-data">
-                                    <p>Friends <br /> {friend.friends ?? 0}</p>
-                                </center>
-                                <center className="friend-data">
-                                    <p>Trophies <br /> {friend.trophy}</p>
-                                </center>
-                            </div>
-                        </div>
-                    ))}
+            {/* ── FRIEND CARDS ── */}
+            {fetchingFriends ? (
+                <div className="fp-list-loading">
+                    {[1, 2, 3].map(i => <div key={i} className="fp-skeleton" />)}
                 </div>
-            )}
-            {/* Mobile */}
-            {screenWidth < 768 && (
-                <div style={{ marginBottom: "30px" }}>
-                    {friendsWithRank.map((friend) => (
-                        <div className="friend-profile"
-                            onClick={() => openFriendProfile(friend)}
-                        >
-                            <div>
-                                <img
-                                    src={friend.profilePicture || profile}
-                                    alt="profile"
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        borderRadius: "50%",
-                                        objectFit: "cover"
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <p>
-                                    {'#' + friend.rank}
-                                    <b className="my-name">{friend.username}</b>
-                                </p>
-                                <div className="my-det" style={{ display: "flex" }}>
-                                    <span>Trophies:&nbsp;{friend.trophy}</span>
-                                    <p>Friends:&nbsp;{friend.friends}</p>
+            ) : friendsWithRank.length === 0 ? (
+                <div className="fp-empty">
+                    <div className="fp-empty-icon">👋</div>
+                    <h4>No friends yet</h4>
+                    <p>Add friends to compare progress and compete on the leaderboard!</p>
+                    <button className="fp-btn-primary" onClick={() => setIsAddModalOpen(true)}>
+                        Add your first friend
+                    </button>
+                </div>
+            ) : (
+                <div className="fp-friend-list">
+                    {friendsWithRank.map((friend) => {
+                        const rd = rankDisplay(friend.rank);
+                        return (
+                            <div
+                                key={friend.username}
+                                className="fp-friend-card"
+                                onClick={() => openFriendProfile(friend)}
+                            >
+                                <div className="fp-card-left">
+                                    <span className={`fp-card-rank ${rd.cls}`}>{rd.label}</span>
+                                    <div className="fp-card-avatar">
+                                        <Avatar src={friend.profilePicture} name={friend.username} size={64} />
+                                    </div>
                                 </div>
+                                <div className="fp-card-info">
+                                    <p className="fp-card-name">
+                                        {(friend.firstName + " " + friend.lastName).trim() || friend.username}
+                                    </p>
+                                    <p className="fp-card-username">@{friend.username}</p>
+                                </div>
+                                <div className="fp-card-stats">
+                                    <div className="fp-card-stat">
+                                        <span className="fp-card-stat-val">{friend.trophy ?? 0}</span>
+                                        <span className="fp-card-stat-lbl">🏆</span>
+                                    </div>
+                                    <div className="fp-card-stat">
+                                        <span className="fp-card-stat-val">{friend.friends ?? 0}</span>
+                                        <span className="fp-card-stat-lbl">👥</span>
+                                    </div>
+                                </div>
+                                <span className="fp-card-arrow">›</span>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>
     );
 }
 
-/* ---------------- VIEW FRIEND ---------------- */
-function viewFriend(friend, setIsFriendViewOpen, baseURL, setFriendUsernames) {
-    if (!friend) return null;
+/* ================================================================
+   FRIEND PROFILE DRAWER (slide-in panel)
+================================================================ */
+function FriendDrawer({ friend, onClose, onRemove }) {
+    const [confirmRemove, setConfirmRemove] = useState(false);
 
-    const removeFriend = async (username) => {
-        try {
-            await axios.delete(
-                `${baseURL}/friends/remove/${username}`,
-                { withCredentials: true }
-            );
-            setFriendUsernames(prev => prev.filter(u => u !== username));
-            setIsFriendViewOpen(false);
-        } catch (err) {
-            console.error("Remove friend failed", err);
-        }
-    };
-
+    const fullName = (friend.firstName + " " + friend.lastName).trim() || friend.username;
 
     return (
-        <div className="view-friend">
-            <div>
-                <div>
-                    <div>
-                        <img
-                            src={friend.profilePicture || profile}
-                            alt="profile"
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "50%",
-                                objectFit: "cover"
-                            }}
-                        />
+        <div className="fp-drawer-overlay" onClick={onClose}>
+            <div className="fp-drawer" onClick={e => e.stopPropagation()}>
+                <button className="fp-drawer-close" onClick={onClose}>✕</button>
+
+                {/* Header */}
+                <div className="fp-drawer-header">
+                    <div className="fp-drawer-avatar">
+                        <Avatar src={friend.profilePicture} name={friend.username} size={110} />
                     </div>
-                    <p>{friend.firstName + " " + friend.lastName}</p>
-                    <Trophy trophy={friend.trophy} />
+                    <h2 className="fp-drawer-name">{fullName}</h2>
+                    <p className="fp-drawer-username">@{friend.username}</p>
+                    <span className={`fp-rank-badge ${rankDisplay(friend.rank).cls}`}>
+                        {rankDisplay(friend.rank).label} Rank
+                    </span>
                 </div>
-                <div>
-                    <div>
-                        <p>Email: </p>
-                        <p>LinkedIn: </p>
-                        <p>Birth day: </p>
+
+                {/* Stats strip */}
+                <div className="fp-drawer-stats">
+                    <div className="fp-drawer-stat">
+                        <span className="fp-drawer-stat-val">🏆 {friend.trophy ?? 0}</span>
+                        <span className="fp-drawer-stat-lbl">Trophies</span>
                     </div>
-                    <div>
-                        <p>{friend.mailId}</p>
-                        <p>{friend.linkedIn}</p>
-                        <p>{friend.dob}</p>
+                    <div className="fp-stat-divider" />
+                    <div className="fp-drawer-stat">
+                        <span className="fp-drawer-stat-val">👥 {friend.friends ?? 0}</span>
+                        <span className="fp-drawer-stat-lbl">Friends</span>
                     </div>
                 </div>
-                <button
-                    onClick={() => removeFriend(friend.username)}
-                    style={{ backgroundColor: "rgba(255, 50, 50, 1)", color: "white" }}
-                >
-                    Remove
-                </button>
-                <button onClick={() => setIsFriendViewOpen(false)}>Close</button>
+
+                {/* Info rows */}
+                <div className="fp-drawer-details">
+                    {[
+                        { label: "📧 Email", value: friend.mailId || "—" },
+                        { label: "🎂 Birthday", value: friend.dob || "—" },
+                        { label: "💼 LinkedIn", value: friend.linkedIn || "—" },
+                    ].map(row => (
+                        <div key={row.label} className="fp-drawer-row">
+                            <span className="fp-drawer-row-label">{row.label}</span>
+                            <span className="fp-drawer-row-value">{row.value}</span>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Actions */}
+                <div className="fp-drawer-actions">
+                    {confirmRemove ? (
+                        <>
+                            <p className="fp-remove-confirm-text">Remove <b>{friend.username}</b> from friends?</p>
+                            <button
+                                className="fp-btn-danger"
+                                onClick={() => onRemove(friend.username)}
+                            >
+                                Yes, Remove
+                            </button>
+                            <button
+                                className="fp-btn-ghost"
+                                onClick={() => setConfirmRemove(false)}
+                            >
+                                Cancel
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            className="fp-btn-danger-outline"
+                            onClick={() => setConfirmRemove(true)}
+                        >
+                            Remove Friend
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
 }
 
-/* ---------------- RANK CALCULATOR ---------------- */
+/* ── RANK CALCULATOR ── */
 const calculateRanks = (list) => {
     let rank = 1;
-    let previousTrophy = null;
-
+    let prevTrophy = null;
     return list.map((item, index) => {
-        if (previousTrophy !== null && item.trophy < previousTrophy) {
-            rank = index + 1;
-        }
-        previousTrophy = item.trophy;
+        if (prevTrophy !== null && item.trophy < prevTrophy) rank = index + 1;
+        prevTrophy = item.trophy;
         return { ...item, rank };
     });
 };

@@ -73,13 +73,15 @@ function Dashboard() {
     const [tasks, setTasks] = useState([]);
     const fetchTrack = async () => {
         try {
-            const res = await axios.get(`${baseURL}/pro/get`, {
+            // /ensure-defaults seeds the 5 default tasks for brand-new users
+            // (or users who've cleared all tasks), then returns the track.
+            const res = await axios.get(`${baseURL}/pro/ensure-defaults`, {
                 withCredentials: true
             });
 
             const fetchedTasks = res.data.tasks.map((task, index) => ({
-                id: index + 1,                // frontend id
-                title: task.name,             // backend → frontend mapping
+                id: index + 1,
+                title: task.name,
                 completed: task.completed
             }));
 
@@ -246,7 +248,7 @@ function Dashboard() {
                             width: "100%",
                             color: "#777",
                         }}>
-                            No tasks yet. Click <b>Edit</b> to add one 🚀
+                            All tasks cleared! Click <b>Edit</b> to add new ones 🚀
                         </p>
                     )}
 
@@ -304,7 +306,7 @@ function Dashboard() {
                 <div className="action-required">
                     <h2>Action Required</h2>
 
-                    <div onClick={() => {navigate("/home/action/test/generate")}}>
+                    <div onClick={() => { navigate("/home/action/test/generate") }}>
                         <div></div>
                         <div>
                             <p>Generate Test</p>
@@ -313,7 +315,7 @@ function Dashboard() {
                         <img src={arrow} alt="arrow" />
                     </div>
 
-                    <div onClick={() => {navigate("/home/ai")}}>
+                    <div onClick={() => { navigate("/home/ai") }}>
                         <div></div>
                         <div>
                             <p>Ask to AI</p>
@@ -322,7 +324,7 @@ function Dashboard() {
                         <img src={arrow} alt="arrow" />
                     </div>
 
-                    <div onClick={() => {navigate("/home/action/test/saved")}}>
+                    <div onClick={() => { navigate("/home/action/test/saved") }}>
                         <div></div>
                         <div>
                             <p>Complete unsolved tests</p>

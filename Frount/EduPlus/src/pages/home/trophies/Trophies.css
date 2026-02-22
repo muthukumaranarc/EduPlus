@@ -394,3 +394,455 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ── Tab Switcher ─────────────────────────────────────── */
+.trophy-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 16px;
+    padding: 8px;
+}
+
+.trophy-tab {
+    flex: 1;
+    padding: 14px 20px;
+    border: 2px solid transparent;
+    background: transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.trophy-tab:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.trophy-tab.active {
+    background: rgba(38, 97, 178, 1);
+    color: white;
+    border-color: rgba(38, 97, 178, 1);
+    box-shadow: 0 4px 16px rgba(38, 97, 178, 0.35);
+}
+
+/* ── Leaderboard ──────────────────────────────────────── */
+.leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 30px;
+}
+
+.leaderboard-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.leaderboard-row::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: rgba(38, 97, 178, 1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.leaderboard-row:hover::before,
+.leaderboard-me::before {
+    opacity: 1;
+}
+
+.leaderboard-row:hover {
+    transform: translateX(4px);
+    box-shadow: 0 6px 24px rgba(38, 97, 178, 0.15);
+    border-color: rgba(38, 97, 178, 0.3);
+}
+
+.leaderboard-me {
+    border-color: rgba(38, 97, 178, 0.5);
+    background: rgba(38, 97, 178, 0.05);
+    box-shadow: 0 4px 20px rgba(38, 97, 178, 0.12);
+}
+
+.lb-rank {
+    font-size: 1.8rem;
+    min-width: 50px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.lb-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid var(--border-light);
+}
+
+.lb-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lb-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background: rgba(38, 97, 178, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: rgba(38, 97, 178, 1);
+}
+
+.lb-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.lb-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.lb-you-badge {
+    font-size: 0.8rem;
+    color: rgba(38, 97, 178, 1);
+    font-weight: 600;
+}
+
+.lb-username {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+.lb-trophies {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.lb-trophy-count {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: rgba(38, 97, 178, 1);
+    line-height: 1;
+}
+
+.lb-trophy-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ── Trophy Loading ──────────────────────────────────── */
+.trophy-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 120px;
+    gap: 16px;
+}
+
+.trophy-spinner {
+    font-size: 3.5rem;
+    animation: spin-trophy 1.2s linear infinite;
+}
+
+@keyframes spin-trophy {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.15);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+.trophy-loading p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* ── New Trophy Toast ────────────────────────────────── */
+.new-trophy-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: rgba(38, 97, 178, 1);
+    color: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(38, 97, 178, 0.4);
+    animation: toast-slide-in 0.4s ease;
+    min-width: 280px;
+    max-width: 360px;
+}
+
+.toast-item span:first-child {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.toast-item div {
+    flex: 1;
+}
+
+.toast-item strong {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.toast-item p {
+    margin: 2px 0 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.toast-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.toast-close:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+@keyframes toast-slide-in {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ── Leaderboard Responsive ──────────────────────────── */
+@media (max-width: 600px) {
+    .leaderboard-row {
+        padding: 14px 16px;
+        gap: 12px;
+    }
+
+    .lb-rank {
+        font-size: 1.4rem;
+        min-width: 38px;
+    }
+
+    .lb-avatar {
+        width: 42px;
+        height: 42px;
+    }
+
+    .lb-trophy-count {
+        font-size: 1.3rem;
+    }
+
+    .trophy-tabs {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .new-trophy-toast {
+        bottom: 16px;
+        right: 16px;
+        left: 16px;
+    }
+
+    .toast-item {
+        min-width: unset;
+    }
+}
+
+/* ── Weekly Reset Banner ─────────────────────────────────────────────────── */
+
+.weekly-reset-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(38, 97, 178, 0.08), rgba(38, 97, 178, 0.14));
+    border: 1.5px solid rgba(38, 97, 178, 0.28);
+    border-radius: 14px;
+    padding: 14px 22px;
+    margin-bottom: 22px;
+}
+
+.weekly-reset-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.weekly-reset-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.weekly-reset-text strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: rgba(38, 97, 178, 1);
+    margin-bottom: 2px;
+}
+
+.weekly-reset-text p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+.weekly-reset-timer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+.weekly-reset-label {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+}
+
+.weekly-reset-countdown {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: rgba(38, 97, 178, 1);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+}
+
+/* ── Just-Reset Notice ───────────────────────────────────────────────────── */
+
+.weekly-just-reset {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1.5px solid rgba(34, 197, 94, 0.4);
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 18px;
+    animation: reset-pop 0.4s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+@keyframes reset-pop {
+    from {
+        transform: scaleY(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+.weekly-just-reset span:first-child {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.weekly-just-reset p {
+    flex: 1;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #15803d;
+}
+
+.weekly-just-reset-close {
+    background: rgba(34, 197, 94, 0.15);
+    border: none;
+    color: #15803d;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.weekly-just-reset-close:hover {
+    background: rgba(34, 197, 94, 0.3);
+}
+
+@media (max-width: 600px) {
+    .weekly-reset-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .weekly-reset-timer {
+        align-items: flex-start;
+    }
+
+    .weekly-reset-countdown {
+        font-size: 1rem;
+    }
+}

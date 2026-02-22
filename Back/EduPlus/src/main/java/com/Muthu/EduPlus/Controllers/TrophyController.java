@@ -18,6 +18,8 @@ public class TrophyController {
         this.trophyService = trophyService;
     }
 
+    // ─── READ ────────────────────────────────────────────────────────────────
+
     @GetMapping("/get-user-trophies")
     public UserTrophy getUserTrophies() {
         return trophyService.getUserTrophies();
@@ -42,6 +44,8 @@ public class TrophyController {
     public int getTotalEarnedTrophies() {
         return trophyService.getTotalEarnedTrophies();
     }
+
+    // ─── AWARD ACTIONS ───────────────────────────────────────────────────────
 
     @PostMapping("/increment-test-completed")
     public void incrementTestCompleted() {
