@@ -27,6 +27,8 @@ import SavedTest from './pages/home/action/test/SavedTest';
 import Trophies from './pages/home/trophies/Trophies.jsx';
 import SyllabusList from './pages/home/syllabus/SyllabusList.jsx';
 import SyllabusUpload from './pages/home/syllabus/SyllabusUpload.jsx';
+import AnalyticsPage from './pages/home/analytics/AnalyticsPage.jsx';
+import RevisionPage from './pages/home/revision/RevisionPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -83,6 +85,14 @@ const router = createBrowserRouter([
       {
         path: '/home/syllabus/upload',
         element: <SyllabusUpload />
+      },
+      {
+        path: '/home/analytics',
+        element: <AnalyticsPage />
+      },
+      {
+        path: '/home/revision',
+        element: <RevisionPage />
       },
 
       // action navigaters

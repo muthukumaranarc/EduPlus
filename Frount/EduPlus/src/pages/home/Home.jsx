@@ -140,7 +140,7 @@ function Home() {
                             }
                             <p>Trophies</p>
                         </div>
-                        
+
                         <div
                             onClick={() => { navigate("/home/syllabus"); setIsNavActive(false) }}
                             className={`${navState === "syllabus" ? "active" : ""} syllabus`}
@@ -151,6 +151,30 @@ function Home() {
                                     <img src={action_icon_g} alt="syllabus" />
                             }
                             <p>Syllabus</p>
+                        </div>
+
+                        <div
+                            onClick={() => { navigate("/home/analytics"); setIsNavActive(false) }}
+                            className={`${navState === "analytics" ? "active" : ""} analytics`}
+                        >
+                            {
+                                navState === "analytics" ?
+                                    <img src={ai_chat_icon} alt="analytics" /> :
+                                    <img src={ai_chat_icon_g} alt="analytics" />
+                            }
+                            <p>AI Analytics</p>
+                        </div>
+
+                        <div
+                            onClick={() => { navigate("/home/revision"); setIsNavActive(false) }}
+                            className={`${navState === "revision" ? "active" : ""} revision`}
+                        >
+                            {
+                                navState === "revision" ?
+                                    <img src={ai_chat_icon} alt="revision" /> :
+                                    <img src={ai_chat_icon_g} alt="revision" />
+                            }
+                            <p>AI Revision</p>
                         </div>
 
                         <div
@@ -223,6 +247,12 @@ function renderImage(navState) {
 
         case "syllabus":
             return <img src={action_icon} alt="syllabus" />;
+
+        case "analytics":
+            return <img src={ai_chat_icon} alt="analytics" />;
+
+        case "revision":
+            return <img src={ai_chat_icon} alt="revision" />;
 
         default:
             null
