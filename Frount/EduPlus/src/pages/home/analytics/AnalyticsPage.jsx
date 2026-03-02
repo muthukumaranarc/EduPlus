@@ -2,6 +2,7 @@ import "./AnalyticsPage.css";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
+import DotsLoader from "../../../components/DotsLoader";
 
 function AnalyticsPage() {
     const baseURL = import.meta.env.VITE_API_URL;
@@ -46,9 +47,11 @@ function AnalyticsPage() {
         return (
             <div className="analytics-page">
                 <div className="analytics-loading">
-                    <div className="analytics-spinner">🧠</div>
-                    <h3>Analyzing your performance...</h3>
-                    <p>EduPlus AI is reviewing your test history and identifying patterns.</p>
+                    <DotsLoader message="Analyzing your performance…" />
+                    <p className="analytics-loading-sub"
+                       style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
+                        EduPlus AI is reviewing your test history and identifying patterns.
+                    </p>
                 </div>
             </div>
         );

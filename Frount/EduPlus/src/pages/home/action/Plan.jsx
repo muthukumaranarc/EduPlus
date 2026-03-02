@@ -16,10 +16,13 @@ import ReactMarkdown from "react-markdown";
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 function Plan() {
-    const { deviceWidth } = useOutletContext();
+    const { deviceWidth, setNavState } = useOutletContext();
 
     const canvasRef = useRef(null);
     const fileInputRef = useRef(null);
+
+    /* Tell the sidebar which item is active */
+    useEffect(() => { setNavState("plan"); }, [setNavState]);
 
     const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);

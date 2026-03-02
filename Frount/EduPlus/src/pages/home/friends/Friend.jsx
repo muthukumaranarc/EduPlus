@@ -4,6 +4,7 @@ import { useState, useEffect, useContext, useCallback } from "react";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
+import DotsLoader from "../../../components/DotsLoader";
 
 /* ── rank medal helper ── */
 const rankDisplay = (rank) => {
@@ -138,10 +139,7 @@ function Friend() {
     if (loading || !user) {
         return (
             <div className="fp-page">
-                <div className="fp-loading">
-                    <div className="fp-spinner" />
-                    <p>Loading friends…</p>
-                </div>
+                <DotsLoader message="Loading friends…" />
             </div>
         );
     }
@@ -238,7 +236,7 @@ function Friend() {
             {/* ── FRIEND CARDS ── */}
             {fetchingFriends ? (
                 <div className="fp-list-loading">
-                    {[1, 2, 3].map(i => <div key={i} className="fp-skeleton" />)}
+                    <DotsLoader message="Fetching friends…" />
                 </div>
             ) : friendsWithRank.length === 0 ? (
                 <div className="fp-empty">

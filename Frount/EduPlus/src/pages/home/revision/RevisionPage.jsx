@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { getSubjects } from "../../../services/syllabusApi";
+import DotsLoader from "../../../components/DotsLoader";
 
 function RevisionPage() {
     const baseURL = import.meta.env.VITE_API_URL;
@@ -114,8 +115,10 @@ function RevisionPage() {
                 >
                     {loading ? (
                         <>
-                            <span className="revision-btn-spinner" />
-                            Generating...
+                            <span className="revision-btn-dots">
+                                <span /><span /><span />
+                            </span>
+                            Generating…
                         </>
                     ) : (
                         <>✨ Generate Revision</>
@@ -126,12 +129,7 @@ function RevisionPage() {
             {/* ── Loading State ─────────────────────────────────────────────── */}
             {loading && (
                 <div className="revision-loading-card">
-                    <div className="revision-loading-pulse">🧠</div>
-                    <h3>Generating AI Revision Notes...</h3>
-                    <p>EduPlus AI is crafting exam-focused notes from your <strong>{selectedSubject}</strong> syllabus.</p>
-                    <div className="revision-loading-bar">
-                        <div className="revision-loading-bar-fill" />
-                    </div>
+                    <DotsLoader message={`Generating AI revision notes for ${selectedSubject}…`} />
                 </div>
             )}
 

@@ -128,15 +128,25 @@
     transform: none;
 }
 
-.revision-btn-spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    display: inline-block;
+/* ── Button inline dots ─────────────────────────────────────────────────── */
+.revision-btn-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
 }
+
+.revision-btn-dots span {
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    animation: dotBounce 1.2s ease-in-out infinite;
+}
+
+.revision-btn-dots span:nth-child(1) { animation-delay: 0s;   }
+.revision-btn-dots span:nth-child(2) { animation-delay: 0.2s; }
+.revision-btn-dots span:nth-child(3) { animation-delay: 0.4s; }
 
 /* ── Loading Card ────────────────────────────────────────────────────────── */
 .revision-loading-card {

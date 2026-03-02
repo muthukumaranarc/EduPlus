@@ -88,7 +88,7 @@ function GenerateTest() {
                 }
             );
 
-            navigate("/home/action/test/saved");
+            navigate("/home/test/saved");
         } catch (err) {
             console.error("Failed to generate test from file", err);
             alert("Failed to generate test from file");
@@ -135,7 +135,7 @@ function GenerateTest() {
                 { withCredentials: true }
             );
 
-            navigate("/home/action/test/saved");
+            navigate("/home/test/saved");
         } catch (err) {
             console.error("Failed to generate test", err);
             alert("Failed to generate test");

@@ -3,6 +3,7 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
+import DotsLoader from "../../../components/DotsLoader";
 
 function Trophies() {
     const baseURL = import.meta.env.VITE_API_URL;
@@ -149,10 +150,7 @@ function Trophies() {
     if (loading || !user || !userTrophies) {
         return (
             <div className="trophies-page">
-                <div className="trophy-loading">
-                    <div className="trophy-spinner">🏆</div>
-                    <p>Loading trophies...</p>
-                </div>
+                <DotsLoader message="Loading trophies…" />
             </div>
         );
     }

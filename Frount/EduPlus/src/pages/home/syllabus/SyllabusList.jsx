@@ -2,6 +2,7 @@ import "./SyllabusList.css";
 import { useState, useEffect } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { getAllSyllabus, getSubjects, deleteSyllabus } from "../../../services/syllabusApi";
+import DotsLoader from "../../../components/DotsLoader";
 
 function SyllabusList() {
     const { setNavState } = useOutletContext();
@@ -71,10 +72,7 @@ function SyllabusList() {
     if (loading) {
         return (
             <div className="sl-page">
-                <div className="sl-loading">
-                    <div className="sl-spinner">📚</div>
-                    <p>Loading syllabus…</p>
-                </div>
+                <DotsLoader message="Loading syllabus…" />
             </div>
         );
     }

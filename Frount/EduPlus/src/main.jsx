@@ -11,7 +11,7 @@ import Login from './pages/login/Login.jsx';
 import { NotFound } from './pages/NotFound.jsx';
 import Home from './pages/home/Home.jsx';
 import Dashboard from './pages/home/dashboard/Dashboard.jsx';
-import Action from './pages/home/action/Action.jsx';
+// Action page removed – features promoted to top-level nav
 import Ai from './pages/home/ai/Ai.jsx';
 import Friend from './pages/home/friends/Friend.jsx';
 import Settings from './pages/home/settings/Settings.jsx';
@@ -58,10 +58,7 @@ const router = createBrowserRouter([
         path: '/home/dashboard',
         element: <Dashboard />
       },
-      {
-        path: '/home/action',
-        element: <Action />
-      },
+      // ── Core pages ──
       {
         path: '/home/ai',
         element: <Ai />
@@ -95,26 +92,22 @@ const router = createBrowserRouter([
         element: <RevisionPage />
       },
 
-      // action navigaters
+      // ── Study Tools (formerly under /home/action) ──
       {
-        path: '/home/action/plan',
+        path: '/home/plan',
         element: <Plan />
       },
       {
-        path: '/home/action/test',
+        path: '/home/test',
         element: <TestBuilder />
       },
       {
-        path: '/home/action/test/saved',
+        path: '/home/test/saved',
         element: <SavedTest />
       },
       {
-        path: '/home/action/test/generate',
+        path: '/home/test/generate',
         element: <GenerateTest />
-      },
-      {
-        path: '/home/action/ai',
-        element: <Ai />
       },
     ],
   }

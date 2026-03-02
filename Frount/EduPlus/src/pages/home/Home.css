@@ -1,3 +1,8 @@
+/* ============================================================
+   EduPlus – Sidebar  (MongoDB Atlas–inspired)
+   ============================================================ */
+
+/* ── Layout shell ── */
 .home-page {
     display: flex;
     flex-direction: column;
@@ -7,301 +12,315 @@
     display: none;
 }
 
+/* ── Sidebar ── */
 .nav {
-    /* border: 1px solid red; */
+    height: 100vh;
+    width: 220px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-}
-
-.nav,
-nav>div {
-    height: 100vh;
-    width: 182px;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    box-shadow: var(--shadow-lg);
-    z-index: 2;
     background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border-primary);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
+    transition: width 0.2s ease;
+    overflow: hidden;
 }
 
-.nav>div>div {
+/* ── Logo area ── */
+.nav .logo-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid var(--border-primary);
+    cursor: default;
+    flex-shrink: 0;
+}
+
+.nav .logo-box .logo {
+    height: 32px;
+    width: 32px;
+    flex-shrink: 0;
+}
+
+.nav .logo-box .name {
+    height: 20px;
+    width: auto;
+}
+
+/* ── Scrollable nav body ── */
+.nav-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px 0 8px;
+    scrollbar-width: none;
+}
+
+.nav-body::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Section label ── */
+.nav-section-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    opacity: 0.55;
+    padding: 12px 18px 4px;
+    user-select: none;
+}
+
+/* ── Divider ── */
+.nav-divider {
+    height: 1px;
+    background: var(--border-primary);
+    margin: 6px 14px;
+    opacity: 0.6;
+}
+
+/* ── Nav item ── */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    height: 36px;
+    padding: 0 14px;
+    margin: 1px 8px;
+    border-radius: 7px;
     cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    color: var(--text-secondary);
     user-select: none;
     -webkit-user-select: none;
-    -ms-user-select: none;
+    white-space: nowrap;
+    position: relative;
 }
 
-.nav>div>.logo-box {
+.nav-item img {
+    height: 18px;
+    width: 18px;
+    flex-shrink: 0;
+    /* brightness(0) → converts any color (even white) to black, opacity → matches text gray */
+    filter: brightness(0) opacity(0.38);
+    transition: filter 0.15s ease;
+}
+
+.nav-item p {
+    font-size: 13.5px;
+    font-weight: 500;
+    margin: 0;
+    color: inherit;
+    transition: color 0.15s ease;
+}
+
+.nav-item:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.nav-item:hover img {
+    filter: brightness(0) opacity(0.6);
+}
+
+/* ── Active state ── */
+.nav-item.active {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.nav-item.active img {
+    /* active: full black to match the bold text */
+    filter: brightness(0) opacity(0.85);
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--accent, #2661b2);
+}
+
+.nav-item.active p {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* dark mode — icons stay brightness(0) but opacity changes */
+[data-theme="dark"] .nav-item:not(.active) img {
+    filter: brightness(0) invert(1) opacity(0.35);
+}
+
+[data-theme="dark"] .nav-item.active img {
+    filter: brightness(0) invert(1) opacity(0.9);
+}
+
+/* ── Bottom section (trophies + settings) ── */
+.nav-bottom {
+    flex-shrink: 0;
+    border-top: 1px solid var(--border-primary);
+    padding: 8px 0;
+}
+
+/* ── Trophy badge – slim, no card, just icon + text ── */
+.nav-trophy-badge {
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding-top: 15px;
-    margin-bottom: 35px;
-    cursor: default;
+    gap: 11px;
+    height: 36px;
+    padding: 0 14px;
+    margin: 1px 8px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.nav>div>.logo-box>.logo {
-    height: 40px;
-    width: 40px;
-    margin-right: 10px;
-    /* border: 2px solid red; */
+.nav-trophy-badge img {
+    height: 18px;
+    width: 18px;
+    flex-shrink: 0;
+    /* same filter as other inactive nav icons */
+    filter: brightness(0) opacity(0.38);
+    transition: filter 0.15s ease;
 }
 
-.nav>div>.logo-box>.name {
-    height: 23px;
-    width: 80px;
-    /* border: 2px solid red; */
-}
-
-.nav>div>.dashboard>img,
-.nav>div>.action>img,
-.nav>div>.ai>img,
-.nav>div>.test>img,
-.nav>div>.friend>img,
-.nav>div>.trophy>img,
-.nav>div>.syllabus>img,
-.nav>div>.analytics>img,
-.nav>div>.setting>img {
-    height: 22px;
-    width: 22px;
-    margin-right: 15px;
-    margin-left: 30px;
-}
-
-.nav>div>.dashboard,
-.nav>div>.action,
-.nav>div>.ai,
-.nav>div>.test,
-.nav>div>.friend,
-.nav>div>.trophy,
-.nav>div>.syllabus,
-.nav>div>.analytics,
-.nav>div>.setting {
-    /* border: 1px solid red; */
-    display: flex;
-    align-items: center;
+.nav-trophy-badge .trophy-label {
+    font-size: 13.5px;
+    font-weight: 500;
+    /* same gray as other nav item text */
     color: var(--text-secondary);
-    height: 35px;
-    margin-bottom: 17px;
-    width: 180px;
+    flex: 1;
 }
 
-.nav>div>.dashboard:hover,
-.nav>div>.action:hover,
-.nav>div>.ai:hover,
-.nav>div>.test:hover,
-.nav>div>.friend:hover,
-.nav>div>.trophy:hover,
-.nav>div>.syllabus:hover,
-.nav>div>.analytics:hover,
-.nav>div>.setting:hover {
+.nav-trophy-badge .trophy-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2661b2;
+    background: rgba(38, 97, 178, 0.1);
+    border-radius: 20px;
+    padding: 1px 8px;
+    min-width: 32px;
+    text-align: center;
+}
+
+.nav-trophy-badge:hover {
     background-color: var(--bg-hover);
 }
 
-.active>p {
+.nav-trophy-badge:hover img {
+    filter: brightness(0) opacity(0.6);
+}
+
+/* ── Active (trophies page is open) ── */
+.nav-trophy-badge.active {
+    background-color: var(--bg-hover);
+    position: relative;
+}
+
+.nav-trophy-badge.active img {
+    filter: brightness(0) opacity(0.85);
+}
+
+.nav-trophy-badge.active .trophy-label {
+    font-weight: 600;
     color: var(--text-primary);
 }
 
-.active {
-    display: block;
-    border-right: 3px solid var(--text-primary);
-    width: 20px;
+.nav-trophy-badge.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--accent, #2661b2);
 }
 
-/* Make inactive nav icons match text color in dark mode */
-[data-theme="dark"] .nav>div>div:not(.active)>img {
-    filter: brightness(0.7) contrast(1.2);
+/* dark mode trophy icon */
+[data-theme="dark"] .nav-trophy-badge img {
+    filter: brightness(0) invert(1) opacity(0.35);
 }
 
-/* Keep active icons at full brightness */
-[data-theme="dark"] .nav>div>.active>img {
-    filter: none;
+[data-theme="dark"] .nav-trophy-badge:hover img {
+    filter: brightness(0) invert(1) opacity(0.6);
+}
+
+[data-theme="dark"] .nav-trophy-badge.active img {
+    filter: brightness(0) invert(1) opacity(0.9);
+}
+
+/* ── Main outlet ── */
+.home {
+    display: flex;
 }
 
 .outlet {
-    width: 84vw;
-    position: absolute;
-    top: 10px;
-    right: 15px;
+    width: calc(100vw - 220px);
+    position: fixed;
+    top: 0;
+    left: 220px;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
-    margin: 0 auto;
-    /* border:1px solid red; */
 }
 
-.nav>div {
-    display: flex;
-    flex-direction: column;
-}
-
-.nav-trophy {
-    margin-top: auto;
-    padding: 16px 10px 20px 10px;
-}
-
-.home-profile>div {
-    border: 1px solid var(--border-primary);
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.home-profile>div>img {
-    height: 30px;
-}
-
-.home-profile {
-    padding: 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
-
-.home-profile>p {
-    /* border: 1px solid red; */
-    display: block;
-    width: 110px;
-    overflow-x: hidden;
-    font-size: 14px;
-    color: var(--text-primary);
-}
-
+/* ============================================================
+   Mobile styles
+   ============================================================ */
 @media (max-width: 768px) {
     .head-mobile {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-right: 10px;
-        padding-left: 10px;
-        margin-top: 20px;
-        /* color: #000; */
+        padding: 12px 12px 0;
     }
 
     .nav {
-        height: 100vh;
-        width: 182px;
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        box-shadow: var(--shadow-lg);
-        background-color: var(--bg-secondary);
-        z-index: 100;
-        transform: translateX(-185px);
+        width: 220px;
+        transform: translateX(-225px);
         transition: transform 0.3s ease;
-        /* border: 1px solid red; */
-    }
-
-    .nav>div:first-child {
-        margin: 0 auto;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    .nav>div {
-        cursor: pointer;
-        user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-    }
-
-    .nav>.logo-box {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 15px;
-        margin-bottom: 35px;
-        cursor: default;
-    }
-
-    .nav>.logo-box>.logo {
-        height: 20px;
-        width: 40px;
-        margin-right: 10px;
-    }
-
-    .nav>.logo-box>.name {
-        height: 23px;
-        width: 80px;
-        /* border: 2px solid red; */
-    }
-
-    .nav>.dashboard>img,
-    .nav>.action>img,
-    .nav>.ai>img,
-    .nav>.test>img,
-    .nav>.friend>img,
-    .nav>.trophy>img,
-    .nav>.syllabus>img,
-    .nav>.analytics>img,
-    .nav>.setting>img {
-        height: 22px;
-        width: 22px;
-        margin-right: 15px;
-        margin-left: 30px;
-    }
-
-    .nav>.dashboard,
-    .nav>.action,
-    .nav>.ai,
-    .nav>.test,
-    .nav>.friend,
-    .nav>.trophy,
-    .nav>.syllabus,
-    .nav>.analytics,
-    .nav>.setting {
-        /* border: 1px solid red; */
-        display: flex;
-        align-items: center;
-        color: var(--text-secondary);
-        height: 35px;
-        margin-bottom: 17px;
-        width: 180px;
-    }
-
-    .nav>.dashboard:hover,
-    .nav>.action:hover,
-    .nav>.ai:hover,
-    .nav>.test:hover,
-    .nav>.friend:hover,
-    .nav>.trophy:hover,
-    .nav>.syllabus:hover,
-    .nav>.analytics:hover,
-    .nav>.setting:hover {
-        background-color: var(--bg-hover);
+        z-index: 300;
     }
 
     .active-nav {
-        transform: translateX(0px);
+        transform: translateX(0);
     }
 
-    .head-mobile>div:first-child {
+    .outlet {
+        width: 100vw;
+        left: 0;
+        position: relative;
+        height: auto;
+        overflow-y: visible;
+    }
+
+    .head-mobile > div:first-child {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 12px;
     }
 
     .mobile-menu {
-        position: relative;
-        height: 40px;
-        width: 40px;
-        z-index: 3;
-        cursor: pointer;
+        height: 38px;
+        width: 38px;
         border: 1.5px solid var(--text-primary);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
     }
 
     .mobile-menu img {
@@ -311,58 +330,44 @@ nav>div {
     }
 
     .mobile-logo {
-        position: relative;
-        margin-left: 0px;
-        height: 40px;
-        width: 150px;
-        z-index: 3;
+        height: 38px;
+        width: 140px;
         border: 1.5px solid var(--text-primary);
         border-radius: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: var(--bg-secondary);
+        cursor: pointer;
     }
 
-    .mobile-logo>img:first-child {
-        height: 35px;
-        width: 30px;
-        margin-right: 5px;
+    .mobile-logo > img:first-child {
+        height: 28px;
+        width: 28px;
+        margin-right: 6px;
     }
 
-    .mobile-logo>img:not(:first-child) {
-        height: 25px
-    }
-
-    .outlet {
-        width: 96vw;
-        position: relative;
-        top: 10px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        /* border:1px solid red; */
-        overflow-x: auto;
+    .mobile-logo > img:not(:first-child) {
+        height: 20px;
     }
 
     .page-name {
-        position: relative;
-        height: 25px;
         display: flex;
         align-items: center;
         justify-content: center;
-        /* border: 1px solid red; */
+        height: 28px;
+        margin-top: 8px;
     }
 
-    .page-name>h2 {
-        font-size: 20px;
-        margin: 1px;
+    .page-name > h2 {
+        font-size: 18px;
+        margin: 0;
     }
 
-    .page-name>img {
-        height: 25px;
-        width: 25px;
-        margin-left: 10px;
+    .page-name > img {
+        height: 22px;
+        width: 22px;
+        margin-left: 8px;
     }
 
     h3 {
@@ -370,15 +375,12 @@ nav>div {
     }
 
     .dark {
-        background-color: rgba(0, 0, 0, 0.212);
+        background-color: rgba(0, 0, 0, 0.3);
         position: fixed;
         height: 100vh;
         width: 100vw;
         top: 0;
         left: 0;
-        z-index: 10;
-        transition: all 3s ease;
+        z-index: 200;
     }
-
-
 }
