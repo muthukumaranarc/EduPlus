@@ -66,6 +66,8 @@ function Ai() {
 
             // ── Route to the correct endpoint based on aiMode ─────────────
             let res;
+            // Build history including the new user message (already appended above)
+            const historyWithCurrentMsg = [...(chatHistory.length ? chatHistory : []), currentQuery];
 
             if (aiMode === "syllabus") {
                 res = await axios.post(
@@ -76,15 +78,21 @@ function Ai() {
             } else {
                 res = await axios.post(
                     `${baseURL}/ass/ask`,
-                    { currentQuery },
+                    { currentQuery, history: historyWithCurrentMsg },
                     { withCredentials: true }
                 );
             }
 
             // Add AI response
             setChatHistory(prev => [...prev, res.data.response]);
-
             setWaitingMsg("");
+
+            // ── Fire-and-forget personality analysis ─────────────────────
+            axios.post(
+                `${baseURL}/ass/analyze-personality`,
+                { message: currentQuery },
+                { withCredentials: true }
+            ).catch(() => {}); // silently ignore errors
 
         } catch (err) {
             setWaitingMsg("");
@@ -151,29 +159,33 @@ function Ai() {
             {/* ── Mode Toggle + Query box wrapper ── */}
             <div className={`query-wrapper ${chatHistory[0] != null ? "query-wrapper-fixed" : ""}`}>
 
-                {/* Mode toggle pill */}
-                <div className="ai-mode-toggle">
-                    <button
-                        id="ai-mode-general"
-                        className={`ai-mode-btn ${aiMode === "general" ? "ai-mode-active" : ""}`}
-                        onClick={() => setAiMode("general")}
-                    >
-                        ✨ General AI
-                    </button>
-                    <button
-                        id="ai-mode-syllabus"
-                        className={`ai-mode-btn ${aiMode === "syllabus" ? "ai-mode-active ai-mode-syllabus-active" : ""}`}
-                        onClick={() => setAiMode("syllabus")}
-                    >
-                        📖 Syllabus AI
-                    </button>
-                </div>
+                {/* Mode toggle pill — only before the first message */}
+                {chatHistory[0] == null && (
+                    <>
+                        <div className="ai-mode-toggle">
+                            <button
+                                id="ai-mode-general"
+                                className={`ai-mode-btn ${aiMode === "general" ? "ai-mode-active" : ""}`}
+                                onClick={() => setAiMode("general")}
+                            >
+                                ✨ General AI
+                            </button>
+                            <button
+                                id="ai-mode-syllabus"
+                                className={`ai-mode-btn ${aiMode === "syllabus" ? "ai-mode-active ai-mode-syllabus-active" : ""}`}
+                                onClick={() => setAiMode("syllabus")}
+                            >
+                                📖 Syllabus AI
+                            </button>
+                        </div>
 
-                {/* Syllabus mode indicator */}
-                {aiMode === "syllabus" && (
-                    <div className="ai-mode-indicator">
-                        📚 Syllabus AI Mode Active — answers are grounded in your uploaded syllabus
-                    </div>
+                        {/* Syllabus mode indicator */}
+                        {aiMode === "syllabus" && (
+                            <div className="ai-mode-indicator">
+                                📚 Syllabus AI Mode Active — answers are grounded in your uploaded syllabus
+                            </div>
+                        )}
+                    </>
                 )}
 
                 {/* Query box */}

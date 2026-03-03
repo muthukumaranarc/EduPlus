@@ -76,14 +76,14 @@
 
 .gt-group-row {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
 }
 .gt-or {
     font-size: 0.82rem;
     color: var(--text-secondary);
-    flex-shrink: 0;
+    padding: 0 2px;
 }
 
 /* ── Inputs & Select ── */
@@ -108,7 +108,13 @@
     box-shadow: 0 0 0 3px rgba(38, 97, 178, 0.08);
 }
 
-.gt-select { cursor: pointer; }
+.gt-select {
+    cursor: pointer;
+    height: 48px;
+    line-height: 1.5;
+    appearance: auto;
+    -webkit-appearance: auto;
+}
 
 /* ── Question type grid ── */
 .gt-type-grid {

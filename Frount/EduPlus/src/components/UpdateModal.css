@@ -2,42 +2,42 @@
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.50);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.40);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-    padding: 20px;
+    z-index: 9999;
+    padding: 16px;
     box-sizing: border-box;
 }
 
 /* ── Modal card ── */
 .update-box {
-    background: var(--bg-card);
-    border: 2px solid var(--border-light, #e5e7eb);
-    border-radius: 24px;
-    padding: 40px 36px;
+    background: var(--bg-card, #fff);
+    border: 1.5px solid var(--border-light, #e5e7eb);
+    border-radius: 16px;
+    padding: 24px 22px;
     width: 100%;
-    max-width: 460px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    max-width: 360px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    animation: um-in 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+    gap: 10px;
+    animation: um-in 0.22s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 
 @keyframes um-in {
-    from { transform: scale(0.92); opacity: 0; }
+    from { transform: scale(0.94); opacity: 0; }
     to   { transform: scale(1);    opacity: 1; }
 }
 
 /* ── Title ── */
 .update-box h3 {
-    font-size: 1.45rem;
-    font-weight: 800;
-    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
     margin: 0 0 2px;
     text-align: left;
 }
@@ -46,81 +46,84 @@
 .update-box input,
 .update-box select {
     width: 100%;
-    padding: 15px 20px;
-    border: 2px solid var(--border-light, #e5e7eb);
-    border-radius: 14px;
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    font-size: 1.02rem;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border-light, #e5e7eb);
+    border-radius: 10px;
+    background: var(--bg-secondary, #f8fafc);
+    color: var(--text-primary, #111827);
+    font-size: 0.9rem;
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s;
     font-family: inherit;
+    height: 42px;
+    line-height: 1.5;
 }
 
 .update-box input:focus,
 .update-box select:focus {
     border-color: rgba(38, 97, 178, 0.6);
     box-shadow: 0 0 0 3px rgba(38, 97, 178, 0.08);
+    background: #fff;
 }
 
 .update-box input::placeholder {
-    color: var(--text-secondary);
+    color: var(--text-secondary, #9ca3af);
+    font-size: 0.88rem;
 }
 
 /* ── Input[type=file] ── */
 .update-box input[type="file"] {
-    padding: 12px 16px;
+    padding: 8px 12px;
     cursor: pointer;
+    height: auto;
 }
 
 /* ── Actions row ── */
 .actions {
     display: flex;
-    gap: 12px;
-    margin-top: 8px;
+    gap: 8px;
+    margin-top: 4px;
 }
 
 /* ── Confirm / Update button ── */
 .confirm {
     flex: 1;
-    padding: 15px 24px;
+    padding: 10px 18px;
     background: rgba(38, 97, 178, 1);
     color: white;
     border: none;
-    border-radius: 14px;
-    font-size: 1.05rem;
+    border-radius: 10px;
+    font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(38, 97, 178, 0.30);
+    transition: all 0.18s ease;
+    box-shadow: 0 3px 10px rgba(38, 97, 178, 0.25);
     font-family: inherit;
 }
 
 .confirm:hover {
     background: rgba(30, 80, 160, 1);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(38, 97, 178, 0.4);
-    opacity: 1;
+    box-shadow: 0 5px 16px rgba(38, 97, 178, 0.35);
 }
 
 /* ── Cancel button ── */
 .cancel {
     flex: 1;
-    padding: 15px 24px;
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
-    border: 2px solid var(--border-light, #e5e7eb);
-    border-radius: 14px;
-    font-size: 1.05rem;
+    padding: 10px 18px;
+    background: var(--bg-secondary, #f3f4f6);
+    color: var(--text-secondary, #6b7280);
+    border: 1.5px solid var(--border-light, #e5e7eb);
+    border-radius: 10px;
+    font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.18s ease;
     font-family: inherit;
 }
 
 .cancel:hover {
     background: var(--border-light, #e5e7eb);
-    color: var(--text-primary);
-    opacity: 1;
+    color: var(--text-primary, #374151);
 }

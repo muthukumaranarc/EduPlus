@@ -4,6 +4,7 @@ import { useState, useEffect, useContext, useCallback } from "react";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
+import { createPortal } from "react-dom";
 import DotsLoader from "../../../components/DotsLoader";
 
 /* ── rank medal helper ── */
@@ -150,7 +151,7 @@ function Friend() {
         <div className="fp-page">
 
             {/* ── ADD FRIEND MODAL ── */}
-            {isAddModalOpen && (
+            {isAddModalOpen && createPortal(
                 <div className="fp-modal-overlay" onClick={() => setIsAddModalOpen(false)}>
                     <div className="fp-modal" onClick={e => e.stopPropagation()}>
                         <h3>Add a Friend</h3>
@@ -181,16 +182,18 @@ function Friend() {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* ── FRIEND PROFILE DRAWER ── */}
-            {selectedFriend && (
+            {selectedFriend && createPortal(
                 <FriendDrawer
                     friend={selectedFriend}
                     onClose={() => setSelectedFriend(null)}
                     onRemove={removeFriend}
-                />
+                />,
+                document.body
             )}
 
             {/* ── MY PROFILE BANNER ── */}

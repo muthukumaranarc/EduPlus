@@ -1,5 +1,6 @@
 import "./UpdateModal.css";
 import { useState, useContext, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 
@@ -46,7 +47,7 @@ function UpdateModal({ title, firstInput, secondInput, onUpdate, onCancel, type 
     inputRef.current?.focus();
   }, []);
 
-  return (
+  return createPortal(
     <div className="overlay">
       <div className="update-box">
         <h3>{title}</h3>
@@ -91,8 +92,6 @@ function UpdateModal({ title, firstInput, secondInput, onUpdate, onCancel, type 
               />
         }
 
-
-
         <div className="actions">
           <button className="confirm" onClick={handleConfirm}>
             Update
@@ -103,7 +102,8 @@ function UpdateModal({ title, firstInput, secondInput, onUpdate, onCancel, type 
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

@@ -353,11 +353,14 @@ function Dashboard() {
                 <p className="db-section-sub">Evidence‑based techniques to study smarter, not harder</p>
             </div>
 
-            <div className="db-tips-grid">
+            <div className="db-tips-list">
                 {TIPS.map((t, i) => (
-                    <div key={i} className="db-tip-card">
-                        <span className="db-tip-icon">{t.icon}</span>
-                        <div>
+                    <div key={i} className="db-tip-item" style={{"--tip-index": i}}>
+                        <div className="db-tip-badge">
+                            <span className="db-tip-num">{String(i + 1).padStart(2, "0")}</span>
+                            <span className="db-tip-emoji">{t.icon}</span>
+                        </div>
+                        <div className="db-tip-content">
                             <h4 className="db-tip-title">{t.title}</h4>
                             <p className="db-tip-body">{t.tip}</p>
                         </div>
