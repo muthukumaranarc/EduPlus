@@ -438,7 +438,8 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(6px);
-    z-index: 100;
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 500;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -518,7 +519,8 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(6px);
-    z-index: 100;
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 500;
     display: flex;
     align-items: flex-end;
     justify-content: center;

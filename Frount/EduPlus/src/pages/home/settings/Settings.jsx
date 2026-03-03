@@ -143,10 +143,8 @@ function Settings() {
 
     if (loading || !user) {
         return (
-            <div className="friend-page">
-                <p style={{ textAlign: "center", marginTop: "50px" }}>
-                    Loading friends...
-                </p>
+            <div style={{ display:"flex", alignItems:"center", justifyContent:"center", height:"60vh" }}>
+                <p style={{ color:"var(--text-secondary)", fontSize:"1.05rem" }}>Loading settings…</p>
             </div>
         );
     }

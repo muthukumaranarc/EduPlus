@@ -586,6 +586,76 @@
     line-height: 1.65;
 }
 
+/* ═══ SKELETON ═══════════════════════════════════════════ */
+.db-skeleton {
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: db-shimmer 1.4s infinite linear;
+    display: inline-block;
+}
+
+@keyframes db-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+[data-theme="dark"] .db-skeleton {
+    background: linear-gradient(90deg, #2d3448 25%, #374151 50%, #2d3448 75%);
+    background-size: 200% 100%;
+    animation: db-shimmer 1.4s infinite linear;
+}
+
+/* ═══ QUOTE BANNER ═══════════════════════════════════════ */
+.db-quote-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 26px;
+    border-radius: 16px;
+    background: linear-gradient(120deg, #f0f4ff 0%, #fdf4ff 100%);
+    border: 1.5px solid #e0e7ff;
+    box-shadow: 0 2px 10px rgba(99,102,241,0.07);
+}
+
+[data-theme="dark"] .db-quote-banner {
+    background: linear-gradient(120deg, #1e2a46 0%, #25203a 100%);
+    border-color: #3b3d6b;
+}
+
+.db-quote-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.db-quote-body { display: flex; flex-direction: column; gap: 3px; }
+
+.db-quote-text {
+    font-size: 14.5px;
+    font-style: italic;
+    color: var(--text-primary, #374151);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.db-quote-author {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6366f1;
+    margin: 0;
+}
+
+/* loading pill variant */
+.db-pill--loading {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    animation: db-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes db-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.6; }
+}
+
 /* ═══ FOOTER ════════════════════════════════════════════ */
 .db-footer {
     text-align: center;

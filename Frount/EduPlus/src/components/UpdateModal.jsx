@@ -49,7 +49,7 @@ function UpdateModal({ title, firstInput, secondInput, onUpdate, onCancel, type 
   return (
     <div className="overlay">
       <div className="update-box">
-        <h1>{title}</h1>
+        <h3>{title}</h3>
 
         {user != null && user.username && !user.username.includes("@") && (
           <input

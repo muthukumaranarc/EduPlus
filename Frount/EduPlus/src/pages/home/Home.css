@@ -19,7 +19,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 200;
+    z-index: 50;
     display: flex;
     flex-direction: column;
     background-color: var(--bg-secondary);
@@ -291,7 +291,7 @@
         width: 220px;
         transform: translateX(-225px);
         transition: transform 0.3s ease;
-        z-index: 300;
+        z-index: 80;
     }
 
     .active-nav {

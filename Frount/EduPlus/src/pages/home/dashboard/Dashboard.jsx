@@ -4,7 +4,7 @@ import edit    from "../../../assets/edit.png";
 import x       from "../../../assets/x.png";
 
 import { useOutletContext, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState, useMemo }   from "react";
+import { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
 
@@ -30,7 +30,7 @@ const QUICK_ACTIONS = [
     { label:"Upload Syllabus",      sub:"Add content to power the AI tools",    path:"/home/syllabus",      icon:"📚", color:"#06b6d4" },
 ];
 
-/* ── Study tips carousel ── */
+/* ── Study tips ── */
 const TIPS = [
     { icon:"🧠", title:"Spaced Repetition", tip:"Review topics at increasing intervals — day 1, 3, 7, 14. This is proven to improve long‑term retention by over 50%." },
     { icon:"⏱️", title:"Pomodoro Technique", tip:"Study in focused 25‑minute blocks followed by a 5‑minute break. After 4 blocks, take a 20‑minute break." },
@@ -39,6 +39,18 @@ const TIPS = [
     { icon:"🎯", title:"Interleaving", tip:"Mix different subjects or topics in a single session instead of blocking one topic. Interleaving boosts problem‑solving skills." },
     { icon:"💤", title:"Sleep for Memory", tip:"Sleep consolidates memories. Studying before sleep and reviewing after waking is one of the best retention strategies." },
 ];
+
+/* ── Daily motivational quotes ── */
+const QUOTES = [
+    { text:"The secret of getting ahead is getting started.",        author:"Mark Twain" },
+    { text:"It always seems impossible until it's done.",             author:"Nelson Mandela" },
+    { text:"Don't watch the clock; do what it does. Keep going.",     author:"Sam Levenson" },
+    { text:"Believe you can and you're halfway there.",               author:"Theodore Roosevelt" },
+    { text:"Success is the sum of small efforts repeated daily.",     author:"Robert Collier" },
+    { text:"Push yourself, because no one else is going to do it.",   author:"Anonymous" },
+    { text:"Great things never come from comfort zones.",             author:"Anonymous" },
+];
+const todayQuote = QUOTES[new Date().getDay() % QUOTES.length];
 
 /* ================================================================
    MAIN COMPONENT
@@ -49,11 +61,13 @@ function Dashboard() {
     const navigate        = useNavigate();
     const baseURL         = import.meta.env.VITE_API_URL;
 
-    const [tasks,      setTasks]      = useState([]);
-    const [isEditing,  setIsEditing]  = useState(false);
-    const [newTask,    setNewTask]    = useState("");
-    const [stats,      setStats]      = useState({ earned:0, total:0, streak:0, tests:0 });
-    const [greeting,   setGreeting]   = useState("Hello");
+    const [tasks,        setTasks]        = useState([]);
+    const [tasksLoading, setTasksLoading] = useState(true);
+    const [isEditing,    setIsEditing]    = useState(false);
+    const [newTask,      setNewTask]      = useState("");
+    const [statsLoading, setStatsLoading] = useState(true);
+    const [stats,        setStats]        = useState({ earned:0, total:0, streak:0, tests:0 });
+    const [greeting,     setGreeting]     = useState("Hello");
 
     useEffect(() => {
         setNavState("dashboard");
@@ -61,30 +75,50 @@ function Dashboard() {
         setGreeting(h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening");
     }, [setNavState]);
 
-    /* tasks */
-    useEffect(() => { fetchTrack(); }, []);
-    const fetchTrack = async () => {
+    /* ── fetch tasks ─────────────────────────────────── */
+    const fetchTrack = useCallback(async () => {
+        setTasksLoading(true);
         try {
             const res = await axios.get(`${baseURL}/pro/ensure-defaults`, { withCredentials: true });
-            setTasks(res.data.tasks.map((t, i) => ({ id: i+1, title: t.name, completed: t.completed })));
-        } catch { /* ignore */ }
-    };
+            const raw = Array.isArray(res.data?.tasks) ? res.data.tasks : [];
+            setTasks(raw.map((t, i) => ({
+                id:        i + 1,
+                title:     t.name       ?? t.taskName ?? "",
+                /* Java 'isCompleted' → Jackson serialises as 'completed' */
+                completed: t.completed  ?? t.isCompleted ?? false,
+            })));
+        } catch {
+            /* silent – user might not be logged in yet */
+        } finally {
+            setTasksLoading(false);
+        }
+    }, [baseURL]);
 
-    /* trophies + stats */
-    useEffect(() => {
-        const go = async () => {
-            try {
-                const res = await axios.get(`${baseURL}/trophy/get-user-trophies`, { withCredentials: true });
-                const earned  = res.data.trophies?.filter(t => t.earned).length ?? 0;
-                const total   = res.data.trophies?.length ?? 0;
-                const streak  = res.data.currentStreak ?? 0;
-                const tests   = res.data.testsCompleted ?? 0;
-                setStats({ earned, total, streak, tests });
-            } catch { /* ignore */ }
-        };
-        go();
-    }, []);
+    useEffect(() => { fetchTrack(); }, [fetchTrack]);
 
+    /* ── fetch trophies + stats ───────────────────────── */
+    const fetchStats = useCallback(async () => {
+        setStatsLoading(true);
+        try {
+            const res    = await axios.get(`${baseURL}/trophy/get-user-trophies`, { withCredentials: true });
+            const data   = res.data ?? {};
+            const list   = Array.isArray(data.trophies) ? data.trophies : [];
+            setStats({
+                earned: list.filter(t => t.earned === true).length,
+                total:  list.length,
+                streak: data.currentStreak  ?? 0,
+                tests:  data.testsCompleted ?? 0,
+            });
+        } catch {
+            /* silent */
+        } finally {
+            setStatsLoading(false);
+        }
+    }, [baseURL]);
+
+    useEffect(() => { fetchStats(); }, [fetchStats]);
+
+    /* ── derived ─────────────────────────────────────── */
     const progress = useMemo(() => {
         if (!tasks.length) return 0;
         return Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100);
@@ -92,23 +126,35 @@ function Dashboard() {
 
     const completedCount = tasks.filter(t => t.completed).length;
 
+    /* ── task mutations ──────────────────────────────── */
     const toggleTask = async (id) => {
         const task = tasks.find(t => t.id === id);
         if (!task) return;
+        /* Optimistic update */
         setTasks(prev => prev.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
         try {
             await axios.post(`${baseURL}/pro/toggle`, task.title,
                 { headers:{ "Content-Type":"text/plain" }, withCredentials:true });
-        } catch { setTasks(prev => prev.map(t => t.id === id ? { ...t, completed: !t.completed } : t)); }
+        } catch {
+            /* Rollback on failure */
+            setTasks(prev => prev.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
+        }
     };
 
     const addTask = async () => {
-        const name = newTask.trim(); if (!name) return;
+        const name = newTask.trim();
+        if (!name) return;
         try {
             const res = await axios.post(`${baseURL}/pro/add`, name,
                 { headers:{ "Content-Type":"text/plain" }, withCredentials:true });
-            setTasks(res.data.tasks.map((t, i) => ({ id: i+1, title: t.name, completed: t.completed })));
-            setNewTask(""); setIsEditing(false);
+            const raw = Array.isArray(res.data?.tasks) ? res.data.tasks : [];
+            setTasks(raw.map((t, i) => ({
+                id:        i + 1,
+                title:     t.name       ?? t.taskName ?? "",
+                completed: t.completed  ?? t.isCompleted ?? false,
+            })));
+            setNewTask("");
+            setIsEditing(false);
         } catch { /* ignore */ }
     };
 
@@ -116,14 +162,25 @@ function Dashboard() {
         try {
             const res = await axios.delete(`${baseURL}/pro/remove`,
                 { data: taskName, headers:{ "Content-Type":"text/plain" }, withCredentials:true });
-            setTasks(res.data.tasks.map((t, i) => ({ id: i+1, title: t.name, completed: t.completed })));
+            const raw = Array.isArray(res.data?.tasks) ? res.data.tasks : [];
+            setTasks(raw.map((t, i) => ({
+                id:        i + 1,
+                title:     t.name       ?? t.taskName ?? "",
+                completed: t.completed  ?? t.isCompleted ?? false,
+            })));
             setIsEditing(false);
         } catch { /* ignore */ }
     };
 
+    /* ── display name ────────────────────────────────── */
     const displayName = user
         ? ((user.firstName||"") + " " + (user.lastName||"")).trim() || user.username || "there"
         : "there";
+
+    /* ── skeleton helper ─────────────────────────────── */
+    const Skeleton = ({ w = "100%", h = 18, r = 8 }) => (
+        <div className="db-skeleton" style={{ width: w, height: h, borderRadius: r }} />
+    );
 
     return (
         <div className="db-page">
@@ -135,27 +192,45 @@ function Dashboard() {
                     <h1 className="db-username">{displayName}! 👋</h1>
                     <p className="db-moto">Your hard work today is the foundation of the success you'll own tomorrow. 🚀</p>
                     <div className="db-hero-pills">
-                        <span className="db-pill db-pill--fire">🔥 {stats.streak} day streak</span>
-                        <span className="db-pill db-pill--gold">🏆 {stats.earned}/{stats.total}</span>
-                        <span className="db-pill db-pill--green">📝 {stats.tests} tests</span>
-                        <span className="db-pill db-pill--blue">✅ {completedCount}/{tasks.length} tasks</span>
+                        {statsLoading ? (
+                            <span className="db-pill db-pill--fire">⏳ Loading your stats…</span>
+                        ) : (
+                            <>
+                                <span className="db-pill db-pill--fire">🔥 {stats.streak} day streak</span>
+                                <span className="db-pill db-pill--gold">🏆 {stats.earned}/{stats.total}</span>
+                                <span className="db-pill db-pill--green">📝 {stats.tests} tests</span>
+                                <span className="db-pill db-pill--blue">✅ {completedCount}/{tasks.length} tasks</span>
+                            </>
+                        )}
                     </div>
                 </div>
                 <img src={girl} alt="studying" className="db-hero-img" />
             </div>
 
+            {/* ═══ MOTIVATIONAL QUOTE ══════════════════════════════════ */}
+            <div className="db-quote-banner">
+                <span className="db-quote-icon">✨</span>
+                <div className="db-quote-body">
+                    <p className="db-quote-text">&ldquo;{todayQuote.text}&rdquo;</p>
+                    <span className="db-quote-author">— {todayQuote.author}</span>
+                </div>
+            </div>
+
             {/* ═══ STAT STRIP ══════════════════════════════════════════ */}
             <div className="db-stat-strip">
                 {[
-                    { label:"Day Streak",     value: stats.streak,    icon:"🔥", accent:"#f97316", bg:"#fff7ed", border:"#fed7aa" },
-                    { label:"Trophies Earned",value:`${stats.earned}/${stats.total}`, icon:"🏆", accent:"#f59e0b", bg:"#fffbeb", border:"#fde68a" },
-                    { label:"Tests Completed",value: stats.tests,     icon:"📝", accent:"#8b5cf6", bg:"#f5f3ff", border:"#ddd6fe" },
-                    { label:"Tasks Done Today",value:`${completedCount}/${tasks.length}`, icon:"✅", accent:"#10b981", bg:"#ecfdf5", border:"#a7f3d0" },
+                    { label:"Day Streak",      value: statsLoading ? null : stats.streak,                        icon:"🔥", accent:"#f97316", bg:"#fff7ed", border:"#fed7aa" },
+                    { label:"Trophies Earned", value: statsLoading ? null : `${stats.earned}/${stats.total}`,    icon:"🏆", accent:"#f59e0b", bg:"#fffbeb", border:"#fde68a" },
+                    { label:"Tests Completed", value: statsLoading ? null : stats.tests,                         icon:"📝", accent:"#8b5cf6", bg:"#f5f3ff", border:"#ddd6fe" },
+                    { label:"Tasks Done",      value: tasksLoading ? null : `${completedCount}/${tasks.length}`, icon:"✅", accent:"#10b981", bg:"#ecfdf5", border:"#a7f3d0" },
                 ].map((s, i) => (
                     <div key={i} className="db-stat-card" style={{"--sc-accent":s.accent,"--sc-bg":s.bg,"--sc-border":s.border}}>
                         <span className="db-stat-icon">{s.icon}</span>
                         <div className="db-stat-info">
-                            <span className="db-stat-value">{s.value}</span>
+                            {s.value === null
+                                ? <div className="db-skeleton" style={{ width:"60px", height:"24px", borderRadius:"6px" }} />
+                                : <span className="db-stat-value">{s.value}</span>
+                            }
                             <span className="db-stat-label">{s.label}</span>
                         </div>
                     </div>
@@ -170,7 +245,9 @@ function Dashboard() {
                     <div className="db-card-header">
                         <div>
                             <h2 className="db-card-title">📋 Today's Tasks</h2>
-                            <p className="db-card-sub">{completedCount} of {tasks.length} completed</p>
+                            <p className="db-card-sub">
+                                {tasksLoading ? "Loading tasks…" : `${completedCount} of ${tasks.length} completed`}
+                            </p>
                         </div>
                         <button className="db-icon-btn" onClick={() => setIsEditing(v => !v)} title={isEditing?"Close":"Edit tasks"}>
                             <img src={isEditing ? x : edit} alt={isEditing?"close":"edit"} />
@@ -180,28 +257,36 @@ function Dashboard() {
                     <div className="db-progress-rail">
                         <div className="db-progress-fill" style={{ width:`${progress}%` }} />
                     </div>
-                    <p className="db-progress-label">{progress}% complete</p>
+                    <p className="db-progress-label">{tasksLoading ? "—" : `${progress}% complete`}</p>
 
                     <div className="db-task-list">
-                        {tasks.length === 0 && (
+                        {tasksLoading ? (
+                            [1,2,3].map(k => (
+                                <div key={k} className="db-task-row">
+                                    <div className="db-skeleton" style={{ width:22, height:22, borderRadius:7, flexShrink:0 }} />
+                                    <div className="db-skeleton" style={{ width:`${50+k*12}%`, height:14, borderRadius:6, flex:1 }} />
+                                </div>
+                            ))
+                        ) : tasks.length === 0 ? (
                             <div className="db-empty-tasks">
                                 <span className="db-empty-icon">🚀</span>
-                                <p>All tasks cleared! Click edit to add new ones.</p>
+                                <p>All tasks cleared! Click ✏️ to add new ones.</p>
                             </div>
+                        ) : (
+                            tasks.map(task => (
+                                <div key={task.id} className={`db-task-row ${task.completed ? "db-task-done":""}`}>
+                                    {isEditing ? (
+                                        <button className="db-remove-btn" onClick={() => removeTask(task.title)}>✕</button>
+                                    ) : (
+                                        <button className={`db-check ${task.completed?"db-check--done":""}`}
+                                                onClick={() => toggleTask(task.id)}>
+                                            {task.completed ? "✓" : ""}
+                                        </button>
+                                    )}
+                                    <span className="db-task-title">{task.title}</span>
+                                </div>
+                            ))
                         )}
-                        {tasks.map(task => (
-                            <div key={task.id} className={`db-task-row ${task.completed ? "db-task-done":""}`}>
-                                {isEditing ? (
-                                    <button className="db-remove-btn" onClick={() => removeTask(task.title)}>✕</button>
-                                ) : (
-                                    <button className={`db-check ${task.completed?"db-check--done":""}`}
-                                            onClick={() => toggleTask(task.id)}>
-                                        {task.completed ? "✓" : ""}
-                                    </button>
-                                )}
-                                <span className="db-task-title">{task.title}</span>
-                            </div>
-                        ))}
                     </div>
 
                     {isEditing && (

@@ -17,6 +17,7 @@ public class TestController {
     @Autowired
     private TestService service;
 
+    /* ── Legacy: MCQ-only generation ── */
     @PostMapping("/generate/{questionCount}")
     public UserTest generateTestFromText(@PathVariable("questionCount") int questionCount, @RequestBody Map<String, String> data) {
         return service.generateTestFromText(
@@ -27,6 +28,32 @@ public class TestController {
         );
     }
 
+    /* ── New: Mixed question type generation ── */
+    @PostMapping("/generate-mixed")
+    public UserTest generateMixedTest(@RequestBody Map<String, Object> data) {
+        String groupName  = (String) data.get("groupName");
+        String testTitle  = (String) data.get("testTitle");
+        String text       = (String) data.get("text");
+        int mcqCount      = data.containsKey("mcqCount")      ? (int) data.get("mcqCount")      : 0;
+        int twoMarkCount  = data.containsKey("twoMarkCount")  ? (int) data.get("twoMarkCount")  : 0;
+        int tenMarkCount  = data.containsKey("tenMarkCount")  ? (int) data.get("tenMarkCount")  : 0;
+        return service.generateMixedTest(groupName, testTitle, text, mcqCount, twoMarkCount, tenMarkCount);
+    }
+
+    /* ── New: Mixed type from file ── */
+    @PostMapping("/generate-mixed-from-file")
+    public UserTest generateMixedTestFromFile(
+            @RequestParam String groupName,
+            @RequestParam String testTitle,
+            @RequestParam MultipartFile sourceText,
+            @RequestParam(defaultValue = "5") int mcqCount,
+            @RequestParam(defaultValue = "3") int twoMarkCount,
+            @RequestParam(defaultValue = "2") int tenMarkCount
+    ) throws Exception {
+        return service.generateMixedTestFromFile(groupName, testTitle, sourceText, mcqCount, twoMarkCount, tenMarkCount);
+    }
+
+    /* ── Legacy: file-based MCQ only ── */
     @PostMapping("/generate-from-text")
     public UserTest generateTestFromText(
             @RequestParam String groupName,
@@ -34,60 +61,32 @@ public class TestController {
             @RequestParam MultipartFile sourceText,
             @RequestParam int numberOfQuestions
     ) throws Exception {
-
-        return service.generateTestFromText(
-                groupName,
-                testTitle,
-                sourceText,
-                numberOfQuestions
-        );
+        return service.generateTestFromText(groupName, testTitle, sourceText, numberOfQuestions);
     }
 
     /* ---------------- FETCH ---------------- */
-
-    // Fetch all test groups, tests, and questions for the logged-in user
     @GetMapping("/get-all-group")
-    public UserTest getAllTests() {
-        return service.getAllTests();
-    }
+    public UserTest getAllTests() { return service.getAllTests(); }
 
     /* ---------------- TEST GROUP ---------------- */
-
-    // Create a new test group for the logged-in user
     @PostMapping("/create-group")
-    public UserTest addTestGroup(@RequestBody String groupName) {
-        return service.addTestGroup(groupName);
-    }
+    public UserTest addTestGroup(@RequestBody String groupName) { return service.addTestGroup(groupName); }
 
-    // Delete a test group (and all its tests) using group index
     @DeleteMapping("/delete-group")
-    public UserTest deleteTestGroup(@RequestBody String groupName) {
-        return service.deleteTestGroup(groupName);
-    }
+    public UserTest deleteTestGroup(@RequestBody String groupName) { return service.deleteTestGroup(groupName); }
 
     /* ---------------- TEST ---------------- */
-
-    // Add a new test inside a specific test group
     @PostMapping("/add-test")
     public UserTest addTest(@RequestBody Map<String, String> data) {
-        return service.addTest(
-                data.get("groupName"),
-                data.get("title")
-        );
+        return service.addTest(data.get("groupName"), data.get("title"));
     }
 
-    // Delete a specific test from a test group
     @DeleteMapping("/delete-test")
     public UserTest deleteTest(@RequestBody Map<String, String> data) {
-        return service.deleteTest(
-                data.get("groupName"),
-                data.get("title")
-        );
+        return service.deleteTest(data.get("groupName"), data.get("title"));
     }
 
     /* ---------------- QUESTION ---------------- */
-
-    // Add a question (with options and correct answer) to a test
     @PostMapping("/group/{groupName}/test/{testTitle}")
     public UserTest addQuestion(
             @PathVariable String groupName,
@@ -97,7 +96,6 @@ public class TestController {
         return service.addQuestion(groupName, testTitle, question);
     }
 
-    // Delete a question from a test using question index
     @DeleteMapping("/group/{groupName}/test/{testTitle}/question/{questionIndex}")
     public UserTest deleteQuestion(
             @PathVariable String groupName,
