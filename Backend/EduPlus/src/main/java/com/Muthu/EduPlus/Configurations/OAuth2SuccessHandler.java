@@ -26,10 +26,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final JwtService jwtService;
     private final UserRepo userRepo;
 
-    @Value("${app.cookie.secure:false}")
+    @Value("${app.cookie.secure:true}")
     private boolean secureCookie;
 
-    @Value("${app.cookie.samesite:Lax}")
+    @Value("${app.cookie.samesite:None}")
     private String sameSite;
 
     @Value("${app.frontend.url:http://localhost:5173}")
@@ -44,8 +44,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(
             HttpServletRequest request,
             HttpServletResponse response,
-            Authentication authentication
-    ) throws IOException, ServletException {
+            Authentication authentication) throws IOException, ServletException {
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 

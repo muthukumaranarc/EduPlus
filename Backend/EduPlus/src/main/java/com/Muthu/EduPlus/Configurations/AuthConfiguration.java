@@ -20,73 +20,75 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class AuthConfiguration {
 
-    private final JwtFilter jwtFilter;
-    private final MyUserDetailsService myUserDetailsService;
-    private final OAuth2SuccessHandler successHandler;
+        private final JwtFilter jwtFilter;
+        private final MyUserDetailsService myUserDetailsService;
+        private final OAuth2SuccessHandler successHandler;
 
-    public AuthConfiguration(
-            JwtFilter jwtFilter,
-            MyUserDetailsService myUserDetailsService,
-            OAuth2SuccessHandler successHandler
-    ) {
-        this.jwtFilter = jwtFilter;
-        this.myUserDetailsService = myUserDetailsService;
-        this.successHandler = successHandler;
-    }
+        public AuthConfiguration(
+                        JwtFilter jwtFilter,
+                        MyUserDetailsService myUserDetailsService,
+                        OAuth2SuccessHandler successHandler) {
+                this.jwtFilter = jwtFilter;
+                this.myUserDetailsService = myUserDetailsService;
+                this.successHandler = successHandler;
+        }
 
-    // SECURITY FILTER CHAIN
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
+        // SECURITY FILTER CHAIN
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                return http
+                                .cors(Customizer.withDefaults())
+                                .csrf(AbstractHttpConfigurer::disable)
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/user/create",
-                                "/user/are-you-alive",
-                                "/user/login",
-                                "/oauth2/**",
-                                "/login/**",
-                                "/user/is-user-exist"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers(
+                                                                "/user/create",
+                                                                "/user/are-you-alive",
+                                                                "/user/login",
+                                                                "/oauth2/**",
+                                                                "/login/**",
+                                                                "/user/is-user-exist")
+                                                .permitAll()
+                                                .anyRequest().authenticated())
 
-                .oauth2Login(oauth -> oauth
-                        .successHandler(successHandler)
-                )
+                                .oauth2Login(oauth -> oauth
+                                                .successHandler(successHandler))
 
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                                .exceptionHandling(exceptions -> exceptions
+                                                .authenticationEntryPoint((request, response, authException) -> {
+                                                        response.setStatus(
+                                                                        jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED);
+                                                        response.getWriter().write("Unauthorized");
+                                                }))
 
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .build();
-    }
+                                .authenticationProvider(authenticationProvider())
+                                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 
-    // AUTH PROVIDER
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(myUserDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
+                                .build();
+        }
 
-    // PASSWORD ENCODER
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
+        // AUTH PROVIDER
+        @Bean
+        public AuthenticationProvider authenticationProvider() {
+                DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+                provider.setUserDetailsService(myUserDetailsService);
+                provider.setPasswordEncoder(passwordEncoder());
+                return provider;
+        }
 
-    // AUTH MANAGER
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config
-    ) throws Exception {
-        return config.getAuthenticationManager();
-    }
+        // PASSWORD ENCODER
+        @Bean
+        public BCryptPasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder(12);
+        }
+
+        // AUTH MANAGER
+        @Bean
+        public AuthenticationManager authenticationManager(
+                        AuthenticationConfiguration config) throws Exception {
+                return config.getAuthenticationManager();
+        }
 }

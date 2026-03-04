@@ -33,6 +33,12 @@ public class UserService {
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
+    @org.springframework.beans.factory.annotation.Value("${app.cookie.secure:true}")
+    private boolean secureCookie;
+
+    @org.springframework.beans.factory.annotation.Value("${app.cookie.samesite:None}")
+    private String sameSite;
+
     public UserService(
             UserRepo data,
             JwtService jwtService,
@@ -66,20 +72,20 @@ public class UserService {
     private ResponseCookie giveCookie(String token) {
         return ResponseCookie.from("auth", token)
                 .httpOnly(true)
-                .secure(false)
+                .secure(secureCookie)
                 .path("/")
                 .maxAge(Duration.ofDays(30))
-                .sameSite("Lax")
+                .sameSite(sameSite)
                 .build();
     }
 
     private ResponseCookie deleteCookie() {
         return ResponseCookie.from("auth", "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(secureCookie)
                 .path("/")
                 .maxAge(0)
-                .sameSite("Lax")
+                .sameSite(sameSite)
                 .build();
     }
 
