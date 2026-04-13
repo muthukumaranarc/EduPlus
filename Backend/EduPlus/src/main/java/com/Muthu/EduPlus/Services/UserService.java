@@ -131,7 +131,7 @@ public class UserService {
 
         aboutUserService.createUserData(user.getUsername(), user.getFirstName());
         friendsService.createUser(user.getUsername());
-        progressTrackerService.createTrack("Today task");
+        progressTrackerService.createTrack(user.getUsername());
 
         return true;
     }
@@ -331,7 +331,12 @@ public class UserService {
 
     private boolean isCorrectPassword(String password) {
         User user = data.findByUsername(getUsernames());
-        return user != null && encoder.matches(password, user.getPassword());
+        if (user == null) return false;
+        // If the user hasn't set a password (e.g., OAuth users), allow updates.
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            return true;
+        }
+        return password != null && encoder.matches(password, user.getPassword());
     }
 
     public String getUsernames() {

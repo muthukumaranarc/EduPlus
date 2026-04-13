@@ -24,7 +24,7 @@ function TestBuilder() {
                 <div>
                     <div onClick={() => {navigate("/home/test/saved")}} className='button'>
                         <h4>Saved Test</h4>
-                        <p>Practice an learn with already saved Tests.</p>
+                        <p>Practice and learn with already saved Tests.</p>
                     </div>
 
                     <div onClick={() => {navigate("/home/test/generate")}} className='button'>

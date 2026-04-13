@@ -47,7 +47,9 @@ public class AuthConfiguration {
                                                                 "/user/login",
                                                                 "/oauth2/**",
                                                                 "/login/**",
-                                                                "/user/is-user-exist")
+                                                                "/user/is-user-exist",
+                                                                "/error",
+                                                                "/generate-mock-data")
                                                 .permitAll()
                                                 .anyRequest().authenticated())
 

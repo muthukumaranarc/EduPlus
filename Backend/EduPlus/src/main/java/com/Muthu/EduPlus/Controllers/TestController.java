@@ -30,27 +30,37 @@ public class TestController {
 
     /* ── New: Mixed question type generation ── */
     @PostMapping("/generate-mixed")
-    public UserTest generateMixedTest(@RequestBody Map<String, Object> data) {
-        String groupName  = (String) data.get("groupName");
-        String testTitle  = (String) data.get("testTitle");
-        String text       = (String) data.get("text");
-        int mcqCount      = data.containsKey("mcqCount")      ? (int) data.get("mcqCount")      : 0;
-        int twoMarkCount  = data.containsKey("twoMarkCount")  ? (int) data.get("twoMarkCount")  : 0;
-        int tenMarkCount  = data.containsKey("tenMarkCount")  ? (int) data.get("tenMarkCount")  : 0;
-        return service.generateMixedTest(groupName, testTitle, text, mcqCount, twoMarkCount, tenMarkCount);
+    public ResponseEntity<?> generateMixedTest(@RequestBody Map<String, Object> data) {
+        try {
+            String groupName  = (String) data.get("groupName");
+            String testTitle  = (String) data.get("testTitle");
+            String text       = (String) data.get("text");
+            int mcqCount      = data.containsKey("mcqCount")      ? (int) data.get("mcqCount")      : 0;
+            int twoMarkCount  = data.containsKey("twoMarkCount")  ? (int) data.get("twoMarkCount")  : 0;
+            int tenMarkCount  = data.containsKey("tenMarkCount")  ? (int) data.get("tenMarkCount")  : 0;
+            UserTest test = service.generateMixedTest(groupName, testTitle, text, mcqCount, twoMarkCount, tenMarkCount);
+            return ResponseEntity.ok(test);
+        } catch(Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to generate test"));
+        }
     }
 
     /* ── New: Mixed type from file ── */
     @PostMapping("/generate-mixed-from-file")
-    public UserTest generateMixedTestFromFile(
+    public ResponseEntity<?> generateMixedTestFromFile(
             @RequestParam String groupName,
             @RequestParam String testTitle,
             @RequestParam MultipartFile sourceText,
             @RequestParam(defaultValue = "5") int mcqCount,
             @RequestParam(defaultValue = "3") int twoMarkCount,
             @RequestParam(defaultValue = "2") int tenMarkCount
-    ) throws Exception {
-        return service.generateMixedTestFromFile(groupName, testTitle, sourceText, mcqCount, twoMarkCount, tenMarkCount);
+    ) {
+        try {
+            UserTest test = service.generateMixedTestFromFile(groupName, testTitle, sourceText, mcqCount, twoMarkCount, tenMarkCount);
+            return ResponseEntity.ok(test);
+        } catch(Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to generate test from file"));
+        }
     }
 
     /* ── Legacy: file-based MCQ only ── */

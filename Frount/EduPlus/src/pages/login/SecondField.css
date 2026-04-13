@@ -1,45 +1,19 @@
 .row {
-  display: flex;
-  gap: 18px;
-  margin-bottom: 15px;
-}
-
-.dob,
-.gender {
-  max-width: 180px;
-}
-
-.dob>input {
-  width: 85%;
-}
-
-.gender>select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
   width: 100%;
+  align-items: start;
 }
 
-.mobile {
-  max-width: 300px;
-}
-
-.mobile>input {
-  width: 90%;
-}
-
-.email,
-.linkedin {
-  max-width: 340px;
-}
-
-.email>input,
-.linkedin>input {
-  width: 90%;
+.row.second {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .field {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 select,

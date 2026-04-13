@@ -1,81 +1,144 @@
 .card {
-    width: 720px;
-    background: #fff;
-    border-radius: 14px;
-    padding: 32px;
-    box-shadow: 0 8px 20px #0000001f;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border:1px solid rgba(38, 96, 178, 0.329);
+  width: 720px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: 0 8px 20px #0000001f;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(38, 96, 178, 0.329);
 }
 
 .card-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 6px;
-    background: #245bbb;
-    width: 100%;
-    transition: all 0.6s ease;
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6px;
+  background: #245bbb;
+  width: 100%;
+  transition: all 0.6s ease;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
 }
 
 h2 {
-    margin-bottom: 24px;
-    color: #0b2a5b;
+  margin-bottom: 24px;
+  color: #0b2a5b;
 }
-
 
 /* Footer */
 .footer {
-    display: flex;
-    margin-top: 0px;
-    padding: 0px 10px 0px 10px;
+  display: flex;
+  margin-top: 10px;
+  padding: 0px 10px;
+  justify-content: flex-end;
 }
 
 .next {
-    height: 40px;
-    padding: 0px 20px 0px 20px;
-    background: #245bbb;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
-    margin-bottom: -5px;
-    margin-right: -5px;
+  height: 40px;
+  padding: 0 24px;
+  background: #245bbb;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.previous {
-    height: 40px;
-    padding: 0px 20px 0px 20px;
-    background: #245bbb;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
-    margin-bottom: -5px;
-    margin-right: -5px;
+.next:hover {
+  background: #1a4a9b;
 }
 
-/* First & Last name */
+/* Layout Rows */
 .name-rowOAuth {
-    display: flex;
-    gap: 30px;
-    /* border: 1px solid red; */
-    width: 97%;
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 18px;
 }
 
 .name-rowOAuth > div {
-    /* border: 1px solid red; */
-    width: 230px;
+  flex: 1;
 }
 
-.name-rowOAuth > div > input{
-    /* border: 1px solid red; */
-    width: 300px;
+.name-rowOAuth input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* File Input Styling */
+.field {
+  margin-bottom: 18px;
+}
+
+.file-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Override global input styles for file type */
+input[type="file"] {
+  border: none;
+  padding: 0;
+  height: auto;
+  background: transparent;
+}
+
+.preview-container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Select and general inputs */
+select {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1.5px solid #7b8fc7;
+  outline: none;
+  background: white;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.row .field {
+  flex: 1;
+}
+
+/* Specific field adjustments to match screenshot proportions */
+.dob, .gender {
+  flex: 0 0 180px !important;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 20px auto;
+  }
+
+  .name-rowOAuth, .row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .dob, .gender {
+    flex: 1 !important;
+  }
 }

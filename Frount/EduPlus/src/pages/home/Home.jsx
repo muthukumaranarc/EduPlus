@@ -206,16 +206,16 @@ function Home() {
 
 function renderImage(navState) {
     switch (navState) {
-        case "dashboard":  return <img src={"/assets/dashboard.png"}  alt="dashboard" />;
-        case "plan":       return <img src={"/assets/action.png"}     alt="plan"      />;
-        case "test":       return <img src={"/assets/test.png"}       alt="test"      />;
-        case "ai":         return <img src={"/assets/ai_chat.png"}    alt="ai chat"   />;
-        case "friend":     return <img src={"/assets/friends.png"}    alt="friends"   />;
-        case "trophies":   return <img src={"/assets/trophy.png"}     alt="trophies"  />;
-        case "setting":    return <img src={"/assets/settings.png"}   alt="settings"  />;
-        case "syllabus":   return <img src={"/assets/action.png"}     alt="syllabus"  />;
-        case "analytics":  return <img src={"/assets/ai_chat.png"}    alt="analytics" />;
-        case "revision":   return <img src={"/assets/ai_chat.png"}    alt="revision"  />;
+        case "dashboard":  return <img src={dashboard_icon}  alt="dashboard" />;
+        case "plan":       return <img src={action_icon}     alt="plan"      />;
+        case "test":       return <img src={test_icon}       alt="test"      />;
+        case "ai":         return <img src={ai_chat_icon}    alt="ai chat"   />;
+        case "friend":     return <img src={friends_icon}    alt="friends"   />;
+        case "trophies":   return <img src={trophy_icon}     alt="trophies"  />;
+        case "setting":    return <img src={settings_icon}   alt="settings"  />;
+        case "syllabus":   return <img src={upload_icon}     alt="syllabus"  />;
+        case "analytics":  return <img src={aiSearch_icon}   alt="analytics" />;
+        case "revision":   return <img src={generate_icon}   alt="revision"  />;
         default: return null;
     }
 }

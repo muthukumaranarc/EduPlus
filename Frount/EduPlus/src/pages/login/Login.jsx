@@ -106,7 +106,7 @@ function Login() {
                     Continue
                 </button>
 
-                <p>OR</p>
+                <p className="or-divider">OR</p>
 
                 <button className="google-but" onClick={handleGoogleLogin}>
                     <img src={google} alt="Google" />

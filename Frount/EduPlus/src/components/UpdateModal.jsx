@@ -52,7 +52,7 @@ function UpdateModal({ title, firstInput, secondInput, onUpdate, onCancel, type 
       <div className="update-box">
         <h3>{title}</h3>
 
-        {user != null && user.username && !user.username.includes("@") && (
+        {user != null && user.password && user.password.length > 0 && (
           <input
             ref={inputRef}
             type={firstInput.type}

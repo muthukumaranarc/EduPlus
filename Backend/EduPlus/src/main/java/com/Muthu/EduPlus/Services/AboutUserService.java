@@ -32,10 +32,19 @@ public class AboutUserService {
         repo.save(user);
     }
 
+    private AboutUser getOrCreateUser() {
+        return repo.findByUsername(currentUsername())
+                .orElseGet(() -> {
+                    AboutUser newUser = new AboutUser();
+                    newUser.setUsername(currentUsername());
+                    String name = currentUsername().contains("@") ? currentUsername().split("@")[0] : currentUsername();
+                    newUser.getData().add("Name: " + name);
+                    return repo.save(newUser);
+                });
+    }
+
     public List<String> getUserdata() {
-        AboutUser user = repo.findByUsername(currentUsername())
-                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
-        return user.getData();
+        return getOrCreateUser().getData();
     }
 
     public String getUserDataInString() {
@@ -43,25 +52,20 @@ public class AboutUserService {
     }
 
     public void addData(String info) {
-        AboutUser user = repo.findByUsername(currentUsername())
-                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
+        AboutUser user = getOrCreateUser();
         user.getData().add(info);
         repo.save(user);
     }
 
     public boolean removeData(String info) {
-        AboutUser user = repo.findByUsername(currentUsername())
-                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
-
+        AboutUser user = getOrCreateUser();
         boolean removed = user.getData().remove(info);
         if (removed) repo.save(user);
         return removed;
     }
 
     public boolean replaceData(String oldInfo, String newInfo) {
-        AboutUser user = repo.findByUsername(currentUsername())
-                .orElseThrow(() -> new RuntimeException("AboutUser not found"));
-
+        AboutUser user = getOrCreateUser();
         int index = user.getData().indexOf(oldInfo);
         if (index == -1) return false;
 

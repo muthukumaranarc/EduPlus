@@ -106,7 +106,8 @@ function GenerateTest() {
             navigate("/home/test/saved");
         } catch (err) {
             console.error("Failed to generate test", err);
-            alert("Failed to generate test");
+            const msg = err?.response?.data?.message || err?.response?.data || "Failed to generate test. Please try again.";
+            alert(msg);
             setLoading(false);
         }
     };
@@ -135,7 +136,8 @@ function GenerateTest() {
             navigate("/home/test/saved");
         } catch (err) {
             console.error("Failed to generate test from file", err);
-            alert("Failed to generate test from file");
+            const msg = err?.response?.data?.message || err?.response?.data || "Failed to generate test from file. Please try again.";
+            alert(msg);
             setLoading(false);
         }
     };

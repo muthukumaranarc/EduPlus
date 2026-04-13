@@ -52,20 +52,23 @@
 
 .auth-sec>p {
     color: rgba(146, 146, 146, 1);
-    margin-bottom: 35px;
+    margin-bottom: 24px;
 }
 
-.auth-sec>input{
-    height: 45px;
-    width: 363px;
+.or-divider {
+    margin: 8px 0 !important;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auth-sec>input {
+    height: 48px;
+    width: 410px;
     border-radius: 25px;
     border: 2px solid rgba(181, 181, 181, 1);
-    /* margin-bottom: -5px; */
     font-size: 17px;
-    padding-left: 20px;
-    padding-right: 20px;
-    /* margin-top: 10px; */
-    /* margin-bottom: 10px; */
+    padding: 0 20px;
+    margin-bottom: 12px;
 }
 
 .auth-sec>input:focus {
@@ -74,18 +77,16 @@
 }
 
 .password {
-    height: 45px;
-    width: 363px;
+    height: 48px;
+    width: 410px;
     border-radius: 25px;
     border: 2px solid rgba(181, 181, 181, 1);
     font-size: 17px;
-    padding-left: 10px;
-    padding-right: 30px;
+    padding: 0 16px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    position: relative;
+    margin-bottom: 12px;
 }
 
 .password input {
@@ -97,8 +98,10 @@
 .password img {
     height: 20px;
     width: 20px;
-    position: relative;
-    left: 12px;
+    position: absolute;
+    right: 16px;
+    cursor: pointer;
+    opacity: 0.6;
 }
 
 input::placeholder {
@@ -107,34 +110,38 @@ input::placeholder {
 
 .auth-sec>.continue {
     height: 50px;
-    width: 409px;
+    width: 410px;
     border-radius: 25px;
     background-color: black;
     color: white;
     font-size: 18px;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    font-weight: 600;
+    margin: 12px 0;
+    border: none;
 }
 
 
 .auth-sec>.google-but {
     height: 50px;
-    width: 409px;
+    width: 410px;
     border-radius: 25px;
     border: 2px solid rgba(181, 181, 181, 1);
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: white;
     font-size: 17px;
-    color: rgba(146, 146, 146, 1);
-    margin-top: -10px;
-    margin-bottom: -5px;
+    font-weight: 500;
+    color: rgba(98, 98, 98, 1);
+    margin: 12px 0;
+    position: relative;
 }
 
 .auth-sec>.google-but>img {
-    width: 30px;
-    height: 30px;
-    margin: 15px;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 20px;
 }
 
 button,
@@ -195,6 +202,36 @@ button:active,
 
     .auth-sec {
         margin-top: 40px;
+        display: grid;
+        justify-content: center;
+    }
+
+    .password {
+        height: 48px;
+        width: 320px;
+        margin: 0 auto 12px;
+        border-radius: 25px;
+        border: 2px solid rgba(181, 181, 181, 1);
+        font-size: 17px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .password input {
+        width: 100%;
+        border: none;
+        font-size: 17px;
+    }
+
+    .password img {
+        height: 20px;
+        width: 20px;
+        position: absolute;
+        right: 16px;
+        cursor: pointer;
+        opacity: 0.6;
     }
 
     .auth-sec>h2 {
@@ -209,17 +246,13 @@ button:active,
     }
 
     .auth-sec>input {
-        height: 45px;
-        width: 330px;
-        margin: 0 auto;
+        height: 48px;
+        width: 320px;
+        margin: 0 auto 12px;
         border-radius: 25px;
         border: 2px solid rgba(181, 181, 181, 1);
-        /* margin-bottom: -5px; */
         font-size: 17px;
-        padding-left: 20px;
-        padding-right: 20px;
-        /* margin-top: 10px; */
-        margin-bottom: 10px;
+        padding: 0 20px;
     }
 
     input::placeholder {
@@ -228,29 +261,29 @@ button:active,
 
     .auth-sec>.continue {
         height: 50px;
-        width: 375px;
-        margin: 0 auto;
+        width: 320px;
+        margin: 12px auto;
+        border: none;
         border-radius: 25px;
         background-color: black;
         color: white;
         font-size: 18px;
-        margin-bottom: 10px;
-        margin-top: 10px;
+        font-weight: 600;
     }
 
     .auth-sec>.google-but {
         height: 50px;
-        width: 375px;
-        margin: 0 auto;
+        width: 320px;
+        margin: 12px auto;
         border-radius: 25px;
         border: 2px solid rgba(181, 181, 181, 1);
         display: flex;
         align-items: center;
+        justify-content: center;
         background-color: white;
         font-size: 17px;
-        color: rgba(146, 146, 146, 1);
-        margin-top: -10px;
-        margin-bottom: -5px;
+        color: rgba(98, 98, 98, 1);
+        position: relative;
     }
 
     .auth-sec>.google-but>img {

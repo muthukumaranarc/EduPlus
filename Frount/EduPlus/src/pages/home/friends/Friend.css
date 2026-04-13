@@ -49,7 +49,7 @@
     background: rgba(38, 97, 178, 0.15);
     color: rgba(38, 97, 178, 1);
     font-weight: 700;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,7 +98,7 @@
     border-radius: 24px;
     padding: 32px 36px;
     margin-top: 8px;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
     position: relative;
     overflow: hidden;
 }
@@ -182,7 +182,7 @@
 
 .fp-stat-divider {
     width: 1px;
-    height: 44px;
+    height: 32px;
     background: var(--border-light);
     flex-shrink: 0;
 }
@@ -234,7 +234,7 @@
 
 .fp-add-btn:hover {
     background: rgba(30, 80, 160, 1);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(38, 97, 178, 0.4);
 }
 
@@ -333,6 +333,9 @@
     font-size: 0.92rem;
     color: var(--text-secondary);
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .fp-card-stats {
@@ -365,12 +368,6 @@
     color: var(--text-secondary);
     flex-shrink: 0;
     margin-left: 6px;
-    transition: transform 0.2s ease;
-}
-
-.fp-friend-card:hover .fp-card-arrow {
-    transform: translateX(4px);
-    color: rgba(38, 97, 178, 1);
 }
 
 /* ── Skeleton loaders ── */
@@ -771,6 +768,7 @@
 .fp-btn-ghost:hover {
     background: var(--border-light, #e5e7eb);
     color: var(--text-primary, #374151);
+    transform: translateY(-1px);
 }
 
 .fp-btn-danger {
@@ -790,6 +788,7 @@
 .fp-btn-danger:hover {
     background: #fecaca;
     border-color: #f87171;
+    transform: translateY(-1px);
 }
 
 .fp-btn-danger-outline {

@@ -5,6 +5,7 @@ import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
 import { createPortal } from "react-dom";
+import AnimatedAvatar from "../../../components/AnimatedAvatar";
 import DotsLoader from "../../../components/DotsLoader";
 
 /* ── rank medal helper ── */
@@ -15,24 +16,9 @@ const rankDisplay = (rank) => {
     return { label: `#${rank}`, cls: "rank-normal" };
 };
 
-/* ── avatar placeholder ── */
-function Avatar({ src, name, size = 56 }) {
-    const initials = (name || "?")[0].toUpperCase();
-    if (src) {
-        return (
-            <img
-                src={src}
-                alt={name}
-                className="fp-avatar-img"
-                style={{ width: size, height: size }}
-            />
-        );
-    }
-    return (
-        <div className="fp-avatar-placeholder" style={{ width: size, height: size }}>
-            {initials}
-        </div>
-    );
+/* ── avatar wrapper ── */
+function Avatar({ src, gender, name, size = 56 }) {
+    return <AnimatedAvatar src={src} gender={gender} name={name} size={size} />;
 }
 
 /* ================================================================
@@ -199,7 +185,7 @@ function Friend() {
             {/* ── MY PROFILE BANNER ── */}
             <div className="fp-hero">
                 <div className="fp-hero-avatar">
-                    <Avatar src={user.profilePicture} name={user.username} size={100} />
+                    <Avatar src={user.profilePicture} gender={user.gender} name={user.username} size={100} />
                 </div>
                 <div className="fp-hero-info">
                     <div className="fp-hero-name-row">
@@ -263,7 +249,7 @@ function Friend() {
                                 <div className="fp-card-left">
                                     <span className={`fp-card-rank ${rd.cls}`}>{rd.label}</span>
                                     <div className="fp-card-avatar">
-                                        <Avatar src={friend.profilePicture} name={friend.username} size={64} />
+                                        <Avatar src={friend.profilePicture} gender={friend.gender} name={friend.username} size={64} />
                                     </div>
                                 </div>
                                 <div className="fp-card-info">
@@ -308,7 +294,7 @@ function FriendDrawer({ friend, onClose, onRemove }) {
                 {/* Header */}
                 <div className="fp-drawer-header">
                     <div className="fp-drawer-avatar">
-                        <Avatar src={friend.profilePicture} name={friend.username} size={110} />
+                        <Avatar src={friend.profilePicture} gender={friend.gender} name={friend.username} size={110} />
                     </div>
                     <h2 className="fp-drawer-name">{fullName}</h2>
                     <p className="fp-drawer-username">@{friend.username}</p>

@@ -117,6 +117,8 @@
     margin: 0;
     color: inherit;
     transition: color 0.15s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .nav-item:hover {
@@ -362,6 +364,10 @@
     .page-name > h2 {
         font-size: 18px;
         margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
     }
 
     .page-name > img {
@@ -381,6 +387,6 @@
         width: 100vw;
         top: 0;
         left: 0;
-        z-index: 200;
+        z-index: 2;
     }
 }

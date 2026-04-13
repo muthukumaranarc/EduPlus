@@ -7,6 +7,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import axios from "axios";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 import UpdateModal   from "../../../components/UpdateModal";
+import AnimatedAvatar from "../../../components/AnimatedAvatar";
 
 /* ─── Inline SVG icons ─── */
 const Ico = {
@@ -199,7 +200,7 @@ function Settings() {
         finally { setAddingFact(false); }
     };
 
-    const isBasicAuth = user?.username && !user.username.includes("@");
+    const isBasicAuth = user?.password && user.password.length > 0;
 
     if (loading || !user) {
         return (
@@ -226,10 +227,12 @@ function Settings() {
             <div className="st-profile-card">
                 <div className="st-profile-left">
                     <div className="st-avatar-shell">
-                        {user.profilePicture
-                            ? <img src={user.profilePicture} alt="avatar" className="st-avatar-img" />
-                            : <div className="st-avatar-initials">{initials}</div>
-                        }
+                        <AnimatedAvatar 
+                            src={user.profilePicture} 
+                            gender={user.gender} 
+                            name={user.username} 
+                            size={100} 
+                        />
                         {isBasicAuth && (
                             <button className="st-avatar-cam" title="Change photo"
                                 onClick={() => open({

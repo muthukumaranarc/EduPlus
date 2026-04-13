@@ -26,26 +26,35 @@ public class AssistantController {
 
     // General AI chat — receives full conversation history for session memory
     @PostMapping("/ask")
-    public ChatResponse getChatResponse(@RequestBody Map<String, Object> body) {
-        String message = (String) body.get("currentQuery");
-        @SuppressWarnings("unchecked")
-        java.util.List<String> history = (java.util.List<String>) body.getOrDefault("history",
-                new java.util.ArrayList<>());
-        return service.getAiResponseWithHistory(message, history);
+    public ResponseEntity<?> getChatResponse(@RequestBody Map<String, Object> body) {
+        try {
+            String message = (String) body.get("currentQuery");
+            @SuppressWarnings("unchecked")
+            java.util.List<String> history = (java.util.List<String>) body.getOrDefault("history",
+                    new java.util.ArrayList<>());
+            ChatResponse res = service.getAiResponseWithHistory(message, history);
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to generate AI response."));
+        }
     }
 
     // Syllabus-grounded chat
+    // Syllabus-grounded chat
     @PostMapping("/ask-syllabus")
-    public ResponseEntity<Map<String, String>> askSyllabus(
+    public ResponseEntity<?> askSyllabus(
             @RequestBody Map<String, String> body) {
-
-        String question = body.get("message");
-        String username = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
-        String response = ragAssistantService.askWithSyllabus(username, question);
-        return ResponseEntity.ok(Map.of("response", response));
+        try {
+            String question = body.get("message");
+            String username = SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getName();
+            String response = ragAssistantService.askWithSyllabus(username, question);
+            return ResponseEntity.ok(Map.of("response", response));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to generate AI response."));
+        }
     }
 
     // Personality analysis — extracts facts from user message and stores them

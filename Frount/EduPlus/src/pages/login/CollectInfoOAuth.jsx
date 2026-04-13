@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import './CollectInfoOAuth.css';
 import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
+import AnimatedAvatar from '../../components/AnimatedAvatar';
 
 function CollectInfoOAuth() {
     const baseURL = import.meta.env.VITE_API_URL;
@@ -104,17 +105,14 @@ function CollectInfoOAuth() {
                             onChange={handleProfilePictureChange}
                         />
                         {profilePreview && (
-                            <img
-                                src={profilePreview}
-                                alt="Profile Preview"
-                                style={{
-                                    width: "100px",
-                                    height: "100px",
-                                    borderRadius: "50%",
-                                    objectFit: "cover",
-                                    marginTop: "10px"
-                                }}
-                            />
+                            <div className="preview-container">
+                                <AnimatedAvatar 
+                                    src={profilePreview} 
+                                    gender={gender} 
+                                    name={firstname || "User"} 
+                                    size={120} 
+                                />
+                            </div>
                         )}
                     </div>
                 </div>

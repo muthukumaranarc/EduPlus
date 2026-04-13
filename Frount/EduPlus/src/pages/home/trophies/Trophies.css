@@ -21,14 +21,8 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    transition: all 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(38, 97, 178, 0.2);
-    border-color: rgba(38, 97, 178, 0.3);
+    line-height: 1.2;
 }
 
 .stat-icon {
@@ -737,7 +731,7 @@
 
 .weekly-reset-text strong {
     display: block;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: rgba(38, 97, 178, 1);
     margin-bottom: 2px;
@@ -745,7 +739,7 @@
 
 .weekly-reset-text p {
     margin: 0;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     color: var(--text-secondary);
 }
 

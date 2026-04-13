@@ -38,19 +38,22 @@ public class TestService {
     private static final Logger log = LoggerFactory.getLogger(StudyPlanService.class);
 
     private String extractPureJson(String text) {
-        text = text.replaceAll("(?s)```json", "")
+        if (text == null) throw new RuntimeException("AI response is null");
+
+        // Remove markdown blocks
+        String cleaned = text.replaceAll("(?s)```json", "")
                 .replaceAll("(?s)```", "")
                 .trim();
 
-        int start = text.indexOf("[");
-        int end = text.lastIndexOf("]");
+        int start = cleaned.indexOf("[");
+        int end = cleaned.lastIndexOf("]");
 
         if (start == -1 || end == -1) {
-            System.out.println(text);
-            throw new RuntimeException("No JSON array found in AI response: ");
+            log.error("Invalid AI response (no JSON array): {}", text);
+            throw new RuntimeException("AI failed to return a valid question set. Please try with different text or fewer questions.");
         }
 
-        return text.substring(start, end + 1);
+        return cleaned.substring(start, end + 1);
     }
 
     private String getUsername() {

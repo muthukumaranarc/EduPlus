@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
 import DotsLoader from "../../../components/DotsLoader";
+import AnimatedAvatar from "../../../components/AnimatedAvatar";
 
 function Trophies() {
     const baseURL = import.meta.env.VITE_API_URL;
@@ -99,6 +100,7 @@ function Trophies() {
                     username: user.username,
                     displayName: (user.firstName || "") + " " + (user.lastName || ""),
                     profilePicture: user.profilePicture,
+                    gender: user.gender,
                     totalEarned: myTrophyRes.data.totalEarned ?? 0,
                     isMe: true,
                 }
@@ -121,6 +123,7 @@ function Trophies() {
                         username,
                         displayName: (userRes.data.firstName || "") + " " + (userRes.data.lastName || ""),
                         profilePicture: userRes.data.profilePicture,
+                        gender: userRes.data.gender,
                         totalEarned: res.data.totalEarned ?? 0,
                         isMe: false,
                     });
@@ -374,12 +377,12 @@ function Trophies() {
                                                 `#${entry.rank}`}
                                 </div>
                                 <div className="lb-avatar">
-                                    {entry.profilePicture
-                                        ? <img src={entry.profilePicture} alt="avatar" />
-                                        : <div className="lb-avatar-placeholder">
-                                            {(entry.displayName || entry.username)?.[0]?.toUpperCase() ?? "?"}
-                                        </div>
-                                    }
+                                    <AnimatedAvatar 
+                                        src={entry.profilePicture} 
+                                        gender={entry.gender} 
+                                        name={entry.displayName || entry.username} 
+                                        size={44} 
+                                    />
                                 </div>
                                 <div className="lb-info">
                                     <span className="lb-name">

@@ -101,6 +101,9 @@ function Ai() {
                 window.location.href =
                     `${baseURL}/oauth2/authorization/google`;
             } else {
+                const msg = err?.response?.data?.message || err?.response?.data || "Failed to contact the AI assistant.";
+                // Append the error to chat so user can see it
+                setChatHistory(prev => [...prev, `[System Error] ${msg}`]);
                 console.error(err);
             }
         }

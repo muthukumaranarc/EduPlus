@@ -31,13 +31,16 @@ public class FriendsService {
 
     private Friends getCurrentUserEntity() {
         return friendsRepo.findByUsername(currentUsername())
-                .orElseThrow(() -> new RuntimeException("Friends profile not found"));
+                .orElseGet(() -> {
+                    Friends newFriends = new Friends(currentUsername());
+                    return friendsRepo.save(newFriends);
+                });
     }
 
 
     public void createUser(String username) {
         if (friendsRepo.existsById(username)) {
-            throw new RuntimeException("Friends profile already exists");
+            return;
         }
         friendsRepo.save(new Friends(username));
     }

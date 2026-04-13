@@ -76,8 +76,8 @@
 /* ── Cancel (ghost) ── */
 .cancel {
     background: var(--bg-secondary);
-    color: var(--text-secondary);
-    border: 2px solid var(--border-light, #e5e7eb) !important;
+    color: var(--text-primary);
+    border: 2px solid var(--border-light, #cbd5e1) !important;
 }
 
 .cancel:hover {
